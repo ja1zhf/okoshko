@@ -1,12 +1,18 @@
+"use client";
+
 import { notFound } from "next/navigation";
 import {
   CategoryDateAndBlockDiv,
   CategoryInfoDiv,
   CategorySearchBackLink,
+  CategorySearchButton,
   CategorySearchDiv,
   CategorySearchTitle,
 } from "./style";
 import InputItem from "@/app/components/input/inputItem";
+import CalendarItem from "@/app/components/calendar/calendarItem";
+import { useState } from "react";
+import TimeItem from "@/app/components/time/timeItem";
 
 interface Params {
   category: string;
@@ -32,6 +38,9 @@ const Page = ({ params }: { params: Params }) => {
     "Эпиляция",
   ];
 
+  const [selectedDays, setSelectedDays] = useState<number[]>([]);
+  const [selectedTime, setSelectedTime] = useState<number[]>([]);
+
   if (!allowedCategories.includes(category)) {
     notFound();
   }
@@ -47,11 +56,27 @@ const Page = ({ params }: { params: Params }) => {
       <InputItem title="Услуга" />
       <InputItem title="Район" />
       <CategoryDateAndBlockDiv>
-        <h2>Дата</h2>
+        <div>
+          <h2>Дата</h2>
+        </div>
+        <CalendarItem
+          isMultiSelections={true}
+          selectedDays={selectedDays}
+          setSelectedDays={setSelectedDays}
+        />
       </CategoryDateAndBlockDiv>
       <CategoryDateAndBlockDiv>
-        <h2>Время</h2>
+        <div>
+          <h2>Время</h2>
+        </div>
+        <TimeItem
+          width={300}
+          isMultiSelections={true}
+          selectedTime={selectedTime}
+          setSelectedTime={setSelectedTime}
+        />
       </CategoryDateAndBlockDiv>
+      <CategorySearchButton>Показать мастеров</CategorySearchButton>
     </CategorySearchDiv>
   );
 };
