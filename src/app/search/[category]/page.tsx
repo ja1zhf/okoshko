@@ -6,13 +6,13 @@ import {
   CategoryInfoDiv,
   CategorySearchBackLink,
   CategorySearchButton,
-  CategorySearchDiv,
   CategorySearchTitle,
 } from "./style";
 import InputItem from "@/app/components/input/inputItem";
 import CalendarItem from "@/app/components/calendar/calendarItem";
 import { useState } from "react";
 import TimeItem from "@/app/components/time/timeItem";
+import { PageDiv } from "@/app/styles/style";
 
 interface Params {
   category: string;
@@ -46,7 +46,7 @@ const Page = ({ params }: { params: Params }) => {
   }
 
   return (
-    <CategorySearchDiv>
+    <PageDiv>
       <CategoryInfoDiv>
         <CategorySearchBackLink href="/">Все категории</CategorySearchBackLink>
         <CategorySearchTitle>
@@ -77,7 +77,7 @@ const Page = ({ params }: { params: Params }) => {
         />
       </CategoryDateAndBlockDiv>
       <CategorySearchButton>Показать мастеров</CategorySearchButton>
-    </CategorySearchDiv>
+    </PageDiv>
   );
 };
 

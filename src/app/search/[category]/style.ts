@@ -3,15 +3,6 @@
 import Link from "next/link";
 import styled from "styled-components";
 
-export const CategorySearchDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  background-color: ${(props) => props.theme.colors.white};
-  border-radius: 20px;
-  padding: 16px 20px;
-`;
-
 export const CategoryInfoDiv = styled.div`
   display: flex;
   flex-direction: column;

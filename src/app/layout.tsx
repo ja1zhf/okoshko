@@ -5,6 +5,7 @@ import GlobalStyle from "./styles/globalStyles";
 import ThemeWrapper from "./styles/themeWrapper";
 import NavbarItem from "./components/navbar/navbarItem";
 import { Container } from "./styles/style";
+import FooterItem from "./components/footer/footerItem";
 
 const PtRootUiVf = localFont({
   src: "./pt-root-ui_vf.woff2",
@@ -29,6 +30,7 @@ export default function RootLayout({
           <ThemeWrapper>
             <NavbarItem />
             <Container>{children}</Container>
+            <FooterItem />
           </ThemeWrapper>
         </StyledComponentsRegistry>
       </body>

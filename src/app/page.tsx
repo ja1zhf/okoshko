@@ -2,7 +2,7 @@
 
 import BannerItem from "./components/banner/bannerItem";
 import CategoryPlateItem from "./components/categoryPlate/categoryPlateItem";
-import { CategoryPlateGrid } from "./styles/style";
+import { CategoryBlockDiv, CategoryPlateGrid } from "./styles/style";
 
 const Home = () => {
   const categories: CategoryType[] = [
@@ -45,14 +45,14 @@ const Home = () => {
   ];
 
   return (
-    <div>
+    <CategoryBlockDiv>
       <CategoryPlateGrid>
         {categories.map((category, index) => (
           <CategoryPlateItem key={index} category={category} />
         ))}
       </CategoryPlateGrid>
       <BannerItem />
-    </div>
+    </CategoryBlockDiv>
   );
 };
 

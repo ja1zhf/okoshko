@@ -1,14 +1,14 @@
 import Image from "next/image";
-import { AppTitle, NavbarDiv, NavbarText, ProfileDiv } from "./style";
+import { AppTitle, NavbarDiv, NavbarText, ProfileLink } from "./style";
 
 const NavbarItem = () => {
   return (
     <NavbarDiv>
       <AppTitle href="/">ОКОШКО</AppTitle>
-      <ProfileDiv>
+      <ProfileLink href="/profile">
         <Image alt="profile" width={20} height={20} src="/profile.svg" />
         <NavbarText>Елизавета К.</NavbarText>
-      </ProfileDiv>
+      </ProfileLink>
     </NavbarDiv>
   );
 };
