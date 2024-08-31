@@ -1,14 +1,25 @@
+"use client"
+
 import Image from "next/image";
-import { AppTitle, NavbarDiv, NavbarText, ProfileLink } from "./style";
+import { AppTitle, NavbarDiv, NavbarText, ProfileButton } from "./style";
+import { useState } from "react";
+import ProfilePopupItem from "./components/profilePopupItem";
 
 const NavbarItem = () => {
+  const [isActive, setIsActive] = useState(false);
+
   return (
     <NavbarDiv>
       <AppTitle href="/">ОКОШКО</AppTitle>
-      <ProfileLink href="/profile">
+      <ProfileButton onClick={() => setIsActive(true)}>
         <Image alt="profile" width={20} height={20} src="/profile.svg" />
         <NavbarText>Елизавета К.</NavbarText>
-      </ProfileLink>
+      </ProfileButton>
+      {
+        isActive && (
+          <ProfilePopupItem setIsActive={setIsActive} />
+        )
+      }
     </NavbarDiv>
   );
 };

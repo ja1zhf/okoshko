@@ -1,14 +1,19 @@
-"use client";
-
-import { motion } from "framer-motion";
 import styled from "styled-components";
 
-export const InputDiv = styled.div`
-  position: relative;
-  width: 100%;
+export const SelectLabel = styled.label`
+  position: absolute;
+  margin: 8px 0px 0px 12px;
+  color: ${(props) => props.theme.colors.gray};
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%;
 `;
 
-export const Input = styled.input`
+export const Select = styled.select`
   color: ${(props) => props.theme.colors.black};
   font-feature-settings:
     "liga" off,
@@ -24,7 +29,6 @@ export const Input = styled.input`
   padding: 26px 12px 12px 12px;
   border-radius: 10px;
   border: 1px solid ${(props) => props.theme.colors.gray};
-  box-sizing: border-box;
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -34,18 +38,4 @@ export const Input = styled.input`
     outline-color: ${(props) => props.theme.colors.primary}4D;
     outline-width: thick;
   }
-`;
-
-export const InputLabel = styled(motion.label)`
-  position: absolute;
-  top: 20px;
-  left: 12px;
-  color: ${(props) => props.theme.colors.black};
-  font-feature-settings:
-    "liga" off,
-    "clig" off;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 150%;
 `;

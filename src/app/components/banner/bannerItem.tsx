@@ -8,7 +8,7 @@ import {
 const BannerItem = () => {
   return (
     <BannerContainer>
-      <BannerDiv />
+      <BannerDiv></BannerDiv>
       <BannerCirclesDiv>
         <BannerCircleDiv $isActive />
         <BannerCircleDiv />

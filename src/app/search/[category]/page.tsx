@@ -1,18 +1,18 @@
 "use client";
 
-import { notFound } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 import {
   CategoryDateAndBlockDiv,
   CategoryInfoDiv,
   CategorySearchBackLink,
-  CategorySearchButton,
+  CategorySearchResetButton,
   CategorySearchTitle,
 } from "./style";
-import InputItem from "@/app/components/input/inputItem";
 import CalendarItem from "@/app/components/calendar/calendarItem";
 import { useState } from "react";
 import TimeItem from "@/app/components/time/timeItem";
-import { PageDiv } from "@/app/styles/style";
+import { PageDiv, SubmitButton } from "@/app/styles/style";
+import SelectItem from "@/app/components/select/selectItem";
 
 interface Params {
   category: string;
@@ -20,6 +20,8 @@ interface Params {
 
 const Page = ({ params }: { params: Params }) => {
   const { category } = params;
+
+  const router = useRouter();
 
   const allowedCategories = [
     "nails",
@@ -48,17 +50,20 @@ const Page = ({ params }: { params: Params }) => {
   return (
     <PageDiv>
       <CategoryInfoDiv>
-        <CategorySearchBackLink href="/">Все категории</CategorySearchBackLink>
+        <div>
+          <CategorySearchBackLink href="/">
+            Все категории
+          </CategorySearchBackLink>
+          <CategorySearchResetButton>Сбросить</CategorySearchResetButton>
+        </div>
         <CategorySearchTitle>
           {title[allowedCategories.indexOf(category)]}
         </CategorySearchTitle>
       </CategoryInfoDiv>
-      <InputItem title="Услуга" />
-      <InputItem title="Район" />
+      <SelectItem title="Услуги" options={["variant 1", "variant 2"]} />
+      <SelectItem title="Район" options={["variant 1", "variant 2"]} />
       <CategoryDateAndBlockDiv>
-        <div>
-          <h2>Дата</h2>
-        </div>
+        <h2>Дата</h2>
         <CalendarItem
           isMultiSelections={true}
           selectedDays={selectedDays}
@@ -66,9 +71,7 @@ const Page = ({ params }: { params: Params }) => {
         />
       </CategoryDateAndBlockDiv>
       <CategoryDateAndBlockDiv>
-        <div>
-          <h2>Время</h2>
-        </div>
+        <h2>Время</h2>
         <TimeItem
           width={300}
           isMultiSelections={true}
@@ -76,7 +79,9 @@ const Page = ({ params }: { params: Params }) => {
           setSelectedTime={setSelectedTime}
         />
       </CategoryDateAndBlockDiv>
-      <CategorySearchButton>Показать мастеров</CategorySearchButton>
+      <SubmitButton onClick={() => router.push("/feed")}>
+        Показать мастеров
+      </SubmitButton>
     </PageDiv>
   );
 };

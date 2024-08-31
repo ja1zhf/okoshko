@@ -1,5 +1,15 @@
 import styled from "styled-components";
 
+export const CalendarDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  & > div {
+    width: fit-content;
+  }
+`;
+
 export const CalendarTable = styled.table`
   border-spacing: 12px;
 `;
@@ -33,7 +43,7 @@ export const CalendarCellEmpty = styled.td`
   height: 40px;
 `;
 
-export const CalendarCellNumber = styled(CalendarCellEmpty)<{
+export const CalendarCellNumber = styled(CalendarCellEmpty) <{
   $isToday: boolean;
   $isSelected: boolean;
   $isWeekend: boolean;

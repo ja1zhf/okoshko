@@ -10,11 +10,13 @@ export const NavbarDiv = styled.div`
   height: fit-content;
 `;
 
-export const ProfileLink = styled(Link)`
+export const ProfileButton = styled.button`
   display: flex;
   align-items: center;
   gap: 4px;
-  text-decoration: none;
+  padding: 0px;
+  border: none;
+  background-color: transparent;
 `;
 
 export const AppTitle = styled(Link)`

@@ -4,6 +4,7 @@ import {
   CategoryPlateLink,
   CategoryPlateTitle,
 } from "./style";
+import { useRouter } from "next/navigation";
 
 interface Props {
   category: CategoryType;
@@ -12,10 +13,13 @@ interface Props {
 const CategoryPlateItem = (props: Props) => {
   const { category } = props;
 
+  const router = useRouter();
+
   return (
     <CategoryPlateLink
-      href={`/search${category.href}`}
+      onClick={() => router.push(`/search${category.href}`)}
       $url={category.backgroundSrc}
+      whileTap={{ scale: 1.1 }}
     >
       <CategoryPlateTitle>{category.title}</CategoryPlateTitle>
       <CategoryPlateDescription>

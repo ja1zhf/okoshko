@@ -1,10 +1,14 @@
+import { motion } from "framer-motion";
 import Link from "next/link";
 import styled from "styled-components";
 
-export const CategoryPlateLink = styled(Link)<{ $url: string }>`
-  text-decoration: none;
+export const CategoryPlateLink = styled(motion.button)<{ $url: string }>`
+  display: flex;
+  flex-direction: column;
+  text-align: start;
   aspect-ratio: 69 / 64;
   padding: 12px 10px;
+  border: none;
   border-radius: 20px;
   background: url(${(props) => props.$url});
   background-size: cover;

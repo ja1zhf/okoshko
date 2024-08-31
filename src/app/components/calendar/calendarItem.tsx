@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import {
   CalendarCellEmpty,
   CalendarCellNumber,
+  CalendarDiv,
   CalendarTable,
   CalendarTitle,
 } from "./style";
@@ -133,59 +134,61 @@ const CalendarItem = (props: Props) => {
   };
 
   return (
-    <div>
-      <CalendarTitle>
-        <button onClick={() => changeMonth(true)}>{"<"}</button>
-        <h1>
-          {monthsNames[currentMonth]}, {currentYear}
-        </h1>
-        <button onClick={() => changeMonth(false)}>{">"}</button>
-      </CalendarTitle>
-      <CalendarTable>
-        <thead>
-          <tr>
-            {weeksNames.map((name, index) => (
-              <th key={index}>{name}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {days.map((child, indexRow) => (
-            <tr key={indexRow}>
-              {child.map((day, indexColumn) =>
-                day ? (
-                  <CalendarCellNumber
-                    key={day}
-                    id={`${day}`}
-                    $isToday={
-                      day === currentDay &&
-                      currentMonth === today.getMonth() &&
-                      currentYear === today.getFullYear()
-                    }
-                    $isSelected={selectedDays.includes(day)}
-                    $isWeekend={indexColumn > 4}
-                    onClick={() => click(day)}
-                    {...(isMultiSelections && {
-                      onMouseDown: () => mouseDown(day),
-                    })}
-                    {...(isMultiSelections && {
-                      onMouseOver: () => mouseOver(day),
-                    })}
-                    {...(isMultiSelections && {
-                      onMouseUp: () => mouseUp(),
-                    })}
-                  >
-                    {day}
-                  </CalendarCellNumber>
-                ) : (
-                  <CalendarCellEmpty key={`${indexRow}${indexColumn}`} />
-                ),
-              )}
+    <CalendarDiv>
+      <div>
+        <CalendarTitle>
+          <button onClick={() => changeMonth(true)}>{"<"}</button>
+          <h1>
+            {monthsNames[currentMonth]}, {currentYear}
+          </h1>
+          <button onClick={() => changeMonth(false)}>{">"}</button>
+        </CalendarTitle>
+        <CalendarTable>
+          <thead>
+            <tr>
+              {weeksNames.map((name, index) => (
+                <th key={index}>{name}</th>
+              ))}
             </tr>
-          ))}
-        </tbody>
-      </CalendarTable>
-    </div>
+          </thead>
+          <tbody>
+            {days.map((child, indexRow) => (
+              <tr key={indexRow}>
+                {child.map((day, indexColumn) =>
+                  day ? (
+                    <CalendarCellNumber
+                      key={day}
+                      id={`${day}`}
+                      $isToday={
+                        day === currentDay &&
+                        currentMonth === today.getMonth() &&
+                        currentYear === today.getFullYear()
+                      }
+                      $isSelected={selectedDays.includes(day)}
+                      $isWeekend={indexColumn > 4}
+                      onClick={() => click(day)}
+                      {...(isMultiSelections && {
+                        onMouseDown: () => mouseDown(day),
+                      })}
+                      {...(isMultiSelections && {
+                        onMouseOver: () => mouseOver(day),
+                      })}
+                      {...(isMultiSelections && {
+                        onMouseUp: () => mouseUp(),
+                      })}
+                    >
+                      {day}
+                    </CalendarCellNumber>
+                  ) : (
+                    <CalendarCellEmpty key={`${indexRow}${indexColumn}`} />
+                  ),
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </CalendarTable>
+      </div>
+    </CalendarDiv>
   );
 };
 

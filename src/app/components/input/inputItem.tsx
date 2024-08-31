@@ -1,4 +1,5 @@
-import { InputDiv } from "./style";
+import { useState } from "react";
+import { Input, InputDiv, InputLabel } from "./style";
 
 interface Props {
   title: string;
@@ -7,10 +8,29 @@ interface Props {
 const InputItem = (props: Props) => {
   const { title } = props;
 
+  const [isFocused, setIsFocused] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+
   return (
     <InputDiv>
-      <p>{title}</p>
-      <input />
+      <Input
+        value={inputValue}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        onChange={(e: any) => setInputValue(e.target.value)}
+      />
+      <InputLabel
+        initial={{ x: 3, y: 0, scale: 1.2, opacity: 1 }}
+        animate={{
+          x: isFocused || inputValue ? 0 : 3,
+          y: isFocused || inputValue ? -12 : 0,
+          scale: isFocused || inputValue ? 1 : 1.2,
+          opacity: isFocused || inputValue ? 0.6 : 1,
+        }}
+        transition={{ duration: 0.2 }}
+      >
+        {title}
+      </InputLabel>
     </InputDiv>
   );
 };

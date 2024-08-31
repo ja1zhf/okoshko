@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import styled from "styled-components";
 
 export const BannerContainer = styled.div`
@@ -7,7 +8,7 @@ export const BannerContainer = styled.div`
   margin: 16px;
 `;
 
-export const BannerDiv = styled.div`
+export const BannerDiv = styled(motion.div)`
   background-color: ${(props) => props.theme.colors.white};
   height: 150px;
   border-radius: 20px;

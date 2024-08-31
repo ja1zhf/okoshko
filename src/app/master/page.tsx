@@ -1,21 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import CalendarItem from "../components/calendar/calendarItem";
-import { PageDiv } from "../styles/style";
+import { PageDiv, SubmitButton } from "../styles/style";
 import {
   MasterAvatar,
   MasterBioDiv,
   MasterBlockDiv,
   MasterDescriptionText,
+  MasterLikeDiv,
   MasterLineDiv,
   MasterLocationText,
   MasterNameText,
   MasterRaitingDiv,
   MasterReviewText,
+  MasterServicesList,
   MasterStarsText,
+  ReviewsListDiv,
 } from "./style";
 import TimeItem from "../components/time/timeItem";
+import ServicesItem from "./components/servicesItem";
+import ReviewItem from "./components/reviewItem";
+import PhotosItem from "@/app/components/photos/photosItem";
+import LikeItem from "../components/like/likeItem";
 
 const Page = () => {
   const [selectedDays, setSelectedDays] = useState<number[]>([]);
@@ -24,11 +31,137 @@ const Page = () => {
   const master = {
     name: "Ида Иванова",
     avatar: "/img/avatar.png",
+    location: "Туристская ул., д. 24, Приморский р-н, Санкт-Петрбург",
+    description:
+      "Здравствуйте мои любимые клиенты! Хочу сказать вам, я очень люблю свою работу с пониманием подхожу  к вашим просьбам и пожеланиям .Я принимаю дома, обрабатываю инструмент в 3 этапа\n— Если вы не можете приехать можем договориться\n— Материалы закупаю качественные\n— Добро пожаловать!",
+    score: 4.8,
+    photos: [
+      "/img/avatar.png",
+      "/img/avatar.png",
+      "/img/avatar.png",
+      "/img/avatar.png",
+      "/img/avatar.png",
+    ],
+    services: [
+      {
+        title: "Маникюр с покрытием ногтей гель-лаком",
+        price: 1300,
+      },
+      {
+        title: "Снятие гель-лака с ногтей на руках",
+        price: 200,
+      },
+      {
+        title: "Укрепление ногтей акриловой пудрой",
+        price: 2500,
+      },
+    ],
+    reviews: [
+      {
+        name: "Виктория Мусатова",
+        avatar: "/img/avatar.png",
+        score: 5,
+        date: "09.07.2023",
+        description: "Отличный специалист, рекомендую!",
+      },
+      {
+        name: "Ирина Кузьмина",
+        avatar: "/img/avatar.png",
+        score: 5,
+        date: "09.07.2023",
+        description:
+          "Очен благодарна Ирине за педикюр моей маме-делала мама его впервые и очень волновалась(маме 84 года).Ирина сделала педикюр на высшем профессиональном уровне,была очень внимательна и максимально услужлива.Теперь мы ее постоянные клиенты!Всем очень рекомендую этого,с большое буквы,Профессионала!",
+      },
+    ],
   };
 
   return (
     <PageDiv>
-      <MasterBioDiv></MasterBioDiv>
+      <MasterBioDiv>
+        <MasterAvatar alt="avatar" width={80} height={80} src={master.avatar} />
+        <MasterNameText>{master.name}</MasterNameText>
+        <MasterLocationText>{master.location}</MasterLocationText>
+        <MasterRaitingDiv>
+          <div className="score">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              x="0px"
+              y="0px"
+              width="100"
+              height="100"
+              viewBox="0 0 50 50"
+            >
+              <path d="M10.2,48.6c-0.2,0-0.4-0.1-0.6-0.2c-0.3-0.2-0.5-0.7-0.4-1.1l4.4-16.4L0.4,20.2C0,20-0.1,19.5,0,19.1 c0.1-0.4,0.5-0.7,0.9-0.7l17-0.9l6.1-15.9C24.2,1.3,24.6,1,25,1c0.4,0,0.8,0.3,0.9,0.6l6.1,15.9l17,0.9c0.4,0,0.8,0.3,0.9,0.7 c0.1,0.4,0,0.8-0.3,1.1L36.4,30.9l4.4,16.4c0.1,0.4,0,0.8-0.4,1.1c-0.3,0.2-0.8,0.3-1.1,0L25,39.2l-14.3,9.2 C10.5,48.6,10.4,48.6,10.2,48.6z"></path>
+            </svg>
+            <MasterStarsText>{master.score}</MasterStarsText>
+          </div>
+          <MasterReviewText>{master.reviews.length} оценок</MasterReviewText>
+        </MasterRaitingDiv>
+        <MasterLikeDiv>
+          <LikeItem />
+        </MasterLikeDiv>
+      </MasterBioDiv>
+      <MasterLineDiv />
+      <MasterBlockDiv>
+        <h2>О себе</h2>
+        <MasterDescriptionText>
+          {master.description.split("\n").map((line, index) => (
+            <Fragment key={index}>
+              {line}
+              <br />
+            </Fragment>
+          ))}
+        </MasterDescriptionText>
+      </MasterBlockDiv>
+      <MasterBlockDiv>
+        <h2>Примеры работ</h2>
+        <PhotosItem photos={master.photos} />
+      </MasterBlockDiv>
+      <MasterBlockDiv>
+        <h2>Услуги</h2>
+        <MasterServicesList>
+          {master.services.map((service, index) => (
+            <ServicesItem
+              key={index}
+              title={service.title}
+              price={service.price}
+            />
+          ))}
+        </MasterServicesList>
+      </MasterBlockDiv>
+      <MasterBlockDiv>
+        <h2>Дата</h2>
+        <CalendarItem
+          isMultiSelections={false}
+          selectedDays={selectedDays}
+          setSelectedDays={setSelectedDays}
+        />
+      </MasterBlockDiv>
+      <MasterBlockDiv>
+        <h2>Время</h2>
+        <TimeItem
+          width={300}
+          isMultiSelections={false}
+          selectedTime={selectedTime}
+          setSelectedTime={setSelectedTime}
+        />
+      </MasterBlockDiv>
+      <SubmitButton>Записаться</SubmitButton>
+      <MasterBlockDiv>
+        <h2>Отзывы</h2>
+        <ReviewsListDiv>
+          {master.reviews.map((review, index) => (
+            <ReviewItem
+              key={index}
+              name={review.name}
+              avatar={review.avatar}
+              score={review.score}
+              date={review.date}
+              description={review.description}
+            />
+          ))}
+        </ReviewsListDiv>
+      </MasterBlockDiv>
     </PageDiv>
   );
 };

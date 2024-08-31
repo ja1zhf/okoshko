@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
 export const TimeDiv = styled.div<{ $width: number }>`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
   height: ${(props) => props.$width}px;
   overflow-y: scroll;
 `;
