@@ -10,6 +10,7 @@ export const PageDiv = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  min-height: 400px;
   background-color: ${(props) => props.theme.colors.white};
   border-radius: 20px;
   padding: 16px 20px;
@@ -33,6 +34,9 @@ export const PageDarkOverlay = styled.div`
   position: absolute;
   top: 0px;
   left: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100vw;
   height: 100vh;
   background-color: #00000033;
@@ -57,4 +61,14 @@ export const SubmitButton = styled.button`
   border: none;
   border-radius: 28px;
   background-color: ${(props) => props.theme.colors.primary};
+`;
+
+export const PopupDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background-color: ${(props) => props.theme.colors.white};
+  border-radius: 20px;
+  width: 85%;
+  padding: 24px;
 `;

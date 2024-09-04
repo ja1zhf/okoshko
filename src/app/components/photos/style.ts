@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import styled from "styled-components";
 
-export const SliderWrapperDiv = styled(motion.div)`
+export const SliderWrapperDiv = styled.div`
   width: 100%;
   overflow-x: hidden;
   position: relative;
@@ -9,11 +9,11 @@ export const SliderWrapperDiv = styled(motion.div)`
 
 export const SliderDiv = styled(motion.div)`
   display: flex;
-  gap: 10px;
+  gap: 12px;
   user-select: none;
 `;
 
-export const SlideDiv = styled(motion.div)`
+export const SlideDiv = styled.div`
   width: 128px;
 
   & > img {

@@ -1,56 +1,27 @@
 "use client";
 
 import Image from "next/image";
-import { PageDiv } from "../styles/style";
 import {
-  FeedFilterButton,
-  FeedHeaderDiv,
-  FeedTitle,
+  FeedPageCountDiv,
   MasterDiv,
   MasterInfoDiv,
-  MasterLikeButton,
+  MasterLikeDiv,
+  MasterServicesDiv,
   MastersListDiv,
 } from "./style";
-import PhotosItem from "../components/photos/photosItem";
 import Link from "next/link";
+import PhotosItem from "../photos/photosItem";
+import LikeItem from "../like/likeItem";
 
-const Page = () => {
-  const masters = [
-    {
-      name: "Ида Иванова",
-      avatar: "/img/avatar.png",
-      location: "Туристская ул., д. 24, Санкт-Петербург",
-      scores: 4.5,
-      reviewsCount: 25,
-      photos: ["/img/avatar.png", "/img/avatar.png", "/img/avatar.png"],
-      title: "Маникюр с покрытием ногтей гель-лаком",
-      price: 1300,
-    },
-    {
-      name: "Ида Иванова",
-      avatar: "/img/avatar.png",
-      location: "Туристская ул., д. 24, Санкт-Петербург",
-      scores: 4.5,
-      reviewsCount: 23,
-      photos: ["/img/avatar.png", "/img/avatar.png", "/img/avatar.png"],
-      title: "Маникюр с покрытием ногтей гель-лаком",
-      price: 1300,
-    },
-  ];
+interface Props {
+  masters: Master[];
+}
+
+const FeedItem = (props: Props) => {
+  const { masters } = props;
 
   return (
-    <PageDiv>
-      <FeedHeaderDiv>
-        <FeedTitle>Feed</FeedTitle>
-        <FeedFilterButton>
-          <Image
-            alt="setting-icon"
-            width={30}
-            height={30}
-            src="/settings.svg"
-          />
-        </FeedFilterButton>
-      </FeedHeaderDiv>
+    <>
       <MastersListDiv>
         {masters.map((master, index) => (
           <MasterDiv key={index}>
@@ -64,7 +35,7 @@ const Page = () => {
                 />
               </Link>
               <div>
-                <h2>{master.name}</h2>
+                <h3>{master.name}</h3>
                 <p>{master.location}</p>
                 <div>
                   <div className="scores">
@@ -85,14 +56,34 @@ const Page = () => {
                   </div>
                 </div>
               </div>
+              <MasterLikeDiv>
+                <LikeItem />
+              </MasterLikeDiv>
             </MasterInfoDiv>
             <PhotosItem photos={master.photos} />
-            <MasterLikeButton><2</MasterLikeButton>
+            <MasterServicesDiv>
+              <div>
+                <Link href="/master">
+                  <h2>{master.title}</h2>
+                </Link>
+                <p>{master.price} ₽</p>
+              </div>
+              <Link href="/master">
+                <p>Ещё 48 услуг</p>
+              </Link>
+            </MasterServicesDiv>
           </MasterDiv>
         ))}
       </MastersListDiv>
-    </PageDiv>
+      <FeedPageCountDiv>
+        {[1, 2, 3, 4, 5].map((number) => (
+          <Link key={number} href="/feed">
+            {number}
+          </Link>
+        ))}
+      </FeedPageCountDiv>
+    </>
   );
 };
 
-export default Page;
+export default FeedItem;

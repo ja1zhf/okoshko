@@ -1,15 +1,16 @@
 "use client";
 
 import InputItem from "../components/input/inputItem";
-import SelectItem from "../components/select/selectItem";
-import { PageDiv } from "../styles/style";
+import { PageDiv, SubmitButton } from "../styles/style";
+import { LoginPageTitle } from "./style";
 
 const Page = () => {
   return (
     <PageDiv>
-      <h1>Login</h1>
-      <InputItem title="popa" />
-      <SelectItem title="popa" options={["1", "2"]} />
+      <LoginPageTitle>Вход или регистрация</LoginPageTitle>
+      <InputItem title="Эл. почта" />
+      <InputItem title="Пароль" />
+      <SubmitButton>Войти</SubmitButton>
     </PageDiv>
   );
 };

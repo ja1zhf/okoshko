@@ -28,7 +28,7 @@ export const Select = styled.select`
   outline: none;
   padding: 26px 12px 12px 12px;
   border-radius: 10px;
-  border: 1px solid ${(props) => props.theme.colors.gray};
+  border: 1px solid rgba(24, 23, 26, 0.12);
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;

@@ -23,7 +23,7 @@ export const Input = styled.input`
   outline: none;
   padding: 26px 12px 12px 12px;
   border-radius: 10px;
-  border: 1px solid ${(props) => props.theme.colors.gray};
+  border: 1px solid rgba(24, 23, 26, 0.12);
   box-sizing: border-box;
   appearance: none;
   -webkit-appearance: none;
@@ -48,4 +48,5 @@ export const InputLabel = styled(motion.label)`
   font-style: normal;
   font-weight: 500;
   line-height: 150%;
+  pointer-events: none;
 `;

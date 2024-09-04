@@ -1,9 +1,8 @@
 "use client";
 
-import Image from "next/image";
-import { PageDiv } from "../styles/style";
-import { FeedFilterButton, FeedHeaderDiv, FeedTitle } from "./style";
 import FeedItem from "../components/feed/feedItem";
+import { PageDiv } from "../styles/style";
+import { FavoritePageTitle } from "./style";
 
 const Page = () => {
   const masters: Master[] = [
@@ -31,17 +30,7 @@ const Page = () => {
 
   return (
     <PageDiv>
-      <FeedHeaderDiv>
-        <FeedTitle>Feed</FeedTitle>
-        <FeedFilterButton>
-          <Image
-            alt="setting-icon"
-            width={30}
-            height={30}
-            src="/settings.svg"
-          />
-        </FeedFilterButton>
-      </FeedHeaderDiv>
+      <FavoritePageTitle>Избранное</FavoritePageTitle>
       <FeedItem masters={masters} />
     </PageDiv>
   );

@@ -6,8 +6,24 @@ import styled from "styled-components";
 export const NavbarDiv = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 10px 16px;
   height: fit-content;
+`;
+
+export const ProfileLeftSideDiv = styled.div`
+  display: flex;
+  gap: 12px;
+
+  & > a {
+    display: flex;
+    align-items: center;
+    svg {
+      width: 22px;
+      height: 22px;
+      fill: ${(props) => props.theme.colors.gray};
+    }
+  }
 `;
 
 export const ProfileButton = styled.button`
@@ -42,4 +58,17 @@ export const NavbarText = styled.p`
   font-style: normal;
   font-weight: 500;
   line-height: 125%;
+`;
+
+export const NavbarLink = styled(Link)`
+  color: ${(props) => props.theme.colors.gray};
+  text-align: center;
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 125%;
+  text-decoration: none;
 `;

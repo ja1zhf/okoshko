@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { BoxDiv, SlideDiv, SliderDiv, SliderWrapperDiv } from "./style";
+import { SlideDiv, SliderDiv, SliderWrapperDiv } from "./style";
 import Image from "next/image";
 
 interface Props {
@@ -19,7 +19,8 @@ const PhotosItem = (props: Props) => {
 
   useEffect(() => {
     const calcSliderChildrenWidth = () => {
-      const childrenWidth = Array.from(ref.current!.childNodes).length * 320;
+      const childrenWidth =
+        Array.from(ref.current!.childNodes).length * (128 + 12);
       setSliderChildrenWidth(childrenWidth);
       setSliderConstraints({
         left: -childrenWidth + window.innerWidth,

@@ -1,4 +1,11 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  TouchEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   CalendarCellEmpty,
   CalendarCellNumber,
@@ -34,6 +41,7 @@ const CalendarItem = (props: Props) => {
 
   const today = new Date();
 
+  const previousDayRef = useRef<number | null>(null);
   const currentDay = today.getDate();
   const [currentMonth, setCurrentMonth] = useState(today.getMonth());
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
@@ -128,7 +136,39 @@ const CalendarItem = (props: Props) => {
     }
   };
 
+  const touchMove = (event: TouchEvent<HTMLDivElement>) => {
+    if (isMouseDown) {
+      const touch = event.touches[0];
+      const element = document.elementFromPoint(touch.clientX, touch.clientY);
+
+      if (element instanceof HTMLElement && element.hasAttribute("data-day")) {
+        const currentDay = parseInt(element.getAttribute("data-day")!, 10);
+
+        if (previousDayRef.current !== currentDay) {
+          let start = startSelection < currentDay ? startSelection : currentDay;
+          let end = startSelection > currentDay ? startSelection : currentDay;
+
+          for (let i = start; i <= end; i++) {
+            if (!selectedDays.includes(i) && isSelection) {
+              setSelectedDays((prevSelected) => [...prevSelected, i]);
+            } else if (!isSelection) {
+              setSelectedDays((prevSelected) =>
+                prevSelected.filter((d) => d !== i),
+              );
+            }
+          }
+          previousDayRef.current = currentDay;
+        }
+      }
+    }
+  };
+
   const mouseUp = () => {
+    setIsMouseDown(false);
+    setStartSelection(0);
+  };
+
+  const touchEnd = () => {
     setIsMouseDown(false);
     setStartSelection(0);
   };
@@ -151,7 +191,12 @@ const CalendarItem = (props: Props) => {
               ))}
             </tr>
           </thead>
-          <tbody>
+          <tbody
+            {...(isMultiSelections && {
+              onTouchMove: (event) => touchMove(event),
+              onTouchEnd: () => touchEnd(),
+            })}
+          >
             {days.map((child, indexRow) => (
               <tr key={indexRow}>
                 {child.map((day, indexColumn) =>
@@ -159,6 +204,7 @@ const CalendarItem = (props: Props) => {
                     <CalendarCellNumber
                       key={day}
                       id={`${day}`}
+                      data-day={day}
                       $isToday={
                         day === currentDay &&
                         currentMonth === today.getMonth() &&
@@ -169,11 +215,8 @@ const CalendarItem = (props: Props) => {
                       onClick={() => click(day)}
                       {...(isMultiSelections && {
                         onMouseDown: () => mouseDown(day),
-                      })}
-                      {...(isMultiSelections && {
+                        onTouchStart: () => mouseDown(day),
                         onMouseOver: () => mouseOver(day),
-                      })}
-                      {...(isMultiSelections && {
                         onMouseUp: () => mouseUp(),
                       })}
                     >
