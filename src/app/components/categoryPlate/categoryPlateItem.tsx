@@ -20,6 +20,7 @@ const CategoryPlateItem = (props: Props) => {
       onClick={() => router.push(`/search${category.href}`)}
       $url={category.backgroundSrc}
       whileTap={{ scale: 1.1 }}
+      whileHover={{ scale: 1.1 }}
     >
       <CategoryPlateTitle>{category.title}</CategoryPlateTitle>
       <CategoryPlateDescription>

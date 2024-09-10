@@ -163,6 +163,10 @@ export const OrderServicesListDiv = styled.div`
       font-weight: 500;
       line-height: 125%;
     }
+
+    & > p:last-child {
+      text-align: end;
+    }
   }
 `;
 

@@ -139,6 +139,7 @@ export const MasterServicesDiv = styled.div`
       font-style: normal;
       font-weight: 700;
       line-height: 125%;
+      text-align: end;
     }
   }
 

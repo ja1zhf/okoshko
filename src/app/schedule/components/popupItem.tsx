@@ -33,12 +33,12 @@ const PopupItem = (props: Props) => {
   return (
     <PopupDiv ref={divRef}>
       <PopupTitle>
-        {isActive == 1 ? "Изменить запись" : "Изменить окошко"}
+        {isActive === 1 ? "Добавить запись" : "Добавить окошко"}
       </PopupTitle>
-      {isActive == 1 && <InputItem title="Клиент" />}
+      {isActive === 1 && <InputItem title="Клиент" />}
       <TimeItem
         width={300}
-        isMultiSelections={true}
+        isMultiSelections={!(isActive === 1)}
         selectedTime={selectedTime}
         setSelectedTime={setSelectedTime}
       />

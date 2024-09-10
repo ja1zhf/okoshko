@@ -21,12 +21,12 @@ const Page = () => {
       <ButtonsDiv>
         {selectedDays.length == 1 && (
           <ScheduleButton onClick={() => setIsActive(1)}>
-            Изменить запись
+            Добавить запись
           </ScheduleButton>
         )}
         {selectedDays.length > 0 && (
           <ScheduleButton $isPrimary onClick={() => setIsActive(2)}>
-            Изменить окошко
+            Добавить окошко
           </ScheduleButton>
         )}
       </ButtonsDiv>

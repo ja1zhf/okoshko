@@ -4,7 +4,6 @@ import Image from "next/image";
 import {
   AppTitle,
   NavbarDiv,
-  NavbarLink,
   NavbarText,
   ProfileButton,
   ProfileLeftSideDiv,
@@ -12,21 +11,14 @@ import {
 import { useState } from "react";
 import ProfilePopupItem from "./components/profilePopupItem";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 const NavbarItem = () => {
-  const pathname = usePathname();
-
   const [isActive, setIsActive] = useState(false);
-
-  const admin = ["/services", "/schedule"];
 
   return (
     <NavbarDiv>
       <AppTitle href="/">ОКОШКО</AppTitle>
       <ProfileLeftSideDiv>
-        <NavbarLink href="/schedule">Расписание</NavbarLink>
-        <NavbarLink href="/services">Услуги</NavbarLink>
         <Link href="/favorite">
           <svg
             xmlns="http://www.w3.org/2000/svg"

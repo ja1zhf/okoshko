@@ -37,14 +37,33 @@ const ProfilePopupItem = (props: Props) => {
     };
   }, []);
 
+  const menu = [
+    {
+      title: "Мои заказы",
+      href: "/orders",
+    },
+    {
+      title: "Мои услуги",
+      href: "/services",
+    },
+    {
+      title: "Мое расписние",
+      href: "/schedule",
+    },
+    {
+      title: "Выход",
+      href: "/",
+    },
+  ];
+
+  const menuCLick = (href: string) => {
+    router.push(href);
+    setIsActive(false);
+  };
+
   const click = () => {
     setIsActive(false);
     router.push("/profile");
-  };
-
-  const clickOrders = () => {
-    setIsActive(false);
-    router.push("/orders");
   };
 
   return (
@@ -64,11 +83,14 @@ const ProfilePopupItem = (props: Props) => {
           </ProfileEditButton>
         </ProfileInfoDiv>
         <ProfileButtonsDiv>
-          <ProfileButton onClick={() => clickOrders()}>
-            Мои заказы
-          </ProfileButton>
-          <ProfileLineDiv />
-          <ProfileButton>Выход</ProfileButton>
+          {menu.map((item, index) => (
+            <>
+              <ProfileButton onClick={() => menuCLick(item.href)}>
+                {item.title}
+              </ProfileButton>
+              {index + 1 !== menu.length && <ProfileLineDiv />}
+            </>
+          ))}
         </ProfileButtonsDiv>
       </ProfilePopupDiv>
     </PageDarkOverlay>
