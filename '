@@ -1,0 +1,35 @@
+import { PageDiv } from "../styles/style";
+import { AdminOrdersTitle } from "./style";
+
+const Page = () => {
+  const orders = [
+    {
+      date: "ЧТ, 22 августа, с 20:30 до 22:00",
+      location:
+        "Туристская ул., дом 24, кв. 3, Приморский р–н, Санкт-Петербург",
+      avatar: "/img/avatar.png",
+      name: "Ида Иванова",
+      phone: "+79876543210",
+      services: [
+        {
+          title: "Маникюр с покрытием ногтей гель-лаком",
+          time: 60,
+          price: 1300,
+        },
+        {
+          title: "Другая услуга",
+          time: 30,
+          price: 1800,
+        },
+      ],
+    },
+  ];
+
+  return (
+    <PageDiv>
+      <AdminOrdersTitle>Заказы</AdminOrdersTitle>
+    </PageDiv>
+  );
+};
+
+export default Page;

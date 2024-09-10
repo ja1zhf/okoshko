@@ -135,7 +135,7 @@ export const ServiceButton = styled.button<{ $isActive?: boolean }>`
 
     & > h3 {
       color: ${(props) =>
-    props.$isActive ? props.theme.colors.white : props.theme.colors.black};
+        props.$isActive ? props.theme.colors.white : props.theme.colors.black};
       font-feature-settings:
         "liga" off,
         "clig" off;
@@ -144,11 +144,12 @@ export const ServiceButton = styled.button<{ $isActive?: boolean }>`
       font-weight: 700;
       line-height: 125%;
       transition: color 0.2s ease;
+      text-align: start;
     }
 
     & > p {
       color: ${(props) =>
-    props.$isActive ? props.theme.colors.white : props.theme.colors.black};
+        props.$isActive ? props.theme.colors.white : props.theme.colors.black};
       font-feature-settings:
         "liga" off,
         "clig" off;
@@ -168,12 +169,13 @@ export const ServiceButton = styled.button<{ $isActive?: boolean }>`
     height: 24px;
     border-radius: 100%;
     background-color: ${(props) =>
-    props.$isActive ? "rgba(245, 245, 249, 0.3)" : "#CCC3D8"};
+      props.$isActive ? "rgba(245, 245, 249, 0.3)" : "#CCC3D8"};
 
     & > svg {
       width: 16px;
+      height: 16px;
       fill: ${(props) =>
-    props.$isActive ? props.theme.colors.primary : "#F5F5F9"};
+        props.$isActive ? props.theme.colors.primary : "#F5F5F9"};
     }
   }
 `;

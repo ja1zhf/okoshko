@@ -43,7 +43,7 @@ export const CalendarCellEmpty = styled.td`
   height: 40px;
 `;
 
-export const CalendarCellNumber = styled(CalendarCellEmpty) <{
+export const CalendarCellNumber = styled(CalendarCellEmpty)<{
   $isToday: boolean;
   $isSelected: boolean;
   $isWeekend: boolean;
@@ -55,4 +55,5 @@ export const CalendarCellNumber = styled(CalendarCellEmpty) <{
   border-radius: 100%;
   cursor: pointer;
   user-select: none;
+  touch-action: none;
 `;

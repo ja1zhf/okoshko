@@ -5,6 +5,7 @@ export const SliderWrapperDiv = styled.div`
   width: 100%;
   overflow-x: hidden;
   position: relative;
+  touch-action: none;
 `;
 
 export const SliderDiv = styled(motion.div)`

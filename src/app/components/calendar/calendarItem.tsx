@@ -168,11 +168,6 @@ const CalendarItem = (props: Props) => {
     setStartSelection(0);
   };
 
-  const touchEnd = () => {
-    setIsMouseDown(false);
-    setStartSelection(0);
-  };
-
   return (
     <CalendarDiv>
       <div>
@@ -194,7 +189,7 @@ const CalendarItem = (props: Props) => {
           <tbody
             {...(isMultiSelections && {
               onTouchMove: (event) => touchMove(event),
-              onTouchEnd: () => touchEnd(),
+              onTouchEnd: () => mouseUp(),
             })}
           >
             {days.map((child, indexRow) => (

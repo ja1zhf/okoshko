@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, TouchEvent, useRef, useState } from "react";
 import { TimeCell, TimeDiv, TimeTable, TimeTitle } from "./style";
 
 interface Props {
@@ -55,6 +55,7 @@ const TimeItem = (props: Props) => {
     ],
   };
 
+  const previousTimeRef = useRef<number | null>(null);
   const [startSelection, setStartSelection] = useState(-1);
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [isSelection, setIsSelection] = useState(false);
@@ -101,6 +102,36 @@ const TimeItem = (props: Props) => {
     }
   };
 
+  const touchMove = (event: TouchEvent<HTMLTableSectionElement>) => {
+    if (isMouseDown) {
+      const touch = event.touches[0];
+      const element = document.elementFromPoint(touch.clientX, touch.clientY);
+
+      if (element instanceof HTMLElement && element.hasAttribute("data-time")) {
+        const currentTime = parseInt(element.getAttribute("data-time")!, 10);
+
+        if (previousTimeRef.current !== currentTime) {
+          let start =
+            startSelection < currentTime ? startSelection : currentTime;
+          let end = startSelection > currentTime ? startSelection : currentTime;
+
+          for (let i = start; i <= end; i += 15) {
+            if (i % 100 > 45) i = i - (i % 100) + 100;
+
+            if (!selectedTime.includes(i) && isSelection) {
+              setSelectedTime((prevSelected) => [...prevSelected, i]);
+            } else if (!isSelection) {
+              setSelectedTime((prevSelected) =>
+                prevSelected.filter((t) => t !== i),
+              );
+            }
+          }
+          previousTimeRef.current = currentTime;
+        }
+      }
+    }
+  };
+
   const mouseUp = () => {
     setIsMouseDown(false);
     setStartSelection(-1);
@@ -111,21 +142,24 @@ const TimeItem = (props: Props) => {
       <div>
         <TimeTitle>Утро</TimeTitle>
         <TimeTable>
-          <tbody>
+          <tbody
+            {...(isMultiSelections && {
+              onTouchMove: (event) => touchMove(event),
+              onTouchEnd: () => mouseUp(),
+            })}
+          >
             {time.morning.map((children, index) => (
               <tr key={index}>
                 {children.map((time) => (
                   <TimeCell
                     key={time}
+                    data-time={time}
                     $selected={selectedTime.includes(time)}
                     onClick={() => click(time)}
                     {...(isMultiSelections && {
                       onMouseDown: () => mouseDown(time),
-                    })}
-                    {...(isMultiSelections && {
+                      onTouchStart: () => mouseDown(time),
                       onMouseOver: () => mouseOver(time),
-                    })}
-                    {...(isMultiSelections && {
                       onMouseUp: () => mouseUp(),
                     })}
                   >
@@ -140,21 +174,24 @@ const TimeItem = (props: Props) => {
       <div>
         <TimeTitle>День</TimeTitle>
         <TimeTable>
-          <tbody>
+          <tbody
+            {...(isMultiSelections && {
+              onTouchMove: (event) => touchMove(event),
+              onTouchEnd: () => mouseUp(),
+            })}
+          >
             {time.day.map((children, index) => (
               <tr key={index}>
                 {children.map((time) => (
                   <TimeCell
                     key={time}
+                    data-time={time}
                     $selected={selectedTime.includes(time)}
                     onClick={() => click(time)}
                     {...(isMultiSelections && {
                       onMouseDown: () => mouseDown(time),
-                    })}
-                    {...(isMultiSelections && {
+                      onTouchStart: () => mouseDown(time),
                       onMouseOver: () => mouseOver(time),
-                    })}
-                    {...(isMultiSelections && {
                       onMouseUp: () => mouseUp(),
                     })}
                   >
@@ -169,21 +206,24 @@ const TimeItem = (props: Props) => {
       <div>
         <TimeTitle>Вечер</TimeTitle>
         <TimeTable>
-          <tbody>
+          <tbody
+            {...(isMultiSelections && {
+              onTouchMove: (event) => touchMove(event),
+              onTouchEnd: () => mouseUp(),
+            })}
+          >
             {time.evening.map((children, index) => (
               <tr key={index}>
                 {children.map((time) => (
                   <TimeCell
                     key={time}
+                    data-time={time}
                     $selected={selectedTime.includes(time)}
                     onClick={() => click(time)}
                     {...(isMultiSelections && {
                       onMouseDown: () => mouseDown(time),
-                    })}
-                    {...(isMultiSelections && {
+                      onTouchStart: () => mouseDown(time),
                       onMouseOver: () => mouseOver(time),
-                    })}
-                    {...(isMultiSelections && {
                       onMouseUp: () => mouseUp(),
                     })}
                   >
@@ -198,21 +238,24 @@ const TimeItem = (props: Props) => {
       <div>
         <TimeTitle>Ночь</TimeTitle>
         <TimeTable>
-          <tbody>
+          <tbody
+            {...(isMultiSelections && {
+              onTouchMove: (event) => touchMove(event),
+              onTouchEnd: () => mouseUp(),
+            })}
+          >
             {time.night.map((children, index) => (
               <tr key={index}>
                 {children.map((time) => (
                   <TimeCell
                     key={time}
+                    data-time={time}
                     $selected={selectedTime.includes(time)}
                     onClick={() => click(time)}
                     {...(isMultiSelections && {
                       onMouseDown: () => mouseDown(time),
-                    })}
-                    {...(isMultiSelections && {
+                      onTouchStart: () => mouseDown(time),
                       onMouseOver: () => mouseOver(time),
-                    })}
-                    {...(isMultiSelections && {
                       onMouseUp: () => mouseUp(),
                     })}
                   >

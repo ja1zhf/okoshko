@@ -1,9 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import styled from "styled-components";
 
 export const Container = styled.div`
   z-index: 1;
+  position: relative;
+  top: 20px;
+  margin-top: -20px;
 `;
 
 export const PageDiv = styled.div`
@@ -41,6 +45,7 @@ export const PageDarkOverlay = styled.div`
   height: 100vh;
   background-color: #00000033;
   z-index: 2;
+  touch-action: none;
 `;
 
 export const SubmitButton = styled.button`
@@ -71,4 +76,27 @@ export const PopupDiv = styled.div`
   border-radius: 20px;
   width: 85%;
   padding: 24px;
+`;
+
+export const NotFoundTitle = styled.h1`
+  color: ${(props) => props.theme.colors.black};
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 125%;
+`;
+
+export const NotFoundBackLink = styled(Link)`
+  color: ${(props) => props.theme.colors.primary};
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 125%;
+  text-decoration: none;
 `;

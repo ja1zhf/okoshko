@@ -8,7 +8,6 @@ export const FooterDiv = styled.div`
   background-color: ${(props) => props.theme.colors.grayDark};
   height: 100%;
   padding: 40px 20px 20px 20px;
-  transform: translateY(-20px);
 `;
 
 export const FooterLink = styled(Link)`

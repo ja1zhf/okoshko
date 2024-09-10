@@ -23,4 +23,5 @@ export const TimeCell = styled.td<{ $selected: boolean }>`
   padding: 8px 16px;
   cursor: pointer;
   user-select: none;
+  touch-action: none;
 `;
