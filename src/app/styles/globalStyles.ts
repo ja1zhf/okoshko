@@ -17,11 +17,17 @@ const GlobalStyle = createGlobalStyle`
     margin: 0px;
   }
 
+  html {
+    display: flex;
+    justify-content: center;
+  }
+
   body {
     display: flex;
     flex-direction: column;
     background-color: #F5F5F9;
     width: 100vw;
+    max-width: 550px;
     height: 100vh;
     margin: 0px;
   }

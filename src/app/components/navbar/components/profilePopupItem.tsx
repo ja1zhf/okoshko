@@ -84,12 +84,12 @@ const ProfilePopupItem = (props: Props) => {
         </ProfileInfoDiv>
         <ProfileButtonsDiv>
           {menu.map((item, index) => (
-            <>
+            <div key={index}>
               <ProfileButton onClick={() => menuCLick(item.href)}>
                 {item.title}
               </ProfileButton>
               {index + 1 !== menu.length && <ProfileLineDiv />}
-            </>
+            </div>
           ))}
         </ProfileButtonsDiv>
       </ProfilePopupDiv>

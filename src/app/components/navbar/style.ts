@@ -59,3 +59,16 @@ export const NavbarText = styled.p`
   font-weight: 500;
   line-height: 125%;
 `;
+
+export const NavbarAuthLink = styled(Link)`
+  color: ${(props) => props.theme.colors.gray};
+  text-align: center;
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 125%;
+  text-decoration: none;
+`;
