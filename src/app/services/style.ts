@@ -32,22 +32,50 @@ export const ServicesButton = styled.button`
 `;
 
 export const ServicesTable = styled.table`
-  & > thead tr th:first-child {
-    text-align: start;
+  & > thead {
+    background-color: ${(props) => props.theme.colors.primary}CC;
+    color: ${(props) => props.theme.colors.white};
+
+    & > tr th:first-child {
+      text-align: start;
+    }
   }
 
-  & > tbody tr td:first-child {
-    text-align: start;
+  & > tbody {
+    & > tr {
+      background-color: ${(props) => props.theme.colors.primary}1A;
+
+      & > td:first-child {
+        text-align: start;
+      }
+    }
+
+    & > tr:nth-child(2n) {
+      background-color: ${(props) => props.theme.colors.primary}33;
+    }
+  }
+
+  @media (max-width: 420px) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 390px) {
+    font-size: 12px;
+  }
+
+  @media (max-width: 355px) {
+    font-size: 10px;
   }
 `;
 
 export const ServicesTitleCell = styled.th`
   text-align: end;
-  padding: 0px 4px;
+  padding: 6px;
 `;
 
 export const ServicesCell = styled.td`
   text-align: end;
+  padding: 6px;
 `;
 
 export const ServiceButtonDiv = styled.div`
@@ -64,4 +92,9 @@ export const ServiceButton = styled.button`
     width: 18px;
     height: 18px;
   }
+`;
+
+export const ServicesPriceDiv = styled.div`
+  display: flex;
+  gap: 4px;
 `;

@@ -20,7 +20,7 @@ const NavbarItem = () => {
     <NavbarDiv>
       <AppTitle href="/">ОКОШКО</AppTitle>
       <ProfileLeftSideDiv>
-        {false ? (
+        {true ? (
           <>
             <Link href="/favorite">
               <svg
@@ -40,7 +40,7 @@ const NavbarItem = () => {
             </ProfileButton>
           </>
         ) : (
-          <NavbarAuthLink href="/login">Войти</NavbarAuthLink>
+          <NavbarAuthLink href="/authorization">Войти</NavbarAuthLink>
         )}
       </ProfileLeftSideDiv>
       {isActive && <ProfilePopupItem setIsActive={setIsActive} />}
