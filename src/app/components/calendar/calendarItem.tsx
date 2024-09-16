@@ -12,6 +12,7 @@ import {
   CalendarDiv,
   CalendarTable,
   CalendarTitle,
+  TableContainer
 } from "./style";
 
 interface Props {
@@ -170,7 +171,7 @@ const CalendarItem = (props: Props) => {
 
   return (
     <CalendarDiv>
-      <div>
+      <TableContainer>
         <CalendarTitle>
           <button onClick={() => changeMonth(true)}>{"<"}</button>
           <h1>
@@ -215,7 +216,8 @@ const CalendarItem = (props: Props) => {
                         onMouseUp: () => mouseUp(),
                       })}
                     >
-                      {day}
+                      <div>{day}</div>
+
                     </CalendarCellNumber>
                   ) : (
                     <CalendarCellEmpty key={`${indexRow}${indexColumn}`} />
@@ -225,7 +227,7 @@ const CalendarItem = (props: Props) => {
             ))}
           </tbody>
         </CalendarTable>
-      </div>
+      </TableContainer>
     </CalendarDiv>
   );
 };

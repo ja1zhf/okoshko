@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, TouchEvent, useRef, useState } from "react";
-import { TimeCell, TimeDiv, TimeTable, TimeTitle } from "./style";
+import { TimeCell, TimeDiv, TimeTable, TimeTitle, TableContainer } from "./style";
 
 interface Props {
   width: number;
@@ -139,7 +139,7 @@ const TimeItem = (props: Props) => {
 
   return (
     <TimeDiv $width={width}>
-      <div>
+      <TableContainer> 
         <TimeTitle>Утро</TimeTitle>
         <TimeTable>
           <tbody
@@ -170,8 +170,8 @@ const TimeItem = (props: Props) => {
             ))}
           </tbody>
         </TimeTable>
-      </div>
-      <div>
+      </TableContainer>
+      <TableContainer>
         <TimeTitle>День</TimeTitle>
         <TimeTable>
           <tbody
@@ -202,8 +202,8 @@ const TimeItem = (props: Props) => {
             ))}
           </tbody>
         </TimeTable>
-      </div>
-      <div>
+      </TableContainer>
+      <TableContainer>
         <TimeTitle>Вечер</TimeTitle>
         <TimeTable>
           <tbody
@@ -234,8 +234,8 @@ const TimeItem = (props: Props) => {
             ))}
           </tbody>
         </TimeTable>
-      </div>
-      <div>
+      </TableContainer>
+      <TableContainer>
         <TimeTitle>Ночь</TimeTitle>
         <TimeTable>
           <tbody
@@ -266,7 +266,7 @@ const TimeItem = (props: Props) => {
             ))}
           </tbody>
         </TimeTable>
-      </div>
+      </TableContainer>
     </TimeDiv>
   );
 };
