@@ -216,7 +216,8 @@ const CalendarItem = (props: Props) => {
                         onMouseUp: () => mouseUp(),
                       })}
                     >
-                      {day}
+                      <div>{day}</div>
+
                     </CalendarCellNumber>
                   ) : (
                     <CalendarCellEmpty key={`${indexRow}${indexColumn}`} />

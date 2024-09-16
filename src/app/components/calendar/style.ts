@@ -10,11 +10,6 @@ export const TableContainer = styled.div`
   width: 100%;
 `;
 
-export const CalendarTable = styled.table`
-  border-spacing: 12px;
-  width: 100%;
-`;
-
 export const CalendarTitle = styled.div`
   display: flex;
   align-items: center;
@@ -37,9 +32,16 @@ export const CalendarTitle = styled.div`
     cursor: pointer;
   }
 `;
+export const CalendarTable = styled.table`
+  border-spacing: 12px;
+  width: 100%;
+  table-layout: fixed;
+`;
 
 export const CalendarCellEmpty = styled.td`
   text-align: center;
+  user-select: none;
+  touch-action: none;
 `;
 
 export const CalendarCellNumber = styled(CalendarCellEmpty)<{
@@ -47,12 +49,27 @@ export const CalendarCellNumber = styled(CalendarCellEmpty)<{
   $isSelected: boolean;
   $isWeekend: boolean;
 }>`
-  ${(props) => props.$isToday && "font-weight: 900;"}
   background-color: ${(props) => (props.$isSelected ? "#794CC3" : "#F5F4F9")};
   color: ${(props) =>
     props.$isWeekend ? "#ff4d4d" : props.$isSelected ? "#F5F4F9" : "#000000"};
-  border-radius: 100%;
   cursor: pointer;
-  user-select: none;
-  touch-action: none;
+
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border-radius: 100%;
+
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1 / 1; 
+    position: relative;
+  }
+
+  ${(props) => props.$isToday && "font-weight: 900;"}
+
+ 
 `;
