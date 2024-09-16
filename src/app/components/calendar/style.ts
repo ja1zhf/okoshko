@@ -40,8 +40,7 @@ export const CalendarTable = styled.table`
 
 export const CalendarCellEmpty = styled.td`
   text-align: center;
-  user-select: none;
-  touch-action: none;
+ 
 `;
 
 export const CalendarCellNumber = styled(CalendarCellEmpty)<{
@@ -67,7 +66,10 @@ export const CalendarCellNumber = styled(CalendarCellEmpty)<{
     height: 100%;
     aspect-ratio: 1 / 1; 
     position: relative;
+    user-select: none;
+    touch-action: none;
   }
+  
 
   ${(props) => props.$isToday && "font-weight: 900;"}
 

@@ -138,28 +138,26 @@ const CalendarItem = (props: Props) => {
   };
 
   const touchMove = (event: TouchEvent<HTMLDivElement>) => {
-    if (isMouseDown) {
-      const touch = event.touches[0];
-      const element = document.elementFromPoint(touch.clientX, touch.clientY);
+    const touch = event.touches[0];
+    const element = document.elementFromPoint(touch.clientX, touch.clientY);
 
-      if (element instanceof HTMLElement && element.hasAttribute("data-day")) {
-        const currentDay = parseInt(element.getAttribute("data-day")!, 10);
+    if (element instanceof HTMLElement && element.hasAttribute("data-day")) {
+      const currentDay = parseInt(element.getAttribute("data-day")!, 10);
 
-        if (previousDayRef.current !== currentDay) {
-          let start = startSelection < currentDay ? startSelection : currentDay;
-          let end = startSelection > currentDay ? startSelection : currentDay;
+      if (previousDayRef.current !== currentDay) {
+        let start = startSelection < currentDay ? startSelection : currentDay;
+        let end = startSelection > currentDay ? startSelection : currentDay;
 
-          for (let i = start; i <= end; i++) {
-            if (!selectedDays.includes(i) && isSelection) {
-              setSelectedDays((prevSelected) => [...prevSelected, i]);
-            } else if (!isSelection) {
-              setSelectedDays((prevSelected) =>
-                prevSelected.filter((d) => d !== i),
-              );
-            }
+        for (let i = start; i <= end; i++) {
+          if (!selectedDays.includes(i) && isSelection) {
+            setSelectedDays((prevSelected) => [...prevSelected, i]);
+          } else if (!isSelection) {
+            setSelectedDays((prevSelected) =>
+              prevSelected.filter((d) => d !== i),
+            );
           }
-          previousDayRef.current = currentDay;
         }
+        previousDayRef.current = currentDay;
       }
     }
   };
@@ -216,8 +214,7 @@ const CalendarItem = (props: Props) => {
                         onMouseUp: () => mouseUp(),
                       })}
                     >
-                      <div>{day}</div>
-
+                      <div data-day={day}>{day}</div>
                     </CalendarCellNumber>
                   ) : (
                     <CalendarCellEmpty key={`${indexRow}${indexColumn}`} />
