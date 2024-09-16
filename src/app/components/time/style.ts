@@ -13,6 +13,11 @@ export const TimeTitle = styled.h2``;
 
 export const TimeTable = styled.table`
   border-spacing: 12px;
+  width: 100%;
+`;
+
+export const TableContainer = styled.div`
+  width: 100%;
 `;
 
 export const TimeCell = styled.td<{ $selected: boolean }>`
@@ -20,7 +25,7 @@ export const TimeCell = styled.td<{ $selected: boolean }>`
   background-color: ${(props) => (props.$selected ? "#794CC3" : "#f5f4f9")};
   color: ${(props) => (props.$selected ? "#f5f4f9" : "#000000")};
   border-radius: 24px;
-  padding: 8px 16px;
+  padding: 8px 0;
   cursor: pointer;
   user-select: none;
   touch-action: none;

@@ -4,14 +4,15 @@ export const CalendarDiv = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
+`;
 
-  & > div {
-    width: fit-content;
-  }
+export const TableContainer = styled.div`
+  width: 100%;
 `;
 
 export const CalendarTable = styled.table`
   border-spacing: 12px;
+  width: 100%;
 `;
 
 export const CalendarTitle = styled.div`
@@ -39,8 +40,6 @@ export const CalendarTitle = styled.div`
 
 export const CalendarCellEmpty = styled.td`
   text-align: center;
-  width: 40px;
-  height: 40px;
 `;
 
 export const CalendarCellNumber = styled(CalendarCellEmpty)<{
