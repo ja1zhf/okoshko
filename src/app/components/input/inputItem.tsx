@@ -1,15 +1,16 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Input, InputDiv, InputLabel } from "./style";
 
 interface Props {
   title: string;
+  inputValue: string;
+  setInputValue: Dispatch<SetStateAction<string>>;
 }
 
 const InputItem = (props: Props) => {
-  const { title } = props;
+  const { title, inputValue, setInputValue } = props;
 
   const [isFocused, setIsFocused] = useState(false);
-  const [inputValue, setInputValue] = useState("");
 
   return (
     <InputDiv>

@@ -20,7 +20,7 @@ const NavbarItem = () => {
     <NavbarDiv>
       <AppTitle href="/">ОКОШКО</AppTitle>
       <ProfileLeftSideDiv>
-        {true ? (
+        {false ? (
           <>
             <Link href="/favorite">
               <svg
