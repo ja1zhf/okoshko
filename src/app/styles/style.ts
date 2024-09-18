@@ -35,7 +35,7 @@ export const CategoryPlateGrid = styled.div`
 `;
 
 export const PageDarkOverlay = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0px;
   left: 0px;
   display: flex;
@@ -56,9 +56,7 @@ export const SubmitButton = styled.button`
   align-items: center;
   color: ${(props) => props.theme.colors.white};
   text-align: center;
-  font-feature-settings:
-    "liga" off,
-    "clig" off;
+  font-feature-settings: "liga" off, "clig" off;
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
@@ -80,9 +78,7 @@ export const PopupDiv = styled.div`
 
 export const NotFoundTitle = styled.h1`
   color: ${(props) => props.theme.colors.black};
-  font-feature-settings:
-    "liga" off,
-    "clig" off;
+  font-feature-settings: "liga" off, "clig" off;
   font-size: 24px;
   font-style: normal;
   font-weight: 700;
@@ -91,9 +87,7 @@ export const NotFoundTitle = styled.h1`
 
 export const NotFoundBackLink = styled(Link)`
   color: ${(props) => props.theme.colors.primary};
-  font-feature-settings:
-    "liga" off,
-    "clig" off;
+  font-feature-settings: "liga" off, "clig" off;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
