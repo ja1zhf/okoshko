@@ -10,9 +10,7 @@ export const InputDiv = styled.div`
 
 export const Input = styled.input`
   color: ${(props) => props.theme.colors.black};
-  font-feature-settings:
-    "liga" off,
-    "clig" off;
+  font-feature-settings: "liga" off, "clig" off;
   font-size: 16px;
   font-style: normal;
   font-weight: 450;
@@ -41,12 +39,12 @@ export const InputLabel = styled(motion.label)`
   top: 20px;
   left: 12px;
   color: ${(props) => props.theme.colors.black};
-  font-feature-settings:
-    "liga" off,
-    "clig" off;
+  font-feature-settings: "liga" off, "clig" off;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: 150%;
   pointer-events: none;
+  transform-origin: left;
+  transition: padding-left 0.2s ease;
 `;
