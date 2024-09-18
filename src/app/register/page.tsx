@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import InputItem from "../components/input/inputItem";
 import { PageDiv, SubmitButton } from "../styles/style";
 import { LoginPageTitle } from "./style";
+import { useRouter } from "next/navigation";
+import UserContext from "@/contexts/userContext";
 
 interface SignInData {
   status: number;
@@ -11,7 +13,17 @@ interface SignInData {
   phone_to_call: string;
 }
 
+interface CheckData {
+  status: number;
+  message: string;
+  user: UserType;
+}
+
 const Page = () => {
+  const router = useRouter();
+
+  const { setUser } = useContext(UserContext);
+
   const [signInData, setSignInData] = useState<SignInData | null>(null);
   const [phoneInput, setPhoneInput] = useState("");
 
@@ -40,8 +52,13 @@ const Page = () => {
       body: JSON.stringify({ phone: phoneInput }),
     });
 
-    const result = await response.json();
-    // setData(result);
+    const result: CheckData = await response.json();
+
+    if (result.status === 200) {
+      localStorage.setItem("user", JSON.stringify(result.user));
+      setUser(result.user);
+      router.push("/");
+    }
   };
 
   return (

@@ -3,8 +3,8 @@ import { Input, InputDiv, InputLabel } from "./style";
 
 interface Props {
   title: string;
-  inputValue: string;
-  setInputValue: Dispatch<SetStateAction<string>>;
+  inputValue: string | undefined | null;
+  setInputValue: Dispatch<SetStateAction<string | undefined | null>>;
 }
 
 const InputItem = (props: Props) => {
@@ -15,7 +15,7 @@ const InputItem = (props: Props) => {
   return (
     <InputDiv>
       <Input
-        value={inputValue}
+        value={inputValue ? inputValue : ""}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         onChange={(e: any) => setInputValue(e.target.value)}

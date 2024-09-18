@@ -9,18 +9,21 @@ import {
   ProfileButton,
   ProfileLeftSideDiv,
 } from "./style";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import ProfilePopupItem from "./components/profilePopupItem";
 import Link from "next/link";
+import UserContext from "@/contexts/userContext";
 
 const NavbarItem = () => {
+  const { user } = useContext(UserContext);
+
   const [isActive, setIsActive] = useState(false);
 
   return (
     <NavbarDiv>
       <AppTitle href="/">ОКОШКО</AppTitle>
       <ProfileLeftSideDiv>
-        {true ? (
+        {user ? (
           <>
             <Link href="/favorite">
               <svg
@@ -36,14 +39,16 @@ const NavbarItem = () => {
             </Link>
             <ProfileButton onClick={() => setIsActive(true)}>
               <Image alt="profile" width={20} height={20} src="/profile.svg" />
-              <NavbarText>Елизавета К.</NavbarText>
+              <NavbarText>
+                {user.first_name} {user.last_name[0]}.
+              </NavbarText>
             </ProfileButton>
           </>
         ) : (
-          <NavbarAuthLink href="/authorization">Войти</NavbarAuthLink>
+          <NavbarAuthLink href="/login">Войти</NavbarAuthLink>
         )}
       </ProfileLeftSideDiv>
-      {isActive && <ProfilePopupItem setIsActive={setIsActive} />}
+      {isActive && <ProfilePopupItem user={user} setIsActive={setIsActive} />}
     </NavbarDiv>
   );
 };

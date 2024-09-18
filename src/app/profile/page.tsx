@@ -10,13 +10,28 @@ import {
   ProfilePageTitle,
 } from "./style";
 import InputItem from "../components/input/inputItem";
+import { useContext, useState } from "react";
+import UserContext from "@/contexts/userContext";
 
 const Page = () => {
+  const { user } = useContext(UserContext);
+
   const profile = {
     avatar: "/img/avatar.png",
-    phone: "+79876543210",
-    email: "user@site.com",
   };
+
+  const [firstNameInput, setFirstNameInput] = useState<
+    string | undefined | null
+  >(user?.first_name);
+  const [lastNameInput, setLastNameInput] = useState<string | undefined | null>(
+    user?.last_name,
+  );
+  const [phoneInput, setPhoneInput] = useState<string | undefined | null>(
+    user?.phone,
+  );
+  const [emailInput, setEmailInput] = useState<string | undefined | null>(
+    user?.email,
+  );
 
   return (
     <PageDiv>
@@ -28,11 +43,27 @@ const Page = () => {
           <AvatarEditButton>Удалить</AvatarEditButton>
         </AvatarBlockDiv>
         <ProfileInputDiv>
-          <InputItem title="Имя" />
-          <InputItem title="Фамилия" />
+          <InputItem
+            title="Имя"
+            inputValue={firstNameInput}
+            setInputValue={setFirstNameInput}
+          />
+          <InputItem
+            title="Фамилия"
+            inputValue={lastNameInput}
+            setInputValue={setLastNameInput}
+          />
         </ProfileInputDiv>
-        <InputItem title="Телефон" />
-        <InputItem title="Эл. почта" />
+        <InputItem
+          title="Телефон"
+          inputValue={phoneInput}
+          setInputValue={setPhoneInput}
+        />
+        <InputItem
+          title="Эл. почта"
+          inputValue={emailInput}
+          setInputValue={setEmailInput}
+        />
         <SubmitButton>Сохранить</SubmitButton>
       </ProfileDiv>
     </PageDiv>

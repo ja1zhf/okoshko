@@ -15,3 +15,13 @@ interface Master {
   title: string;
   price: number;
 }
+
+interface UserType {
+  id: number;
+  phone: string;
+  first_name: string;
+  last_name: string;
+  email: string | null;
+  role: number;
+  master: string | null;
+}

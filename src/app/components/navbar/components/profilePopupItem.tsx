@@ -10,15 +10,17 @@ import {
   ProfileNumberText,
   ProfilePopupDiv,
 } from "./style";
-import { Dispatch, SetStateAction, useEffect, useRef } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { m } from "framer-motion";
 
 interface Props {
+  user: UserType | null;
   setIsActive: Dispatch<SetStateAction<boolean>>;
 }
 
 const ProfilePopupItem = (props: Props) => {
-  const { setIsActive } = props;
+  const { user, setIsActive } = props;
 
   const router = useRouter();
   const divRef = useRef<HTMLDivElement>(null);
@@ -52,12 +54,27 @@ const ProfilePopupItem = (props: Props) => {
     },
     {
       title: "Выход",
-      href: "/",
+      href: "logout",
     },
   ];
 
-  const menuCLick = (href: string) => {
-    router.push(href);
+  const menuCLick = async (href: string) => {
+    if (href === "logout") {
+      // const response = await fetch(
+      //   "https://dev.okoshko.space/users/auth/sign-out",
+      //   {
+      //     method: "GET",
+      //     credentials: "include",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //   },
+      // );
+      //
+      // const result = await response.json();
+    } else {
+      router.push(href);
+    }
     setIsActive(false);
   };
 
@@ -65,6 +82,18 @@ const ProfilePopupItem = (props: Props) => {
     setIsActive(false);
     router.push("/profile");
   };
+
+  useEffect(() => {
+    const cookies = document.cookie;
+    const myCookieValue = cookies
+      ? cookies
+          .split("; ")
+          .find((c) => c.startsWith("auth="))
+          ?.split("=")[1]
+      : null;
+
+    console.log(myCookieValue);
+  }, []);
 
   return (
     <PageDarkOverlay>
@@ -76,8 +105,10 @@ const ProfilePopupItem = (props: Props) => {
             height={70}
             src="/img/avatar.png"
           />
-          <ProfileNameText>Елизавета К.</ProfileNameText>
-          <ProfileNumberText>+7 951 653-20-07</ProfileNumberText>
+          <ProfileNameText>
+            {user?.first_name} {user?.last_name[0]}.
+          </ProfileNameText>
+          <ProfileNumberText>+{user?.phone}</ProfileNumberText>
           <ProfileEditButton onClick={() => click()}>
             Редактировать
           </ProfileEditButton>
