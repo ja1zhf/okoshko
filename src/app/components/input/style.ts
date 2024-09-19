@@ -8,9 +8,11 @@ export const InputDiv = styled.div`
   width: 100%;
 `;
 
-export const Input = styled.input`
+export const Input = styled.input<{ $isEmpty: boolean }>`
   color: ${(props) => props.theme.colors.black};
-  font-feature-settings: "liga" off, "clig" off;
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
   font-size: 16px;
   font-style: normal;
   font-weight: 450;
@@ -21,7 +23,9 @@ export const Input = styled.input`
   outline: none;
   padding: 26px 12px 12px 12px;
   border-radius: 10px;
-  border: 1px solid rgba(24, 23, 26, 0.12);
+  border: 1px solid
+    ${(props) =>
+      props.$isEmpty ? props.theme.colors.red : "rgba(24, 23, 26, 0.12)"};
   box-sizing: border-box;
   appearance: none;
   -webkit-appearance: none;
@@ -34,12 +38,15 @@ export const Input = styled.input`
   }
 `;
 
-export const InputLabel = styled(motion.label)`
+export const InputLabel = styled(motion.label)<{ $isEmpty: boolean }>`
   position: absolute;
   top: 20px;
   left: 12px;
-  color: ${(props) => props.theme.colors.black};
-  font-feature-settings: "liga" off, "clig" off;
+  color: ${(props) =>
+    props.$isEmpty ? props.theme.colors.red : props.theme.colors.black};
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;

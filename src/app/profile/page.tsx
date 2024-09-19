@@ -20,17 +20,15 @@ const Page = () => {
     avatar: "/img/avatar.png",
   };
 
-  const [firstNameInput, setFirstNameInput] = useState<
-    string | undefined | null
-  >(user?.first_name);
-  const [lastNameInput, setLastNameInput] = useState<string | undefined | null>(
-    user?.last_name,
+  const [firstNameInput, setFirstNameInput] = useState<string>(
+    user ? user.first_name : "",
   );
-  const [phoneInput, setPhoneInput] = useState<string | undefined | null>(
-    user?.phone,
+  const [lastNameInput, setLastNameInput] = useState<string>(
+    user ? user.last_name : "",
   );
-  const [emailInput, setEmailInput] = useState<string | undefined | null>(
-    user?.email,
+  const [phoneInput, setPhoneInput] = useState<string>(user ? user.phone : "");
+  const [emailInput, setEmailInput] = useState<string>(
+    user ? (user.email ? user.email : "") : "",
   );
 
   return (
@@ -45,22 +43,26 @@ const Page = () => {
         <ProfileInputDiv>
           <InputItem
             title="Имя"
+            canBeEmpty={false}
             inputValue={firstNameInput}
             setInputValue={setFirstNameInput}
           />
           <InputItem
             title="Фамилия"
+            canBeEmpty={false}
             inputValue={lastNameInput}
             setInputValue={setLastNameInput}
           />
         </ProfileInputDiv>
         <InputItem
           title="Телефон"
+          canBeEmpty={false}
           inputValue={phoneInput}
           setInputValue={setPhoneInput}
         />
         <InputItem
           title="Эл. почта"
+          canBeEmpty={true}
           inputValue={emailInput}
           setInputValue={setEmailInput}
         />

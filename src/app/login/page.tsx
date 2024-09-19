@@ -3,7 +3,7 @@
 import { useContext, useState } from "react";
 import InputItem from "../components/input/inputItem";
 import { PageDiv, SubmitButton } from "../styles/style";
-import { LoginPageTitle } from "./style";
+import { LoginLink, LoginPageTitle } from "./style";
 import { useRouter } from "next/navigation";
 import UserContext from "@/contexts/userContext";
 
@@ -25,7 +25,7 @@ const Page = () => {
   const { setUser } = useContext(UserContext);
 
   const [signInData, setSignInData] = useState<SignInData | null>(null);
-  const [phoneInput, setPhoneInput] = useState<string | null | undefined>("");
+  const [phoneInput, setPhoneInput] = useState<string>("");
 
   const sendSignIn = async () => {
     const response = await fetch(
@@ -68,6 +68,8 @@ const Page = () => {
         <>
           <InputItem
             title="Номер телефона"
+            isNumber={true}
+            canBeEmpty={false}
             inputValue={phoneInput}
             setInputValue={setPhoneInput}
           />
@@ -84,6 +86,7 @@ const Page = () => {
           <SubmitButton onClick={sendCheck}>Проверить</SubmitButton>
         </>
       )}
+      <LoginLink href="/register">Создать новый аккаунт</LoginLink>
     </PageDiv>
   );
 };

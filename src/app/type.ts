@@ -25,3 +25,8 @@ interface UserType {
   role: number;
   master: string | null;
 }
+
+enum InputType {
+  String,
+  Number,
+}

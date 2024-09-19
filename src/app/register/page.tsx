@@ -3,11 +3,11 @@
 import { useContext, useState } from "react";
 import InputItem from "../components/input/inputItem";
 import { PageDiv, SubmitButton } from "../styles/style";
-import { LoginPageTitle } from "./style";
+import { RegisterLink, RegisterPageTitle } from "./style";
 import { useRouter } from "next/navigation";
 import UserContext from "@/contexts/userContext";
 
-interface SignInData {
+interface SignUpData {
   status: number;
   registered: boolean;
   phone_to_call: string;
@@ -24,23 +24,29 @@ const Page = () => {
 
   const { setUser } = useContext(UserContext);
 
-  const [signInData, setSignInData] = useState<SignInData | null>(null);
+  const [signUpData, setSignUpData] = useState<SignUpData | null>(null);
   const [phoneInput, setPhoneInput] = useState("");
+  const [firstNameInput, setFirstNameInput] = useState("");
+  const [lastNameInput, setLastNameInput] = useState("");
 
   const sendSignIn = async () => {
     const response = await fetch(
-      "https://dev.okoshko.space/users/auth/sign-in",
+      "https://dev.okoshko.space/users/auth/sign-up",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ phone: phoneInput }),
+        body: JSON.stringify({
+          phone: phoneInput,
+          first_name: firstNameInput,
+          last_name: lastNameInput,
+        }),
       },
     );
 
     const result = await response.json();
-    setSignInData(result);
+    setSignUpData(result);
   };
 
   const sendCheck = async () => {
@@ -63,27 +69,44 @@ const Page = () => {
 
   return (
     <PageDiv>
-      <LoginPageTitle>Вход</LoginPageTitle>
-      {!signInData && (
+      <RegisterPageTitle>Регистрация</RegisterPageTitle>
+      {!signUpData && (
         <>
           <InputItem
             title="Номер телефона"
+            isNumber={true}
+            canBeEmpty={false}
             inputValue={phoneInput}
             setInputValue={setPhoneInput}
           />
-          <SubmitButton onClick={sendSignIn}>Войти</SubmitButton>
+          <InputItem
+            title="Имя"
+            isNumber={false}
+            canBeEmpty={false}
+            inputValue={firstNameInput}
+            setInputValue={setFirstNameInput}
+          />
+          <InputItem
+            title="Фамилия"
+            isNumber={false}
+            canBeEmpty={false}
+            inputValue={lastNameInput}
+            setInputValue={setLastNameInput}
+          />
+          <SubmitButton onClick={sendSignIn}>Создать аккаунт</SubmitButton>
         </>
       )}
-      {signInData?.registered && (
+      {signUpData?.registered && (
         <>
           <p>
             Чтобы подтвердить номер телефона, позвоните на{" "}
-            <b>{signInData.phone_to_call}</b>, дождитесь завершения звонка,
+            <b>{signUpData.phone_to_call}</b>, дождитесь завершения звонка,
             затем нажмите кнопку "Проверить"
           </p>
           <SubmitButton onClick={sendCheck}>Проверить</SubmitButton>
         </>
       )}
+      <RegisterLink href="/login">Войти в существующий аккаунт</RegisterLink>
     </PageDiv>
   );
 };
