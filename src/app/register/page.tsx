@@ -10,7 +10,7 @@ import UserContext from "@/contexts/userContext";
 interface SignUpData {
   status: number;
   registered: boolean;
-  phone_to_call: string;
+  call_to_phone: string;
 }
 
 interface CheckData {
@@ -96,11 +96,11 @@ const Page = () => {
           <SubmitButton onClick={sendSignIn}>Создать аккаунт</SubmitButton>
         </>
       )}
-      {signUpData?.registered && (
+      {signUpData && (
         <>
           <p>
             Чтобы подтвердить номер телефона, позвоните на{" "}
-            <b>{signUpData.phone_to_call}</b>, дождитесь завершения звонка,
+            <b>{signUpData.call_to_phone}</b>, дождитесь завершения звонка,
             затем нажмите кнопку "Проверить"
           </p>
           <SubmitButton onClick={sendCheck}>Проверить</SubmitButton>

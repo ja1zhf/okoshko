@@ -12,7 +12,6 @@ import {
 } from "./style";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { m } from "framer-motion";
 
 interface Props {
   user: UserType | null;
@@ -60,6 +59,8 @@ const ProfilePopupItem = (props: Props) => {
 
   const menuCLick = async (href: string) => {
     if (href === "logout") {
+      localStorage.removeItem("user");
+
       // const response = await fetch(
       //   "https://dev.okoshko.space/users/auth/sign-out",
       //   {
