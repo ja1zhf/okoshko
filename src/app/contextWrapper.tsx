@@ -1,24 +1,14 @@
 "use client";
 
 import UserContext from "@/contexts/userContext";
-import { useEffect, useState } from "react";
+import useUser from "@/hooks/useUser";
 
 const ContextWrapper = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const [user, setUser] = useState<UserType | null>(null);
-
-  useEffect(() => {
-    const userStorage = localStorage.getItem("user");
-
-    if (userStorage) {
-      const user: UserType = JSON.parse(userStorage);
-
-      setUser(user);
-    }
-  }, []);
+  const [user, setUser] = useUser();
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

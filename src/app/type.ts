@@ -22,7 +22,7 @@ interface UserType {
   first_name: string;
   last_name: string;
   email: string | null;
-  role: number;
+  role: string;
   master: string | null;
 }
 

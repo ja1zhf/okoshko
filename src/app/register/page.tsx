@@ -55,13 +55,13 @@ const Page = () => {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify({ phone: phoneInput }),
     });
 
     const result: CheckData = await response.json();
 
     if (result.status === 200) {
-      localStorage.setItem("user", JSON.stringify(result.user));
       setUser(result.user);
       router.push("/");
     }

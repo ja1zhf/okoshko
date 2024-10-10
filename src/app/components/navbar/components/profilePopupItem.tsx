@@ -14,15 +14,20 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 interface Props {
-  user: UserType | null;
+  user: UserType;
+  setUser: (newUser: UserType | null) => void;
   setIsActive: Dispatch<SetStateAction<boolean>>;
 }
 
 const ProfilePopupItem = (props: Props) => {
-  const { user, setIsActive } = props;
+  const { user, setUser, setIsActive } = props;
 
   const router = useRouter();
   const divRef = useRef<HTMLDivElement>(null);
+
+  const [menu, setMenu] = useState<{ title: string; href: string }[] | null>(
+    null,
+  );
 
   const handleClickOutside = (event: MouseEvent) => {
     if (divRef.current && !divRef.current.contains(event.target as Node)) {
@@ -31,6 +36,38 @@ const ProfilePopupItem = (props: Props) => {
   };
 
   useEffect(() => {
+    if (user.role === "user") {
+      setMenu([
+        {
+          title: "Мои заказы",
+          href: "/orders",
+        },
+        {
+          title: "Выход",
+          href: "logout",
+        },
+      ]);
+    } else if (user.role === "master") {
+      setMenu([
+        {
+          title: "Мои заказы",
+          href: "/orders",
+        },
+        {
+          title: "Мои услуги",
+          href: "/services",
+        },
+        {
+          title: "Мое расписние",
+          href: "/schedule",
+        },
+        {
+          title: "Выход",
+          href: "logout",
+        },
+      ]);
+    }
+
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
@@ -38,41 +75,17 @@ const ProfilePopupItem = (props: Props) => {
     };
   }, []);
 
-  const menu = [
-    {
-      title: "Мои заказы",
-      href: "/orders",
-    },
-    {
-      title: "Мои услуги",
-      href: "/services",
-    },
-    {
-      title: "Мое расписние",
-      href: "/schedule",
-    },
-    {
-      title: "Выход",
-      href: "logout",
-    },
-  ];
-
   const menuCLick = async (href: string) => {
     if (href === "logout") {
-      localStorage.removeItem("user");
+      setUser(null);
 
-      // const response = await fetch(
-      //   "https://dev.okoshko.space/users/auth/sign-out",
-      //   {
-      //     method: "GET",
-      //     credentials: "include",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //   },
-      // );
-      //
-      // const result = await response.json();
+      await fetch("https://dev.okoshko.space/users/auth/sign-out", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
     } else {
       router.push(href);
     }
@@ -83,18 +96,6 @@ const ProfilePopupItem = (props: Props) => {
     setIsActive(false);
     router.push("/profile");
   };
-
-  useEffect(() => {
-    const cookies = document.cookie;
-    const myCookieValue = cookies
-      ? cookies
-          .split("; ")
-          .find((c) => c.startsWith("auth="))
-          ?.split("=")[1]
-      : null;
-
-    console.log(myCookieValue);
-  }, []);
 
   return (
     <PageDarkOverlay>
@@ -115,7 +116,7 @@ const ProfilePopupItem = (props: Props) => {
           </ProfileEditButton>
         </ProfileInfoDiv>
         <ProfileButtonsDiv>
-          {menu.map((item, index) => (
+          {menu?.map((item, index) => (
             <div key={index}>
               <ProfileButton onClick={() => menuCLick(item.href)}>
                 {item.title}

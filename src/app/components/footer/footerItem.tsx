@@ -13,7 +13,7 @@ const FooterItem = () => {
     <FooterDiv>
       <FooterBlockDiv>
         <FooterLink href="#">О сервисе</FooterLink>
-        <FooterLink href="#">Как стать мастером</FooterLink>
+        <FooterLink href="/become-a-master">Как стать мастером</FooterLink>
         <FooterLink href="#">Вопросы и ответы</FooterLink>
         <FooterLink href="#">Реклама</FooterLink>
       </FooterBlockDiv>

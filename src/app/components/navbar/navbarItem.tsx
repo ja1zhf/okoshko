@@ -15,7 +15,7 @@ import Link from "next/link";
 import UserContext from "@/contexts/userContext";
 
 const NavbarItem = () => {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const [isActive, setIsActive] = useState(false);
 
@@ -48,7 +48,13 @@ const NavbarItem = () => {
           <NavbarAuthLink href="/login">Войти</NavbarAuthLink>
         )}
       </ProfileLeftSideDiv>
-      {isActive && <ProfilePopupItem user={user} setIsActive={setIsActive} />}
+      {isActive && user && (
+        <ProfilePopupItem
+          user={user}
+          setUser={setUser}
+          setIsActive={setIsActive}
+        />
+      )}
     </NavbarDiv>
   );
 };
