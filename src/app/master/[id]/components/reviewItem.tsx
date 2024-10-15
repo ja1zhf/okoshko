@@ -15,6 +15,18 @@ const range = (start: number, end: number) =>
 const ReviewItem = (props: Props) => {
   const { name, avatar, score, date, description } = props;
 
+  const dateNew = new Date(date);
+
+  const padZero = (num: number) => (num < 10 ? "0" : "") + num;
+
+  const day = padZero(dateNew.getDate());
+  const month = padZero(dateNew.getMonth() + 1);
+  const year = dateNew.getFullYear();
+  const hours = padZero(dateNew.getHours());
+  const minutes = padZero(dateNew.getMinutes());
+
+  const formattedDate = `${day}.${month}.${year} ${hours}:${minutes}`;
+
   return (
     <ReviewDiv>
       <ReviewInfoDiv>
@@ -43,7 +55,7 @@ const ReviewItem = (props: Props) => {
                 </svg>
               ))}
             </div>
-            <p>{date}</p>
+            <p>{formattedDate}</p>
           </div>
         </div>
       </ReviewInfoDiv>

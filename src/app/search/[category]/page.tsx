@@ -79,7 +79,7 @@ const Page = ({ params }: { params: Params }) => {
           setSelectedTime={setSelectedTime}
         />
       </CategoryDateAndBlockDiv>
-      <SubmitButton onClick={() => router.push("/feed")}>
+      <SubmitButton onClick={() => router.push(`/feed/${category}`)}>
         Показать мастеров
       </SubmitButton>
     </PageDiv>
