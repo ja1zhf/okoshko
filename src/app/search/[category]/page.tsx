@@ -9,7 +9,7 @@ import {
   CategorySearchTitle,
 } from "./style";
 import CalendarItem from "@/app/components/calendar/calendarItem";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TimeItem from "@/app/components/time/timeItem";
 import { PageDiv, SubmitButton } from "@/app/styles/style";
 import SelectItem from "@/app/components/select/selectItem";
@@ -40,12 +40,39 @@ const Page = ({ params }: { params: Params }) => {
     "Эпиляция",
   ];
 
+  const [services, setServices] = useState<string[]>([]);
+
   const [selectedDays, setSelectedDays] = useState<number[]>([]);
   const [selectedTime, setSelectedTime] = useState<number[]>([]);
 
   if (!allowedCategories.includes(category)) {
     notFound();
   }
+
+  useEffect(() => {
+    (async function () {
+      const response = await fetch(
+        `https://dev.okoshko.space/service/services/?speciality=${category}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      const result: { status: number; services: ServicesType[] } =
+        await response.json();
+
+      let temp = ["Все услуги"];
+
+      result.services.map((service) => {
+        temp.push(service.title);
+      });
+
+      setServices(temp);
+    })();
+  }, []);
 
   return (
     <PageDiv>
@@ -60,7 +87,7 @@ const Page = ({ params }: { params: Params }) => {
           {title[allowedCategories.indexOf(category)]}
         </CategorySearchTitle>
       </CategoryInfoDiv>
-      <SelectItem title="Услуги" options={["variant 1", "variant 2"]} />
+      <SelectItem title="Услуги" options={services} />
       <SelectItem title="Район" options={["variant 1", "variant 2"]} />
       <CategoryDateAndBlockDiv>
         <h2>Дата</h2>

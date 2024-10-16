@@ -14,7 +14,7 @@ interface Params {
 const Page = ({ params }: { params: Params }) => {
   const { category } = params;
 
-  const [masters, setMasters] = useState<MasterFeed[] | null>(null);
+  const [masters, setMasters] = useState<MasterFeed[]>([]);
 
   const allowedCategories = [
     "nails",
@@ -64,7 +64,11 @@ const Page = ({ params }: { params: Params }) => {
           />
         </FeedFilterButton>
       </FeedHeaderDiv>
-      {masters && <FeedItem masters={masters} />}
+      {masters?.length > 0 ? (
+        <FeedItem masters={masters} />
+      ) : (
+        <p>Мастера не найдены</p>
+      )}
     </PageDiv>
   );
 };

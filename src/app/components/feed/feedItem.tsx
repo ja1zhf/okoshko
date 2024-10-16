@@ -82,13 +82,15 @@ const FeedItem = (props: Props) => {
           </MasterDiv>
         ))}
       </MastersListDiv>
-      <FeedPageCountDiv>
-        {[1, 2, 3, 4, 5].map((number) => (
-          <Link key={number} href="/feed">
-            {number}
-          </Link>
-        ))}
-      </FeedPageCountDiv>
+      {
+        // <FeedPageCountDiv>
+        //   {[1, 2, 3, 4, 5].map((number) => (
+        //     <Link key={number} href="/feed">
+        //       {number}
+        //     </Link>
+        //   ))}
+        // </FeedPageCountDiv>
+      }
     </>
   );
 };

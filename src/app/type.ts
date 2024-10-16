@@ -5,17 +5,6 @@ interface CategoryType {
   href: string;
 }
 
-interface Master {
-  name: string;
-  avatar: string;
-  location: string;
-  scores: number;
-  reviewsCount: number;
-  photos: string[];
-  title: string;
-  price: number;
-}
-
 interface MasterFeed {
   speciality: string;
   description: string;
@@ -80,6 +69,7 @@ interface MasterInfo {
     role: string;
     avatar_path: string;
   };
+  is_favorited: boolean;
 }
 
 interface UserType {
@@ -90,6 +80,13 @@ interface UserType {
   email: string | null;
   role: string;
   master: string | null;
+}
+
+interface ServicesType {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
 }
 
 enum InputType {
