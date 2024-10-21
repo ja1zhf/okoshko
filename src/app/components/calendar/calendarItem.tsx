@@ -12,7 +12,7 @@ import {
   CalendarDiv,
   CalendarTable,
   CalendarTitle,
-  TableContainer
+  TableContainer,
 } from "./style";
 
 interface Props {
