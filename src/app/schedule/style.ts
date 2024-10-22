@@ -36,3 +36,24 @@ export const ScheduleButton = styled.button<{ $isPrimary?: boolean }>`
   background-color: ${(props) =>
     props.$isPrimary ? props.theme.colors.primary : props.theme.colors.gray};
 `;
+
+export const DatesDiv = styled.div`
+  display: flex;
+  gap: 6px;
+  padding: 12px 0px;
+  overflow: auto;
+
+  & > p {
+    padding: 2px 4px;
+    border-radius: 4px;
+    border: 1px solid ${(props) => props.theme.colors.gray};
+    color: ${(props) => props.theme.colors.gray};
+    text-align: center;
+    font-feature-settings:
+      "liga" off,
+      "clig" off;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+  }
+`;

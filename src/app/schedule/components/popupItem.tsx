@@ -3,14 +3,16 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { PopupTitle } from "./style";
 import TimeItem from "@/app/components/time/timeItem";
 import InputItem from "@/app/components/input/inputItem";
+import { DatesDiv } from "../style";
 
 interface Props {
   isActive: number;
+  selectedDates: string[];
   setIsActive: Dispatch<SetStateAction<number>>;
 }
 
 const PopupItem = (props: Props) => {
-  const { isActive, setIsActive } = props;
+  const { isActive, selectedDates, setIsActive } = props;
 
   const [selectedTime, setSelectedTime] = useState<number[]>([]);
 
@@ -22,6 +24,27 @@ const PopupItem = (props: Props) => {
     if (divRef.current && !divRef.current.contains(event.target as Node)) {
       setIsActive(0);
     }
+  };
+
+  const click = async () => {
+    const response = await fetch(
+      "https://dev.okoshko.space/table/slot/create/",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          dates: selectedDates,
+          start_times: selectedTime,
+        }),
+      },
+    );
+
+    const result = await response.json();
+
+    console.log(result);
   };
 
   useEffect(() => {
@@ -37,6 +60,11 @@ const PopupItem = (props: Props) => {
       <PopupTitle>
         {isActive === 1 ? "Добавить запись" : "Добавить окошко"}
       </PopupTitle>
+      <DatesDiv>
+        {selectedDates.map((date, index) => (
+          <p key={index}>{date}</p>
+        ))}
+      </DatesDiv>
       {isActive === 1 && (
         <InputItem
           isNumber={false}
@@ -52,7 +80,7 @@ const PopupItem = (props: Props) => {
         selectedTime={selectedTime}
         setSelectedTime={setSelectedTime}
       />
-      <SubmitButton>Добавить</SubmitButton>
+      <SubmitButton onClick={click}>Добавить</SubmitButton>
     </PopupDiv>
   );
 };

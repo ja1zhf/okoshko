@@ -18,11 +18,23 @@ import {
 interface Props {
   isMultiSelections: boolean;
   selectedDays: number[];
+  currentMonth: number;
+  currentYear: number;
   setSelectedDays: Dispatch<SetStateAction<number[]>>;
+  setCurrentMonth: Dispatch<SetStateAction<number>>;
+  setCurrentYear: Dispatch<SetStateAction<number>>;
 }
 
 const CalendarItem = (props: Props) => {
-  const { isMultiSelections, selectedDays, setSelectedDays } = props;
+  const {
+    isMultiSelections,
+    selectedDays,
+    currentMonth,
+    currentYear,
+    setSelectedDays,
+    setCurrentMonth,
+    setCurrentYear,
+  } = props;
 
   const weeksNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   const monthsNames = [
@@ -44,13 +56,16 @@ const CalendarItem = (props: Props) => {
 
   const previousDayRef = useRef<number | null>(null);
   const currentDay = today.getDate();
-  const [currentMonth, setCurrentMonth] = useState(today.getMonth());
-  const [currentYear, setCurrentYear] = useState(today.getFullYear());
   const [days, setDays] = useState<number[][]>([[]]);
 
   const [startSelection, setStartSelection] = useState(0);
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [isSelection, setIsSelection] = useState(false);
+
+  useEffect(() => {
+    setCurrentMonth(today.getMonth());
+    setCurrentYear(today.getFullYear());
+  }, []);
 
   useEffect(() => {
     const firstDayOfMonth: Date = new Date(currentYear, currentMonth, 1);
@@ -70,6 +85,7 @@ const CalendarItem = (props: Props) => {
       } else {
         week++;
         tempDays.push([]);
+
         tempDays[week].push(day);
       }
     }

@@ -60,10 +60,6 @@ const Page = ({ params }: { params: Params }) => {
 
   useEffect(() => {
     getMasterInfo();
-      console.log(result.master_info);
-
-      setMaster(result.master_info);
-    })();
   }, []);
 
   return (
@@ -97,11 +93,11 @@ const Page = ({ params }: { params: Params }) => {
           </div>
           <MasterReviewText>{master?.reviews.length} оценок</MasterReviewText>
         </MasterRaitingDiv>
-        {user && (
+        {user && master && (
           <MasterLikeDiv>
             <LikeItem
               id={master?.profile.id}
-              isActiveButton={master ? master.is_favorited : false}
+              isActiveButton={master.is_favorited}
             />
           </MasterLikeDiv>
         )}

@@ -16,11 +16,12 @@ import UserContext from "@/contexts/userContext";
 import { useContext } from "react";
 
 interface Props {
+  currentServices: string | null;
   masters: MasterFeed[];
 }
 
 const FeedItem = (props: Props) => {
-  const { masters } = props;
+  const { masters, currentServices } = props;
 
   const { user } = useContext(UserContext);
 
@@ -80,7 +81,11 @@ const FeedItem = (props: Props) => {
             <MasterServicesDiv>
               <div>
                 <Link href={`/master/${master.profile.id}`}>
-                  <h2>{master.services[0].title}</h2>
+                  <h2>
+                    {currentServices
+                      ? currentServices
+                      : master.services[0].title}
+                  </h2>
                 </Link>
                 <p>{master.services[0].price} ₽</p>
               </div>

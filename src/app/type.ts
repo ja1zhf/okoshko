@@ -71,6 +71,7 @@ interface MasterInfo {
     avatar_path: string;
   };
   is_favorited: boolean;
+  available_appointments: string[];
 }
 
 interface UserType {

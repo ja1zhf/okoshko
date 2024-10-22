@@ -59,8 +59,6 @@ const Page = ({ params }: { params: Params }) => {
       const result: { status: number; masters: MasterFeed[] } =
         await response.json();
 
-      console.log(result.masters);
-
       setMasters(result.masters);
     })();
   }, []);
@@ -79,7 +77,10 @@ const Page = ({ params }: { params: Params }) => {
         </FeedFilterButton>
       </FeedHeaderDiv>
       {masters?.length > 0 ? (
-        <FeedItem masters={masters} />
+        <FeedItem
+          masters={masters}
+          currentServices={service !== "Все услуги" ? service : null}
+        />
       ) : (
         <p>Мастера не найдены</p>
       )}
