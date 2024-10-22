@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import CalendarItem from "../../components/calendar/calendarItem";
 import { PageDiv, SubmitButton } from "../../styles/style";
 import {
@@ -24,6 +24,7 @@ import ReviewItem from "./components/reviewItem";
 import PhotosItem from "@/app/components/photos/photosItem";
 import LikeItem from "../../components/like/likeItem";
 import ReviewInputItem from "./components/reviewInputItem";
+import UserContext from "@/contexts/userContext";
 
 interface Params {
   id: string;
@@ -31,6 +32,8 @@ interface Params {
 
 const Page = ({ params }: { params: Params }) => {
   const { id } = params;
+
+  const { user } = useContext(UserContext);
 
   const [selectedDays, setSelectedDays] = useState<number[]>([]);
   const [selectedTime, setSelectedTime] = useState<number[]>([]);
@@ -45,6 +48,7 @@ const Page = ({ params }: { params: Params }) => {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
       },
     );
 
@@ -56,6 +60,10 @@ const Page = ({ params }: { params: Params }) => {
 
   useEffect(() => {
     getMasterInfo();
+      console.log(result.master_info);
+
+      setMaster(result.master_info);
+    })();
   }, []);
 
   return (
@@ -89,9 +97,14 @@ const Page = ({ params }: { params: Params }) => {
           </div>
           <MasterReviewText>{master?.reviews.length} оценок</MasterReviewText>
         </MasterRaitingDiv>
-        <MasterLikeDiv>
-          <LikeItem />
-        </MasterLikeDiv>
+        {user && (
+          <MasterLikeDiv>
+            <LikeItem
+              id={master?.profile.id}
+              isActiveButton={master ? master.is_favorited : false}
+            />
+          </MasterLikeDiv>
+        )}
       </MasterBioDiv>
       <MasterLineDiv />
       <MasterBlockDiv>

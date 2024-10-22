@@ -36,6 +36,7 @@ interface MasterFeed {
     role: string;
     avatar_path: string;
   };
+  is_favorited: boolean;
 }
 
 interface MasterInfo {
@@ -87,6 +88,44 @@ interface ServicesType {
   title: string;
   description: string;
   price: number;
+}
+
+interface MasterFavorite {
+  id: number;
+  client: number;
+  master: {
+    speciality: string;
+    description: string;
+    reviews: {
+      id: number;
+      review_text: string;
+      review_date: string;
+      rating: number;
+      client: {
+        id: number;
+        phone: string;
+        first_name: string;
+        last_name: string;
+        role: string;
+        avatar_path: string;
+      };
+    }[];
+    services: {
+      id: number;
+      title: string;
+      description: string;
+      price: number;
+    }[];
+    profile: {
+      id: number;
+      phone: string;
+      first_name: string;
+      last_name: string;
+      role: string;
+      avatar_path: string;
+    };
+    is_favorited: boolean;
+  };
 }
 
 enum InputType {

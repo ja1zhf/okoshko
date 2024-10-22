@@ -14,17 +14,20 @@ const Page = () => {
         "https://dev.okoshko.space/favorites/favorites/",
         {
           method: "GET",
-          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
         },
       );
 
-      const result: { status: number; masters: MasterFeed[] } =
-        await response.json();
+      const result: MasterFavorite[] = await response.json();
 
-      setMasters(result.masters);
+      setMasters(
+        result.map((item) => {
+          return item.master;
+        }),
+      );
     })();
   }, []);
 
