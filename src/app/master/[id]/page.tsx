@@ -23,6 +23,7 @@ import ServicesItem from "./components/servicesItem";
 import ReviewItem from "./components/reviewItem";
 import PhotosItem from "@/app/components/photos/photosItem";
 import LikeItem from "../../components/like/likeItem";
+import ReviewInputItem from "./components/reviewInputItem";
 import UserContext from "@/contexts/userContext";
 
 interface Params {
@@ -39,22 +40,26 @@ const Page = ({ params }: { params: Params }) => {
 
   const [master, setMaster] = useState<MasterInfo | null>(null);
 
-  useEffect(() => {
-    (async function () {
-      const response = await fetch(
-        `https://dev.okoshko.space/masters/get_master/${id}/`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
+  const getMasterInfo = async () => {
+    const response = await fetch(
+      `https://dev.okoshko.space/masters/get_master/${id}/`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        credentials: "include",
+      },
+    );
 
-      const result: { status: number; master_info: MasterInfo } =
-        await response.json();
+    const result: { status: number; master_info: MasterInfo } =
+      await response.json();
 
+    setMaster(result.master_info);
+  };
+
+  useEffect(() => {
+    getMasterInfo();
       console.log(result.master_info);
 
       setMaster(result.master_info);
@@ -149,6 +154,12 @@ const Page = ({ params }: { params: Params }) => {
       <SubmitButton>Записаться</SubmitButton>
       <MasterBlockDiv>
         <h2>Отзывы</h2>
+        {master && (
+          <ReviewInputItem
+            masterId={master.profile.id}
+            getMasterInfo={getMasterInfo}
+          />
+        )}
         <ReviewsListDiv>
           {master?.reviews.map((review, index) => (
             <ReviewItem

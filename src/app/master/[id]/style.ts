@@ -135,7 +135,7 @@ export const ServiceButton = styled.button<{ $isActive?: boolean }>`
 
     & > h3 {
       color: ${(props) =>
-        props.$isActive ? props.theme.colors.white : props.theme.colors.black};
+    props.$isActive ? props.theme.colors.white : props.theme.colors.black};
       font-feature-settings:
         "liga" off,
         "clig" off;
@@ -149,7 +149,7 @@ export const ServiceButton = styled.button<{ $isActive?: boolean }>`
 
     & > p {
       color: ${(props) =>
-        props.$isActive ? props.theme.colors.white : props.theme.colors.black};
+    props.$isActive ? props.theme.colors.white : props.theme.colors.black};
       font-feature-settings:
         "liga" off,
         "clig" off;
@@ -169,13 +169,13 @@ export const ServiceButton = styled.button<{ $isActive?: boolean }>`
     height: 24px;
     border-radius: 100%;
     background-color: ${(props) =>
-      props.$isActive ? "rgba(245, 245, 249, 0.3)" : "#CCC3D8"};
+    props.$isActive ? "rgba(245, 245, 249, 0.3)" : "#CCC3D8"};
 
     & > svg {
       width: 16px;
       height: 16px;
       fill: ${(props) =>
-        props.$isActive ? props.theme.colors.primary : "#F5F5F9"};
+    props.$isActive ? props.theme.colors.primary : "#F5F5F9"};
     }
   }
 `;
@@ -268,4 +268,68 @@ export const MasterLikeDiv = styled.div`
   position: absolute;
   top: 0px;
   right: 0px;
+`;
+
+export const ReviewInputDiv = styled.div`
+  display: flex;
+  gap: 12px;
+
+  textarea {
+    width: 100%;
+    color: ${(props) => props.theme.colors.black};
+    font-feature-settings:
+      "liga" off,
+      "clig" off;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    outline: none;
+    resize: none;
+    font-family: "__PtRootUiVf_1e8a4b", "__PtRootUiVf_Fallback_1e8a4b";
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(24, 23, 26, 0.12);
+    box-sizing: border-box;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    &:focus {
+      outline-style: solid;
+      outline-color: ${(props) => props.theme.colors.primary}4D;
+      outline-width: thick;
+    }
+
+    &::placeholder {
+      color: ${(props) => props.theme.colors.gray};
+      font-feature-settings:
+        "liga" off,
+        "clig" off;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 150%;
+    }
+  }
+
+  button {
+    display: flex;
+    width: 100px;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    color: ${(props) => props.theme.colors.white};
+    text-align: center;
+    font-feature-settings:
+      "liga" off,
+      "clig" off;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 125%;
+    border: none;
+    border-radius: 10px;
+    background-color: ${(props) => props.theme.colors.primary};
+  }
 `;
