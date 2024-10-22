@@ -31,6 +31,7 @@ const Page = ({ params }: { params: Params }) => {
     "body",
     "epilation",
   ];
+
   const title = [
     "Ногти",
     "Брови и ресницы",
@@ -42,6 +43,8 @@ const Page = ({ params }: { params: Params }) => {
 
   const [services, setServices] = useState<string[]>([]);
 
+  const [selectedServices, setSelectedServices] = useState("Все услуги");
+  const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedDays, setSelectedDays] = useState<number[]>([]);
   const [selectedTime, setSelectedTime] = useState<number[]>([]);
 
@@ -87,8 +90,18 @@ const Page = ({ params }: { params: Params }) => {
           {title[allowedCategories.indexOf(category)]}
         </CategorySearchTitle>
       </CategoryInfoDiv>
-      <SelectItem title="Услуги" options={services} />
-      <SelectItem title="Район" options={["variant 1", "variant 2"]} />
+      <SelectItem
+        title="Услуги"
+        options={services}
+        selectedOption={selectedServices}
+        setSelectedOption={setSelectedServices}
+      />
+      <SelectItem
+        title="Район"
+        options={["variant 1", "variant 2"]}
+        selectedOption={selectedDistrict}
+        setSelectedOption={setSelectedDistrict}
+      />
       <CategoryDateAndBlockDiv>
         <h2>Дата</h2>
         <CalendarItem
@@ -106,7 +119,11 @@ const Page = ({ params }: { params: Params }) => {
           setSelectedTime={setSelectedTime}
         />
       </CategoryDateAndBlockDiv>
-      <SubmitButton onClick={() => router.push(`/feed/${category}`)}>
+      <SubmitButton
+        onClick={() => {
+          router.push(`/feed/${category}?service=${selectedServices}`);
+        }}
+      >
         Показать мастеров
       </SubmitButton>
     </PageDiv>

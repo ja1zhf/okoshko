@@ -12,6 +12,8 @@ import {
 import Link from "next/link";
 import PhotosItem from "../photos/photosItem";
 import LikeItem from "../like/likeItem";
+import UserContext from "@/contexts/userContext";
+import { useContext } from "react";
 
 interface Props {
   masters: MasterFeed[];
@@ -19,6 +21,8 @@ interface Props {
 
 const FeedItem = (props: Props) => {
   const { masters } = props;
+
+  const { user } = useContext(UserContext);
 
   return (
     <>
@@ -63,9 +67,14 @@ const FeedItem = (props: Props) => {
                   </div>
                 </div>
               </div>
-              <MasterLikeDiv>
-                <LikeItem />
-              </MasterLikeDiv>
+              {user && (
+                <MasterLikeDiv>
+                  <LikeItem
+                    id={master.profile.id}
+                    isActiveButton={master.is_favorited}
+                  />
+                </MasterLikeDiv>
+              )}
             </MasterInfoDiv>
             <PhotosItem photos={[""]} />
             <MasterServicesDiv>

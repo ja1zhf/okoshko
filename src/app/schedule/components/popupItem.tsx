@@ -14,6 +14,8 @@ const PopupItem = (props: Props) => {
 
   const [selectedTime, setSelectedTime] = useState<number[]>([]);
 
+  const [input, setInput] = useState("");
+
   const divRef = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -35,7 +37,15 @@ const PopupItem = (props: Props) => {
       <PopupTitle>
         {isActive === 1 ? "Добавить запись" : "Добавить окошко"}
       </PopupTitle>
-      {isActive === 1 && <InputItem title="Клиент" />}
+      {isActive === 1 && (
+        <InputItem
+          isNumber={false}
+          canBeEmpty={true}
+          title="Клиент"
+          inputValue={input}
+          setInputValue={setInput}
+        />
+      )}
       <TimeItem
         width={300}
         isMultiSelections={!(isActive === 1)}

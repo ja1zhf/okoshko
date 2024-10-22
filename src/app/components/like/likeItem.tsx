@@ -1,11 +1,36 @@
 import { useState } from "react";
 import { LikeButton } from "./style";
 
-const LikeItem = () => {
-  const [isActive, setIsActive] = useState(false);
+interface Props {
+  id: number | undefined;
+  isActiveButton: boolean;
+}
+
+const LikeItem = (props: Props) => {
+  const { id, isActiveButton } = props;
+
+  const [isActive, setIsActive] = useState(isActiveButton);
+
+  const toggleFavorite = async () => {
+    if (id) {
+      fetch(`https://dev.okoshko.space/favorites/favorites/toggle/${id}/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+    }
+  };
 
   return (
-    <LikeButton $isActive={isActive} onClick={() => setIsActive(!isActive)}>
+    <LikeButton
+      $isActive={isActive}
+      onClick={() => {
+        toggleFavorite();
+        setIsActive(!isActive);
+      }}
+    >
       {isActive ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"

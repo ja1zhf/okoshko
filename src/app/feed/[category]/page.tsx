@@ -4,7 +4,7 @@ import Image from "next/image";
 import { PageDiv } from "../../styles/style";
 import { FeedFilterButton, FeedHeaderDiv, FeedTitle } from "./style";
 import FeedItem from "../../components/feed/feedItem";
-import { notFound, useRouter } from "next/navigation";
+import { notFound, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface Params {
@@ -26,6 +26,9 @@ const Page = ({ params }: { params: Params }) => {
   ];
 
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const service = searchParams.get("service");
 
   if (!allowedCategories.includes(category)) {
     notFound();
@@ -33,6 +36,14 @@ const Page = ({ params }: { params: Params }) => {
 
   useEffect(() => {
     (async function () {
+      let body;
+
+      if (service !== "Все услуги") {
+        body = { speciality: category, service };
+      } else {
+        body = { speciality: category };
+      }
+
       const response = await fetch(
         "https://dev.okoshko.space/masters/get_masters_filtered/",
         {
@@ -40,12 +51,15 @@ const Page = ({ params }: { params: Params }) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ speciality: category }),
+          credentials: "include",
+          body: JSON.stringify(body),
         },
       );
 
       const result: { status: number; masters: MasterFeed[] } =
         await response.json();
+
+      console.log(result.masters);
 
       setMasters(result.masters);
     })();
