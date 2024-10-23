@@ -46,6 +46,8 @@ const Page = ({ params }: { params: Params }) => {
   const [selectedServices, setSelectedServices] = useState("Все услуги");
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedDays, setSelectedDays] = useState<number[]>([]);
+  const [selectedMonth, setSelectedMonth] = useState(0);
+  const [selectedYear, setSelectedYear] = useState(0);
   const [selectedTime, setSelectedTime] = useState<number[]>([]);
 
   if (!allowedCategories.includes(category)) {
@@ -107,7 +109,11 @@ const Page = ({ params }: { params: Params }) => {
         <CalendarItem
           isMultiSelections={true}
           selectedDays={selectedDays}
+          currentMonth={selectedMonth}
+          currentYear={selectedYear}
           setSelectedDays={setSelectedDays}
+          setCurrentMonth={setSelectedMonth}
+          setCurrentYear={setSelectedYear}
         />
       </CategoryDateAndBlockDiv>
       <CategoryDateAndBlockDiv>

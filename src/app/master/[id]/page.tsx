@@ -36,6 +36,8 @@ const Page = ({ params }: { params: Params }) => {
   const { user } = useContext(UserContext);
 
   const [selectedDays, setSelectedDays] = useState<number[]>([]);
+  const [selectedMonth, setSelectedMonth] = useState(0);
+  const [selectedYear, setSelectedYear] = useState(0);
   const [selectedTime, setSelectedTime] = useState<number[]>([]);
 
   const [master, setMaster] = useState<MasterInfo | null>(null);
@@ -135,7 +137,11 @@ const Page = ({ params }: { params: Params }) => {
         <CalendarItem
           isMultiSelections={false}
           selectedDays={selectedDays}
+          currentMonth={selectedMonth}
+          currentYear={selectedYear}
           setSelectedDays={setSelectedDays}
+          setCurrentMonth={setSelectedMonth}
+          setCurrentYear={setSelectedYear}
         />
       </MasterBlockDiv>
       <MasterBlockDiv>
@@ -150,12 +156,14 @@ const Page = ({ params }: { params: Params }) => {
       <SubmitButton>Записаться</SubmitButton>
       <MasterBlockDiv>
         <h2>Отзывы</h2>
-        {master && (
-          <ReviewInputItem
-            masterId={master.profile.id}
-            getMasterInfo={getMasterInfo}
-          />
-        )}
+        {master &&
+          user &&
+          !master.reviews.some((review) => review.client.id === user.id) && (
+            <ReviewInputItem
+              masterId={master.profile.id}
+              getMasterInfo={getMasterInfo}
+            />
+          )}
         <ReviewsListDiv>
           {master?.reviews.map((review, index) => (
             <ReviewItem

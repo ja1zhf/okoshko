@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { PageDarkOverlay, PageDiv } from "../styles/style";
 import {
   ServiceButton,
@@ -13,8 +13,12 @@ import {
 } from "./style";
 import PopupItem from "./components/popupItem";
 import { ServiceButtonDiv } from "./style";
+import UserContext from "@/contexts/userContext";
+import { notFound } from "next/navigation";
 
 const Page = () => {
+  const { user } = useContext(UserContext);
+
   const services = [
     {
       title: "Маникюр с покрытием ногтей гель-лаком",
@@ -37,6 +41,31 @@ const Page = () => {
   ];
 
   const [isActive, setIsActive] = useState(false);
+
+  useEffect(() => {
+    (async function () {
+      if (user) {
+        const response = await fetch(
+          `https://dev.okoshko.space/service/servicesbyuser/${user.id}/`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+          },
+        );
+
+        const result = await response.json();
+
+        console.log(result);
+      }
+    })();
+  }, []);
+
+  if (!user || user.role === "user") {
+    notFound();
+  }
 
   return (
     <PageDiv>

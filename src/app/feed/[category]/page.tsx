@@ -76,7 +76,7 @@ const Page = ({ params }: { params: Params }) => {
           />
         </FeedFilterButton>
       </FeedHeaderDiv>
-      {masters?.length > 0 ? (
+      {masters && masters.length > 0 ? (
         <FeedItem
           masters={masters}
           currentServices={service !== "Все услуги" ? service : null}
