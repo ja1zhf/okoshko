@@ -129,6 +129,14 @@ interface MasterFavorite {
   };
 }
 
+interface ServiceData {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  duration: number;
+}
+
 enum InputType {
   String,
   Number,

@@ -19,48 +19,48 @@ import { notFound } from "next/navigation";
 const Page = () => {
   const { user } = useContext(UserContext);
 
-  const services = [
-    {
-      title: "Маникюр с покрытием ногтей гель-лаком",
-      time: 60,
-      break: 15,
-      price: 1300,
-    },
-    {
-      title: "Снятие гель-лака с ногтей на руках",
-      time: 60,
-      break: 0,
-      price: 700,
-    },
-    {
-      title: "Укрепление ногтей акриловой пудрой",
-      time: 30,
-      break: 10,
-      price: 200,
-    },
-  ];
-
   const [isActive, setIsActive] = useState(false);
+  const [services, setServices] = useState<ServiceData[]>([]);
+
+  const [tempId, setTempId] = useState(0);
+  const [isEdit, setIsEdit] = useState(false);
+  const [tempTitle, setTempTitle] = useState("");
+  const [tempTime, setTempTime] = useState("");
+  const [tempPrice, setTempPrice] = useState("");
+
+  const request = async () => {
+    if (user) {
+      const response = await fetch(
+        `https://dev.okoshko.space/service/servicesbyuser/${user.id}/`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        },
+      );
+
+      const result = await response.json();
+
+      setServices(result);
+    }
+  };
+
+  const deleteService = async (id: number) => {
+    await fetch(`https://dev.okoshko.space/service/service/delete/${id}/`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
+
+    request();
+  };
 
   useEffect(() => {
-    (async function () {
-      if (user) {
-        const response = await fetch(
-          `https://dev.okoshko.space/service/servicesbyuser/${user.id}/`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include",
-          },
-        );
-
-        const result = await response.json();
-
-        console.log(result);
-      }
-    })();
+    request();
   }, []);
 
   if (!user || user.role === "user") {
@@ -83,13 +83,22 @@ const Page = () => {
           {services.map((service, index) => (
             <tr key={index}>
               <ServicesCell>{service.title}</ServicesCell>
-              <ServicesCell>{service.time} мин.</ServicesCell>
-              <ServicesCell>{service.break} мин.</ServicesCell>
+              <ServicesCell>{service.duration} мин.</ServicesCell>
+              <ServicesCell>0 мин.</ServicesCell>
               <ServicesCell>
                 <ServicesPriceDiv>
                   {service.price} ₽
                   <ServiceButtonDiv>
-                    <ServiceButton>
+                    <ServiceButton
+                      onClick={() => {
+                        setTempId(service.id);
+                        setIsEdit(true);
+                        setTempTitle(service.title);
+                        setTempTime(service.duration.toString());
+                        setTempPrice(service.price.toString());
+                        setIsActive(true);
+                      }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         x="0px"
@@ -101,7 +110,7 @@ const Page = () => {
                         <path d="M 36 5.0097656 C 34.205301 5.0097656 32.410791 5.6901377 31.050781 7.0507812 L 27.230469 10.871094 A 1.50015 1.50015 0 0 0 26.876953 11.222656 L 8.9160156 29.183594 C 8.4960384 29.603571 8.1884588 30.12585 8.0253906 30.699219 L 5.0585938 41.087891 A 1.50015 1.50015 0 0 0 6.9121094 42.941406 L 17.302734 39.974609 A 1.50015 1.50015 0 0 0 17.304688 39.972656 C 17.874212 39.808939 18.39521 39.50518 18.816406 39.083984 L 36.740234 21.158203 A 1.50015 1.50015 0 0 0 37.162109 20.736328 L 40.949219 16.949219 C 43.670344 14.228094 43.670344 9.7719064 40.949219 7.0507812 C 39.589209 5.6901377 37.794699 5.0097656 36 5.0097656 z M 36 7.9921875 C 37.020801 7.9921875 38.040182 8.3855186 38.826172 9.171875 A 1.50015 1.50015 0 0 0 38.828125 9.171875 C 40.403 10.74675 40.403 13.25325 38.828125 14.828125 L 35.888672 17.767578 L 30.232422 12.111328 L 33.171875 9.171875 C 33.957865 8.3855186 34.979199 7.9921875 36 7.9921875 z M 28.111328 14.232422 L 33.767578 19.888672 L 16.693359 36.962891 C 16.634729 37.021121 16.560472 37.065723 16.476562 37.089844 L 15.492188 37.371094 L 10.628906 32.507812 L 10.910156 31.521484 A 1.50015 1.50015 0 0 0 10.910156 31.519531 C 10.933086 31.438901 10.975086 31.366709 11.037109 31.304688 L 28.111328 14.232422 z M 9.6855469 35.806641 L 12.193359 38.314453 L 8.6835938 39.316406 L 9.6855469 35.806641 z"></path>
                       </svg>
                     </ServiceButton>
-                    <ServiceButton>
+                    <ServiceButton onClick={() => deleteService(service.id)}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         x="0px"
@@ -120,12 +129,29 @@ const Page = () => {
           ))}
         </tbody>
       </ServicesTable>
-      <ServicesButton onClick={() => setIsActive(true)}>
+      <ServicesButton
+        onClick={() => {
+          setTempId(0);
+          setIsEdit(false);
+          setTempTitle("");
+          setTempTime("");
+          setTempPrice("");
+          setIsActive(true);
+        }}
+      >
         Добавить услугу
       </ServicesButton>
       {isActive && (
         <PageDarkOverlay>
-          <PopupItem setIsActive={setIsActive} />
+          <PopupItem
+            id={tempId}
+            isEdit={isEdit}
+            title={tempTitle}
+            time={tempTime}
+            price={tempPrice}
+            setIsActive={setIsActive}
+            request={request}
+          />
         </PageDarkOverlay>
       )}
     </PageDiv>

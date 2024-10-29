@@ -96,5 +96,5 @@ export const ServiceButton = styled.button`
 
 export const ServicesPriceDiv = styled.div`
   display: flex;
-  gap: 4px;
+  justify-content: space-between;
 `;

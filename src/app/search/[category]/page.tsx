@@ -48,7 +48,6 @@ const Page = ({ params }: { params: Params }) => {
   const [selectedDays, setSelectedDays] = useState<number[]>([]);
   const [selectedMonth, setSelectedMonth] = useState(0);
   const [selectedYear, setSelectedYear] = useState(0);
-  const [selectedTime, setSelectedTime] = useState<number[]>([]);
 
   if (!allowedCategories.includes(category)) {
     notFound();
@@ -114,15 +113,6 @@ const Page = ({ params }: { params: Params }) => {
           setSelectedDays={setSelectedDays}
           setCurrentMonth={setSelectedMonth}
           setCurrentYear={setSelectedYear}
-        />
-      </CategoryDateAndBlockDiv>
-      <CategoryDateAndBlockDiv>
-        <h2>Время</h2>
-        <TimeItem
-          width={300}
-          isMultiSelections={true}
-          selectedTime={selectedTime}
-          setSelectedTime={setSelectedTime}
         />
       </CategoryDateAndBlockDiv>
       <SubmitButton

@@ -4,21 +4,68 @@ import { PopupTitle } from "./style";
 import InputItem from "@/app/components/input/inputItem";
 
 interface Props {
+  id: number;
+  isEdit: boolean;
+  title: string;
+  time: string;
+  price: string;
   setIsActive: Dispatch<SetStateAction<boolean>>;
+  request: () => Promise<void>;
 }
 
 const PopupItem = (props: Props) => {
-  const { setIsActive } = props;
+  const { id, isEdit, title, time, price, setIsActive, request } = props;
 
   const divRef = useRef<HTMLDivElement>(null);
 
-  const [titleInput, setTitleInput] = useState("");
-  const [timeInput, setTimeInput] = useState("");
+  const [titleInput, setTitleInput] = useState(title);
+  const [timeInput, setTimeInput] = useState(time);
   const [breakInput, setBreakInput] = useState("");
-  const [priceInput, setPriceInput] = useState("");
+  const [priceInput, setPriceInput] = useState(price);
 
-  const click = () => {
-    console.log(titleInput, timeInput, breakInput, priceInput);
+  const click = async () => {
+    if (!isEdit) {
+      const response = await fetch(
+        `https://dev.okoshko.space/service/services/create/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            title: titleInput,
+            description: "",
+            price: priceInput,
+            duration: timeInput,
+          }),
+        },
+      );
+
+      const result = await response.json();
+
+      if (result.status === 201) {
+        setIsActive(false);
+        request();
+      }
+    } else {
+      await fetch(`https://dev.okoshko.space/service/service/update/${id}/`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          title: titleInput,
+          description: "",
+          price: priceInput,
+          duration: timeInput,
+        }),
+      });
+
+      setIsActive(false);
+      request();
+    }
   };
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -53,20 +100,15 @@ const PopupItem = (props: Props) => {
         setInputValue={setTimeInput}
       />
       <InputItem
-        title="Перерыв после услуги"
-        isNumber={true}
-        canBeEmpty={false}
-        inputValue={breakInput}
-        setInputValue={setBreakInput}
-      />
-      <InputItem
         title="Стоимость"
         isNumber={true}
         canBeEmpty={false}
         inputValue={priceInput}
         setInputValue={setPriceInput}
       />
-      <SubmitButton onClick={click}>Добавить</SubmitButton>
+      <SubmitButton onClick={click}>
+        {isEdit ? "Изменить" : "Добавить"}
+      </SubmitButton>
     </PopupDiv>
   );
 };
