@@ -23,7 +23,6 @@ import ServicesItem from "./components/servicesItem";
 import ReviewItem from "./components/reviewItem";
 import PhotosItem from "@/app/components/photos/photosItem";
 import LikeItem from "../../components/like/likeItem";
-import ReviewInputItem from "./components/reviewInputItem";
 import UserContext from "@/contexts/userContext";
 
 interface Params {
@@ -40,7 +39,7 @@ const Page = ({ params }: { params: Params }) => {
   const [selectedYear, setSelectedYear] = useState(0);
   const [selectedTime, setSelectedTime] = useState<number[]>([]);
 
-  const [master, setMaster] = useState<MasterInfo | null>(null);
+  const [master, setMaster] = useState<MasterType | null>(null);
 
   const getMasterInfo = async () => {
     const response = await fetch(
@@ -54,7 +53,7 @@ const Page = ({ params }: { params: Params }) => {
       },
     );
 
-    const result: { status: number; master_info: MasterInfo } =
+    const result: { status: number; master_info: MasterType } =
       await response.json();
 
     setMaster(result.master_info);
@@ -71,7 +70,11 @@ const Page = ({ params }: { params: Params }) => {
           alt="avatar"
           width={80}
           height={80}
-          src={master ? master.profile.avatar_path : ""}
+          src={
+            master?.profile.avatar_url
+              ? master.profile.avatar_url
+              : "/img/non_avatar.jpg"
+          }
         />
         <MasterNameText>
           {master?.profile.first_name} {master?.profile.last_name}
@@ -97,10 +100,7 @@ const Page = ({ params }: { params: Params }) => {
         </MasterRaitingDiv>
         {user && master && (
           <MasterLikeDiv>
-            <LikeItem
-              id={master?.profile.id}
-              isActiveButton={master.is_favorited}
-            />
+            <LikeItem id={master?.id} isActiveButton={master.is_favorited} />
           </MasterLikeDiv>
         )}
       </MasterBioDiv>
@@ -118,7 +118,9 @@ const Page = ({ params }: { params: Params }) => {
       </MasterBlockDiv>
       <MasterBlockDiv>
         <h2>Примеры работ</h2>
-        <PhotosItem photos={[""]} />
+        {
+          // <PhotosItem photos={master} />
+        }
       </MasterBlockDiv>
       <MasterBlockDiv>
         <h2>Услуги</h2>
@@ -156,20 +158,12 @@ const Page = ({ params }: { params: Params }) => {
       <SubmitButton whileTap={{ scale: 0.9 }}>Записаться</SubmitButton>
       <MasterBlockDiv>
         <h2>Отзывы</h2>
-        {master &&
-          user &&
-          !master.reviews.some((review) => review.client.id === user.id) && (
-            <ReviewInputItem
-              masterId={master.profile.id}
-              getMasterInfo={getMasterInfo}
-            />
-          )}
         <ReviewsListDiv>
           {master?.reviews.map((review, index) => (
             <ReviewItem
               key={index}
               name={review.client.first_name + " " + review.client.last_name}
-              avatar={review.client.avatar_path}
+              avatar={review.client.avatar_url}
               score={review.rating}
               date={review.review_date}
               description={review.review_text}

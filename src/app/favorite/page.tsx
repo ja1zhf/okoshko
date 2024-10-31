@@ -6,7 +6,7 @@ import { PageDiv } from "../styles/style";
 import { FavoritePageTitle } from "./style";
 
 const Page = () => {
-  const [masters, setMasters] = useState<MasterFeed[]>([]);
+  const [masters, setMasters] = useState<MasterType[]>([]);
 
   useEffect(() => {
     (async function () {

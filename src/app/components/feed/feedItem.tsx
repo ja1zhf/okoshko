@@ -15,8 +15,8 @@ import UserContext from "@/contexts/userContext";
 import { useContext } from "react";
 
 interface Props {
-  currentServices: string | null;
-  masters: MasterFeed[];
+  currentServices?: string;
+  masters: MasterType[];
 }
 
 const FeedItem = (props: Props) => {
@@ -32,12 +32,16 @@ const FeedItem = (props: Props) => {
             return (
               <MasterDiv key={index}>
                 <MasterInfoDiv>
-                  <Link href={`/master/${master.profile.id}`}>
+                  <Link href={`/master/${master.id}`}>
                     <Image
                       alt="avatar"
                       width={86}
                       height={86}
-                      src={master.profile.avatar_path}
+                      src={
+                        master.profile.avatar_url
+                          ? master.profile.avatar_url
+                          : "/img/non_avatar.jpg"
+                      }
                     />
                   </Link>
                   <div>
@@ -72,7 +76,7 @@ const FeedItem = (props: Props) => {
                   {user && (
                     <MasterLikeDiv>
                       <LikeItem
-                        id={master.profile.id}
+                        id={master.id}
                         isActiveButton={master.is_favorited}
                       />
                     </MasterLikeDiv>
@@ -81,7 +85,7 @@ const FeedItem = (props: Props) => {
                 <PhotosItem photos={[""]} />
                 <MasterServicesDiv>
                   <div>
-                    <Link href={`/master/${master.profile.id}`}>
+                    <Link href={`/master/${master.id}`}>
                       <h2>
                         {currentServices
                           ? currentServices
@@ -90,7 +94,7 @@ const FeedItem = (props: Props) => {
                     </Link>
                     <p>{master.services[0].price} ₽</p>
                   </div>
-                  <Link href={`/master/${master.profile.id}`}>
+                  <Link href={`/master/${master.id}`}>
                     <p>Ещё {master.services.length - 1} услуг</p>
                   </Link>
                 </MasterServicesDiv>

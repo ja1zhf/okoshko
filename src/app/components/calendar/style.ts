@@ -40,18 +40,24 @@ export const CalendarTable = styled.table`
 
 export const CalendarCellEmpty = styled.td`
   text-align: center;
- 
 `;
 
 export const CalendarCellNumber = styled(CalendarCellEmpty)<{
   $isToday: boolean;
   $isSelected: boolean;
   $isWeekend: boolean;
+  $isAvailable?: boolean;
+  $disabled?: boolean;
 }>`
   background-color: ${(props) => (props.$isSelected ? "#794CC3" : "#F5F4F9")};
   color: ${(props) =>
     props.$isWeekend ? "#ff4d4d" : props.$isSelected ? "#F5F4F9" : "#000000"};
   cursor: pointer;
+
+  ${(props) =>
+    props.$isAvailable && `border: 2px solid ${props.theme.colors.primary};`}
+
+  ${(props) => props.$disabled && "opacity: 0.5;"}
 
   width: 100%;
   height: 100%;
@@ -64,14 +70,11 @@ export const CalendarCellNumber = styled(CalendarCellEmpty)<{
     justify-content: center;
     width: 100%;
     height: 100%;
-    aspect-ratio: 1 / 1; 
+    aspect-ratio: 1 / 1;
     position: relative;
     user-select: none;
     touch-action: none;
   }
-  
 
   ${(props) => props.$isToday && "font-weight: 900;"}
-
- 
 `;

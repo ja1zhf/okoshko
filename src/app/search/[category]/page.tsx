@@ -10,7 +10,6 @@ import {
 } from "./style";
 import CalendarItem from "@/app/components/calendar/calendarItem";
 import { useEffect, useState } from "react";
-import TimeItem from "@/app/components/time/timeItem";
 import { PageDiv, SubmitButton } from "@/app/styles/style";
 import SelectItem from "@/app/components/select/selectItem";
 
@@ -106,7 +105,7 @@ const Page = ({ params }: { params: Params }) => {
       <CategoryDateAndBlockDiv>
         <h2>Дата</h2>
         <CalendarItem
-          isMultiSelections={true}
+          isMultiSelections={false}
           selectedDays={selectedDays}
           currentMonth={selectedMonth}
           currentYear={selectedYear}

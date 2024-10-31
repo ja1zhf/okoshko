@@ -14,7 +14,7 @@ interface Params {
 const Page = ({ params }: { params: Params }) => {
   const { category } = params;
 
-  const [masters, setMasters] = useState<MasterFeed[]>([]);
+  const [masters, setMasters] = useState<MasterType[]>([]);
 
   const allowedCategories = [
     "nails",
@@ -56,7 +56,7 @@ const Page = ({ params }: { params: Params }) => {
         },
       );
 
-      const result: { status: number; masters: MasterFeed[] } =
+      const result: { status: number; masters: MasterType[] } =
         await response.json();
 
       setMasters(result.masters);

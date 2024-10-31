@@ -4,19 +4,32 @@ import { PopupTitle } from "./style";
 import TimeItem from "@/app/components/time/timeItem";
 import InputItem from "@/app/components/input/inputItem";
 import { DatesDiv } from "../style";
+import SelectItem from "@/app/components/select/selectItem";
 
 interface Props {
   isActive: number;
   selectedDates: string[];
   setIsActive: Dispatch<SetStateAction<number>>;
+  getAppointment: () => Promise<void>;
 }
 
 const PopupItem = (props: Props) => {
-  const { isActive, selectedDates, setIsActive } = props;
+  const { isActive, selectedDates, setIsActive, getAppointment } = props;
+
+  const categories = [
+    "Ногти",
+    "Брови и ресницы",
+    "Лицо",
+    "Волосы",
+    "Тело",
+    "Эпиляция",
+  ];
 
   const [selectedTime, setSelectedTime] = useState<number[]>([]);
 
   const [input, setInput] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(categories[0]);
+  const [selectedService, setSelectedService] = useState("");
 
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -27,24 +40,20 @@ const PopupItem = (props: Props) => {
   };
 
   const click = async () => {
-    const response = await fetch(
-      "https://dev.okoshko.space/table/slot/create/",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          dates: selectedDates,
-          start_times: selectedTime,
-        }),
+    await fetch("https://dev.okoshko.space/table/slot/create/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      credentials: "include",
+      body: JSON.stringify({
+        dates: selectedDates,
+        start_times: selectedTime,
+      }),
+    });
 
-    const result = await response.json();
-
-    console.log(result);
+    setIsActive(0);
+    getAppointment();
   };
 
   useEffect(() => {
@@ -66,13 +75,27 @@ const PopupItem = (props: Props) => {
         ))}
       </DatesDiv>
       {isActive === 1 && (
-        <InputItem
-          isNumber={false}
-          canBeEmpty={true}
-          title="Клиент"
-          inputValue={input}
-          setInputValue={setInput}
-        />
+        <>
+          <InputItem
+            isNumber={true}
+            canBeEmpty={false}
+            title="Номер телефона клиент"
+            inputValue={input}
+            setInputValue={setInput}
+          />
+          <SelectItem
+            title="Категория"
+            options={categories}
+            selectedOption={selectedCategory}
+            setSelectedOption={setSelectedCategory}
+          />
+          <SelectItem
+            title="Услуга"
+            options={categories}
+            selectedOption={selectedService}
+            setSelectedOption={setSelectedService}
+          />
+        </>
       )}
       <TimeItem
         width={300}

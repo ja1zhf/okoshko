@@ -5,73 +5,53 @@ interface CategoryType {
   href: string;
 }
 
-interface MasterFeed {
-  speciality: string;
-  description: string;
-  reviews: {
-    id: number;
-    review_text: string;
-    review_date: string;
-    rating: number;
-    client: {
-      id: number;
-      phone: string;
-      first_name: string;
-      last_name: string;
-      role: string;
-      avatar_path: string;
-    };
-  }[];
-  services: {
-    id: number;
-    title: string;
-    description: string;
-    price: number;
-  }[];
-  profile: {
-    id: number;
-    phone: string;
-    first_name: string;
-    last_name: string;
-    role: string;
-    avatar_path: string;
-  };
-  is_favorited: boolean;
+interface ProfileType {
+  id: number;
+  phone: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  role: string;
+  city: string;
+  avatar_url: string;
 }
 
-interface MasterInfo {
+interface ReviewType {
+  id: number;
+  review_text: string;
+  review_date: string;
+  rating: number;
+  client: ProfileType;
+  master: number;
+}
+
+interface ServiceType {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  duration: number;
+}
+
+interface AppointmentType {
+  id: number;
+  date: string;
+  start_time: string;
+  appointment: null;
+  is_available: boolean;
+}
+
+interface MasterType {
+  id: number;
   speciality: string;
   description: string;
-  reviews: {
-    id: number;
-    review_text: string;
-    review_date: string;
-    rating: number;
-    client: {
-      id: number;
-      phone: string;
-      first_name: string;
-      last_name: string;
-      role: string;
-      avatar_path: string;
-    };
-  }[];
-  services: {
-    id: number;
-    title: string;
-    description: string;
-    price: number;
-  }[];
-  profile: {
-    id: number;
-    phone: string;
-    first_name: string;
-    last_name: string;
-    role: string;
-    avatar_path: string;
-  };
+  reviews: ReviewType[];
+  services: ServiceType[];
+  address: string;
+  district: string;
+  profile: ProfileType;
   is_favorited: boolean;
-  available_appointments: string[];
+  available_appointments: AppointmentType[];
 }
 
 interface UserType {
@@ -94,39 +74,7 @@ interface ServicesType {
 interface MasterFavorite {
   id: number;
   client: number;
-  master: {
-    speciality: string;
-    description: string;
-    reviews: {
-      id: number;
-      review_text: string;
-      review_date: string;
-      rating: number;
-      client: {
-        id: number;
-        phone: string;
-        first_name: string;
-        last_name: string;
-        role: string;
-        avatar_path: string;
-      };
-    }[];
-    services: {
-      id: number;
-      title: string;
-      description: string;
-      price: number;
-    }[];
-    profile: {
-      id: number;
-      phone: string;
-      first_name: string;
-      last_name: string;
-      role: string;
-      avatar_path: string;
-    };
-    is_favorited: boolean;
-  };
+  master: MasterType;
 }
 
 interface ServiceData {

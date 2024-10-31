@@ -35,7 +35,7 @@ const ReviewItem = (props: Props) => {
           alt="avatar"
           width={50}
           height={50}
-          src={avatar}
+          src={avatar ? avatar : "/img/non_avatar.jpg"}
         />
         <div>
           <h3>{name}</h3>

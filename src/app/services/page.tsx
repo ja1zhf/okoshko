@@ -31,7 +31,7 @@ const Page = () => {
   const request = async () => {
     if (user) {
       const response = await fetch(
-        `https://dev.okoshko.space/service/servicesbyuser/${user.id}/`,
+        `https://dev.okoshko.space/service/my-services`,
         {
           method: "GET",
           headers: {
@@ -43,7 +43,7 @@ const Page = () => {
 
       const result = await response.json();
 
-      setServices(result);
+      setServices(result.services);
     }
   };
 

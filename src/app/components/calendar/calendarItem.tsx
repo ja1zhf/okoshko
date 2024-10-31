@@ -20,6 +20,7 @@ interface Props {
   selectedDays: number[];
   currentMonth: number;
   currentYear: number;
+  appointments?: AppointmentType[];
   setSelectedDays: Dispatch<SetStateAction<number[]>>;
   setCurrentMonth: Dispatch<SetStateAction<number>>;
   setCurrentYear: Dispatch<SetStateAction<number>>;
@@ -31,6 +32,7 @@ const CalendarItem = (props: Props) => {
     selectedDays,
     currentMonth,
     currentYear,
+    appointments,
     setSelectedDays,
     setCurrentMonth,
     setCurrentYear,
@@ -222,6 +224,14 @@ const CalendarItem = (props: Props) => {
                       }
                       $isSelected={selectedDays.includes(day)}
                       $isWeekend={indexColumn > 4}
+                      {...(appointments &&
+                        appointments.some(
+                          (appointment) =>
+                            appointment.date ===
+                            `${currentYear}-${currentMonth}-${day < 10 ? `0${day}` : day}`,
+                        ) && {
+                          $isAvailable: true,
+                        })}
                       onClick={() => click(day)}
                       {...(isMultiSelections && {
                         onMouseDown: () => mouseDown(day),
