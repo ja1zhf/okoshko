@@ -119,6 +119,7 @@ const Page = ({ params }: { params: Params }) => {
         onClick={() => {
           router.push(`/feed/${category}?service=${selectedServices}`);
         }}
+        whileTap={{ scale: 0.9 }}
       >
         Показать мастеров
       </SubmitButton>

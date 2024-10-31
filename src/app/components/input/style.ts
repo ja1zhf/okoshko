@@ -8,7 +8,7 @@ export const InputDiv = styled.div`
   width: 100%;
 `;
 
-export const Input = styled.input<{ $isEmpty: boolean }>`
+export const Input = styled.input<{ $isEmpty: boolean; $disabled?: boolean }>`
   color: ${(props) => props.theme.colors.black};
   font-feature-settings:
     "liga" off,
@@ -18,7 +18,8 @@ export const Input = styled.input<{ $isEmpty: boolean }>`
   font-weight: 450;
   line-height: 150%;
   width: 100%;
-  background-color: transparent;
+  background-color: ${(props) =>
+    props.disabled ? "#8080801A" : "transparent"};
   border: none;
   outline: none;
   padding: 26px 12px 12px 12px;

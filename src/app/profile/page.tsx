@@ -43,12 +43,14 @@ const Page = () => {
         <ProfileInputDiv>
           <InputItem
             title="Имя"
+            isNumber={false}
             canBeEmpty={false}
             inputValue={firstNameInput}
             setInputValue={setFirstNameInput}
           />
           <InputItem
             title="Фамилия"
+            isNumber={false}
             canBeEmpty={false}
             inputValue={lastNameInput}
             setInputValue={setLastNameInput}
@@ -56,17 +58,20 @@ const Page = () => {
         </ProfileInputDiv>
         <InputItem
           title="Телефон"
+          isNumber={true}
           canBeEmpty={false}
+          isDisabled={true}
           inputValue={phoneInput}
           setInputValue={setPhoneInput}
         />
         <InputItem
           title="Эл. почта"
+          isNumber={false}
           canBeEmpty={true}
           inputValue={emailInput}
           setInputValue={setEmailInput}
         />
-        <SubmitButton>Сохранить</SubmitButton>
+        <SubmitButton whileTap={{ scale: 0.9 }}>Сохранить</SubmitButton>
       </ProfileDiv>
     </PageDiv>
   );

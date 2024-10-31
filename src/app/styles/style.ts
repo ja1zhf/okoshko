@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import Link from "next/link";
 import styled from "styled-components";
 
@@ -48,7 +49,7 @@ export const PageDarkOverlay = styled.div`
   touch-action: none;
 `;
 
-export const SubmitButton = styled.button`
+export const SubmitButton = styled(motion.button)`
   display: flex;
   width: 100%;
   height: 56px;
@@ -56,7 +57,9 @@ export const SubmitButton = styled.button`
   align-items: center;
   color: ${(props) => props.theme.colors.white};
   text-align: center;
-  font-feature-settings: "liga" off, "clig" off;
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
@@ -78,7 +81,9 @@ export const PopupDiv = styled.div`
 
 export const NotFoundTitle = styled.h1`
   color: ${(props) => props.theme.colors.black};
-  font-feature-settings: "liga" off, "clig" off;
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
   font-size: 24px;
   font-style: normal;
   font-weight: 700;
@@ -87,7 +92,9 @@ export const NotFoundTitle = styled.h1`
 
 export const NotFoundBackLink = styled(Link)`
   color: ${(props) => props.theme.colors.primary};
-  font-feature-settings: "liga" off, "clig" off;
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;

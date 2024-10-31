@@ -5,12 +5,14 @@ interface Props {
   title: string;
   isNumber: boolean;
   canBeEmpty: boolean;
+  isDisabled?: boolean;
   inputValue: string;
   setInputValue: Dispatch<SetStateAction<string>>;
 }
 
 const InputItem = (props: Props) => {
-  const { title, isNumber, canBeEmpty, inputValue, setInputValue } = props;
+  const { title, isNumber, canBeEmpty, isDisabled, inputValue, setInputValue } =
+    props;
 
   const [isFocused, setIsFocused] = useState(false);
 
@@ -25,6 +27,10 @@ const InputItem = (props: Props) => {
           setIsFocused(false);
           setIsBlur(true);
         }}
+        {...(isDisabled && {
+          disabled: true,
+          $disabled: true,
+        })}
         {...(isNumber && {
           onInput: (e: ChangeEvent<HTMLInputElement>) => {
             e.target.value = e.target.value.replace(/\D/g, "");

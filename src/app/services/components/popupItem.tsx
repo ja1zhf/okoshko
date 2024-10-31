@@ -106,7 +106,7 @@ const PopupItem = (props: Props) => {
         inputValue={priceInput}
         setInputValue={setPriceInput}
       />
-      <SubmitButton onClick={click}>
+      <SubmitButton onClick={click} whileTap={{ scale: 0.9 }}>
         {isEdit ? "Изменить" : "Добавить"}
       </SubmitButton>
     </PopupDiv>

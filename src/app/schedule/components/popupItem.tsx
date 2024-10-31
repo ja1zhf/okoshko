@@ -80,7 +80,9 @@ const PopupItem = (props: Props) => {
         selectedTime={selectedTime}
         setSelectedTime={setSelectedTime}
       />
-      <SubmitButton onClick={click}>Добавить</SubmitButton>
+      <SubmitButton onClick={click} whileTap={{ scale: 0.9 }}>
+        Добавить
+      </SubmitButton>
     </PopupDiv>
   );
 };

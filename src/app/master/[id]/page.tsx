@@ -153,7 +153,7 @@ const Page = ({ params }: { params: Params }) => {
           setSelectedTime={setSelectedTime}
         />
       </MasterBlockDiv>
-      <SubmitButton>Записаться</SubmitButton>
+      <SubmitButton whileTap={{ scale: 0.9 }}>Записаться</SubmitButton>
       <MasterBlockDiv>
         <h2>Отзывы</h2>
         {master &&

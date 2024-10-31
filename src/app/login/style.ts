@@ -23,3 +23,12 @@ export const LoginLink = styled(Link)`
   line-height: 125%;
   text-decoration: none;
 `;
+
+export const NumberLink = styled(Link)`
+  color: ${(props) => props.theme.colors.black};
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;

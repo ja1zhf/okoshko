@@ -3,7 +3,7 @@
 import { useContext, useState } from "react";
 import InputItem from "../components/input/inputItem";
 import { PageDiv, SubmitButton } from "../styles/style";
-import { RegisterLink, RegisterPageTitle } from "./style";
+import { NumberLink, RegisterLink, RegisterPageTitle } from "./style";
 import { useRouter } from "next/navigation";
 import UserContext from "@/contexts/userContext";
 
@@ -93,17 +93,24 @@ const Page = () => {
             inputValue={lastNameInput}
             setInputValue={setLastNameInput}
           />
-          <SubmitButton onClick={sendSignIn}>Создать аккаунт</SubmitButton>
+          <SubmitButton onClick={sendSignIn} whileTap={{ scale: 0.9 }}>
+            Создать аккаунт
+          </SubmitButton>
         </>
       )}
       {signUpData && (
         <>
           <p>
-            Чтобы подтвердить номер телефона, позвоните на{" "}
-            <b>{signUpData.call_to_phone}</b>, дождитесь завершения звонка,
-            затем нажмите кнопку "Проверить"
+            Чтобы подтвердить номер телефона,
+            <NumberLink href={`tel:+${signUpData.call_to_phone}`}>
+              позвоните на <b>{signUpData.call_to_phone}</b>
+            </NumberLink>
+            , дождитесь завершения звонка, затем нажмите кнопку "Проверить"
+            (звонок бесплатный)
           </p>
-          <SubmitButton onClick={sendCheck}>Проверить</SubmitButton>
+          <SubmitButton onClick={sendCheck} whileTap={{ scale: 0.9 }}>
+            Проверить
+          </SubmitButton>
         </>
       )}
       <RegisterLink href="/login">Войти в существующий аккаунт</RegisterLink>
