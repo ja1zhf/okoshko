@@ -116,12 +116,12 @@ const Page = ({ params }: { params: Params }) => {
           ))}
         </MasterDescriptionText>
       </MasterBlockDiv>
-      <MasterBlockDiv>
-        <h2>Примеры работ</h2>
-        {
-          // <PhotosItem photos={master} />
-        }
-      </MasterBlockDiv>
+      {master && master.featured_photos.length > 0 && (
+        <MasterBlockDiv>
+          <h2>Примеры работ</h2>
+          <PhotosItem photos={master.featured_photos} />
+        </MasterBlockDiv>
+      )}
       <MasterBlockDiv>
         <h2>Услуги</h2>
         <MasterServicesList>
@@ -141,6 +141,7 @@ const Page = ({ params }: { params: Params }) => {
           selectedDays={selectedDays}
           currentMonth={selectedMonth}
           currentYear={selectedYear}
+          appointmentsForUsers={master?.available_appointments}
           setSelectedDays={setSelectedDays}
           setCurrentMonth={setSelectedMonth}
           setCurrentYear={setSelectedYear}
@@ -156,21 +157,23 @@ const Page = ({ params }: { params: Params }) => {
         />
       </MasterBlockDiv>
       <SubmitButton whileTap={{ scale: 0.9 }}>Записаться</SubmitButton>
-      <MasterBlockDiv>
-        <h2>Отзывы</h2>
-        <ReviewsListDiv>
-          {master?.reviews.map((review, index) => (
-            <ReviewItem
-              key={index}
-              name={review.client.first_name + " " + review.client.last_name}
-              avatar={review.client.avatar_url}
-              score={review.rating}
-              date={review.review_date}
-              description={review.review_text}
-            />
-          ))}
-        </ReviewsListDiv>
-      </MasterBlockDiv>
+      {master && master.reviews.length > 0 && (
+        <MasterBlockDiv>
+          <h2>Отзывы</h2>
+          <ReviewsListDiv>
+            {master?.reviews.map((review, index) => (
+              <ReviewItem
+                key={index}
+                name={review.client.first_name + " " + review.client.last_name}
+                avatar={review.client.avatar_url}
+                score={review.rating}
+                date={review.review_date}
+                description={review.review_text}
+              />
+            ))}
+          </ReviewsListDiv>
+        </MasterBlockDiv>
+      )}
     </PageDiv>
   );
 };

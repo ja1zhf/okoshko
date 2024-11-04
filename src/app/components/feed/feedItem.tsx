@@ -15,12 +15,11 @@ import UserContext from "@/contexts/userContext";
 import { useContext } from "react";
 
 interface Props {
-  currentServices?: string;
   masters: MasterType[];
 }
 
 const FeedItem = (props: Props) => {
-  const { masters, currentServices } = props;
+  const { masters } = props;
 
   const { user } = useContext(UserContext);
 
@@ -82,21 +81,21 @@ const FeedItem = (props: Props) => {
                     </MasterLikeDiv>
                   )}
                 </MasterInfoDiv>
-                <PhotosItem photos={[""]} />
+                {master.featured_photos.length > 0 && (
+                  <PhotosItem photos={[""]} />
+                )}
                 <MasterServicesDiv>
                   <div>
                     <Link href={`/master/${master.id}`}>
-                      <h2>
-                        {currentServices
-                          ? currentServices
-                          : master.services[0].title}
-                      </h2>
+                      <h2>{master.services[0].title}</h2>
                     </Link>
                     <p>{master.services[0].price} ₽</p>
                   </div>
-                  <Link href={`/master/${master.id}`}>
-                    <p>Ещё {master.services.length - 1} услуг</p>
-                  </Link>
+                  {master.services.length > 1 && (
+                    <Link href={`/master/${master.id}`}>
+                      <p>Ещё {master.services.length - 1} услуг</p>
+                    </Link>
+                  )}
                 </MasterServicesDiv>
               </MasterDiv>
             );

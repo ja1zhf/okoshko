@@ -52,12 +52,12 @@ export const CalendarCellNumber = styled(CalendarCellEmpty)<{
   background-color: ${(props) => (props.$isSelected ? "#794CC3" : "#F5F4F9")};
   color: ${(props) =>
     props.$isWeekend ? "#ff4d4d" : props.$isSelected ? "#F5F4F9" : "#000000"};
-  cursor: pointer;
+  cursor: ${(props) => (props.$disabled ? "not-allowed" : "pointer")};
 
   ${(props) =>
     props.$isAvailable && `border: 2px solid ${props.theme.colors.primary};`}
 
-  ${(props) => props.$disabled && "opacity: 0.5;"}
+  ${(props) => props.$disabled && "opacity: 0.3;"}
 
   width: 100%;
   height: 100%;

@@ -26,24 +26,24 @@ const Page = ({ params }: { params: Params }) => {
     "nails",
     "eyebrows",
     "face",
+    "makeup",
     "hair",
     "body",
-    "epilation",
   ];
 
   const title = [
     "Ногти",
     "Брови и ресницы",
-    "Лицо",
+    "Уход за лицом",
+    "Макияж",
     "Волосы",
     "Тело",
-    "Эпиляция",
   ];
 
-  const [services, setServices] = useState<string[]>([]);
+  const [services, setServices] = useState<{ id: number; title: string }[]>([]);
 
-  const [selectedServices, setSelectedServices] = useState("Все услуги");
-  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [selectedServices, setSelectedServices] = useState(0);
+  const [selectedDistrict, setSelectedDistrict] = useState(0);
   const [selectedDays, setSelectedDays] = useState<number[]>([]);
   const [selectedMonth, setSelectedMonth] = useState(0);
   const [selectedYear, setSelectedYear] = useState(0);
@@ -55,7 +55,7 @@ const Page = ({ params }: { params: Params }) => {
   useEffect(() => {
     (async function () {
       const response = await fetch(
-        `https://dev.okoshko.space/service/services/?speciality=${category}`,
+        `https://dev.okoshko.space/service/services-by-speciality-name/${title[allowedCategories.indexOf(category)]}/`,
         {
           method: "GET",
           headers: {
@@ -64,13 +64,15 @@ const Page = ({ params }: { params: Params }) => {
         },
       );
 
-      const result: { status: number; services: ServicesType[] } =
-        await response.json();
+      const result: {
+        status: number;
+        available_services: ServiceInputType[];
+      } = await response.json();
 
-      let temp = ["Все услуги"];
+      let temp = [{ id: 0, title: "Все услуги" }];
 
-      result.services.map((service) => {
-        temp.push(service.title);
+      result.available_services.map((service) => {
+        temp.push({ id: service.id, title: service.name });
       });
 
       setServices(temp);
@@ -98,7 +100,10 @@ const Page = ({ params }: { params: Params }) => {
       />
       <SelectItem
         title="Район"
-        options={["variant 1", "variant 2"]}
+        options={[
+          { id: 0, title: "variant 1" },
+          { id: 1, title: "variant 2" },
+        ]}
         selectedOption={selectedDistrict}
         setSelectedOption={setSelectedDistrict}
       />

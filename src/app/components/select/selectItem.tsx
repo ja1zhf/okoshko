@@ -3,9 +3,9 @@ import { Select, SelectLabel } from "./style";
 
 interface Props {
   title: string;
-  options: string[];
-  selectedOption: string;
-  setSelectedOption: Dispatch<SetStateAction<string>>;
+  options: { id: number; title: string }[];
+  selectedOption: number;
+  setSelectedOption: Dispatch<SetStateAction<number>>;
 }
 
 const SelectItem = (props: Props) => {
@@ -16,11 +16,11 @@ const SelectItem = (props: Props) => {
       <SelectLabel>{title}</SelectLabel>
       <Select
         value={selectedOption}
-        onChange={(e) => setSelectedOption(e.target.value)}
+        onChange={(e) => setSelectedOption(parseInt(e.target.value))}
       >
         {options.map((option, index) => (
-          <option key={index} value={option}>
-            {option}
+          <option key={index} value={option.id}>
+            {option.title}
           </option>
         ))}
       </Select>

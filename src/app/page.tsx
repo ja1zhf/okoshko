@@ -19,28 +19,28 @@ const Home = () => {
       href: "/eyebrows",
     },
     {
-      title: "Лицо",
+      title: "Уход за лицом",
       description: "Макияж, массаж,\nуходовые\nпроцедуры",
       backgroundSrc: "/img/face.png",
       href: "/face",
     },
     {
-      title: "Волосы",
+      title: "Макияж",
       description: "Окрашивание,\nукладка, стрижки,\nнаращивание",
       backgroundSrc: "/img/hair.png",
+      href: "/makeup",
+    },
+    {
+      title: "Волосы",
+      description: "Косметология,\nмассаж тела,\nSPA программы",
+      backgroundSrc: "/img/body.png",
       href: "/hair",
     },
     {
       title: "Тело",
-      description: "Косметология,\nмассаж тела,\nSPA программы",
-      backgroundSrc: "/img/body.png",
-      href: "/body",
-    },
-    {
-      title: "Эпиляция",
       description: "Лазерная и\nфотоэпиляция,\nбиоэпиляция",
       backgroundSrc: "/img/epilation.png",
-      href: "/epilation",
+      href: "/body",
     },
   ];
 

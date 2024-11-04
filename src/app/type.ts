@@ -43,7 +43,7 @@ interface AppointmentType {
 
 interface MasterType {
   id: number;
-  speciality: string;
+  specialities: number[];
   description: string;
   reviews: ReviewType[];
   services: ServiceType[];
@@ -52,6 +52,7 @@ interface MasterType {
   profile: ProfileType;
   is_favorited: boolean;
   available_appointments: AppointmentType[];
+  featured_photos: string[];
 }
 
 interface UserType {
@@ -62,13 +63,6 @@ interface UserType {
   email: string | null;
   role: string;
   master: string | null;
-}
-
-interface ServicesType {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
 }
 
 interface MasterFavorite {
@@ -83,6 +77,18 @@ interface ServiceData {
   description: string;
   price: number;
   duration: number;
+  service: ServiceInputType;
+  photos: {
+    id: number;
+    image: string;
+    uploaded_at: string;
+  }[];
+}
+
+interface ServiceInputType {
+  id: number;
+  name: string;
+  sub_category: number;
 }
 
 enum InputType {

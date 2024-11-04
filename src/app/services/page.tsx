@@ -27,6 +27,7 @@ const Page = () => {
   const [tempTitle, setTempTitle] = useState("");
   const [tempTime, setTempTime] = useState("");
   const [tempPrice, setTempPrice] = useState("");
+  const [tempService, setTempService] = useState(0);
 
   const request = async () => {
     if (user) {
@@ -74,17 +75,17 @@ const Page = () => {
         <thead>
           <tr>
             <ServicesTitleCell>Услуга</ServicesTitleCell>
+            <ServicesTitleCell>Название</ServicesTitleCell>
             <ServicesTitleCell>Время выполнения</ServicesTitleCell>
-            <ServicesTitleCell>Перерыв после услуги</ServicesTitleCell>
             <ServicesTitleCell>Стоимость</ServicesTitleCell>
           </tr>
         </thead>
         <tbody>
           {services.map((service, index) => (
             <tr key={index}>
+              <ServicesCell>{service.service.name}</ServicesCell>
               <ServicesCell>{service.title}</ServicesCell>
               <ServicesCell>{service.duration} мин.</ServicesCell>
-              <ServicesCell>0 мин.</ServicesCell>
               <ServicesCell>
                 <ServicesPriceDiv>
                   {service.price} ₽
@@ -97,6 +98,7 @@ const Page = () => {
                         setTempTime(service.duration.toString());
                         setTempPrice(service.price.toString());
                         setIsActive(true);
+                        setTempService(service.service.id);
                       }}
                     >
                       <svg
@@ -137,6 +139,7 @@ const Page = () => {
           setTempTime("");
           setTempPrice("");
           setIsActive(true);
+          setTempService(0);
         }}
       >
         Добавить услугу
@@ -149,6 +152,7 @@ const Page = () => {
             title={tempTitle}
             time={tempTime}
             price={tempPrice}
+            service={tempService}
             setIsActive={setIsActive}
             request={request}
           />

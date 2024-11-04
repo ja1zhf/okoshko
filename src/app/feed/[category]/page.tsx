@@ -25,10 +25,19 @@ const Page = ({ params }: { params: Params }) => {
     "epilation",
   ];
 
+  const title = [
+    "Ногти",
+    "Брови и ресницы",
+    "Уход за лицом",
+    "Волосы",
+    "Тело",
+    "Эпиляция",
+  ];
+
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const service = searchParams.get("service");
+  const service = parseInt(searchParams.get("service")!);
 
   if (!allowedCategories.includes(category)) {
     notFound();
@@ -38,10 +47,13 @@ const Page = ({ params }: { params: Params }) => {
     (async function () {
       let body;
 
-      if (service !== "Все услуги") {
-        body = { speciality: category, service };
+      if (service !== 0) {
+        body = {
+          speciality_name: title[allowedCategories.indexOf(category)],
+          service_id: service,
+        };
       } else {
-        body = { speciality: category };
+        body = { speciality_name: title[allowedCategories.indexOf(category)] };
       }
 
       const response = await fetch(
@@ -77,10 +89,7 @@ const Page = ({ params }: { params: Params }) => {
         </FeedFilterButton>
       </FeedHeaderDiv>
       {masters && masters.length > 0 ? (
-        <FeedItem
-          masters={masters}
-          currentServices={service !== "Все услуги" ? service : null}
-        />
+        <FeedItem masters={masters} />
       ) : (
         <p>Мастера не найдены</p>
       )}

@@ -1,5 +1,11 @@
 import { Dispatch, SetStateAction, TouchEvent, useRef, useState } from "react";
-import { TimeCell, TimeDiv, TimeTable, TimeTitle, TableContainer } from "./style";
+import {
+  TimeCell,
+  TimeDiv,
+  TimeTable,
+  TimeTitle,
+  TableContainer,
+} from "./style";
 
 interface Props {
   width: number;
@@ -44,14 +50,6 @@ const TimeItem = (props: Props) => {
       [2100, 2115, 2130, 2145],
       [2200, 2215, 2230, 2245],
       [2300, 2315, 2330, 2345],
-    ],
-    night: [
-      [0, 15, 30, 45],
-      [100, 115, 130, 145],
-      [200, 215, 230, 245],
-      [300, 315, 330, 345],
-      [400, 415, 430, 445],
-      [500, 515, 530, 545],
     ],
   };
 
@@ -139,7 +137,7 @@ const TimeItem = (props: Props) => {
 
   return (
     <TimeDiv $width={width}>
-      <TableContainer> 
+      <TableContainer>
         <TimeTitle>Утро</TimeTitle>
         <TimeTable>
           <tbody
@@ -213,38 +211,6 @@ const TimeItem = (props: Props) => {
             })}
           >
             {time.evening.map((children, index) => (
-              <tr key={index}>
-                {children.map((time) => (
-                  <TimeCell
-                    key={time}
-                    data-time={time}
-                    $selected={selectedTime.includes(time)}
-                    onClick={() => click(time)}
-                    {...(isMultiSelections && {
-                      onMouseDown: () => mouseDown(time),
-                      onTouchStart: () => mouseDown(time),
-                      onMouseOver: () => mouseOver(time),
-                      onMouseUp: () => mouseUp(),
-                    })}
-                  >
-                    {formatTime(time)}
-                  </TimeCell>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </TimeTable>
-      </TableContainer>
-      <TableContainer>
-        <TimeTitle>Ночь</TimeTitle>
-        <TimeTable>
-          <tbody
-            {...(isMultiSelections && {
-              onTouchMove: (event) => touchMove(event),
-              onTouchEnd: () => mouseUp(),
-            })}
-          >
-            {time.night.map((children, index) => (
               <tr key={index}>
                 {children.map((time) => (
                   <TimeCell

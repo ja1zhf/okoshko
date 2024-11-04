@@ -2,6 +2,7 @@ import { PopupDiv, SubmitButton } from "@/app/styles/style";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { PopupTitle } from "./style";
 import InputItem from "@/app/components/input/inputItem";
+import SelectItem from "@/app/components/select/selectItem";
 
 interface Props {
   id: number;
@@ -9,18 +10,22 @@ interface Props {
   title: string;
   time: string;
   price: string;
+  service: number;
   setIsActive: Dispatch<SetStateAction<boolean>>;
   request: () => Promise<void>;
 }
 
 const PopupItem = (props: Props) => {
-  const { id, isEdit, title, time, price, setIsActive, request } = props;
+  const { id, isEdit, title, time, price, service, setIsActive, request } =
+    props;
 
   const divRef = useRef<HTMLDivElement>(null);
 
+  const [services, setServices] = useState<{ id: number; title: string }[]>([]);
+
+  const [selectedService, setSelectedService] = useState(0);
   const [titleInput, setTitleInput] = useState(title);
   const [timeInput, setTimeInput] = useState(time);
-  const [breakInput, setBreakInput] = useState("");
   const [priceInput, setPriceInput] = useState(price);
 
   const click = async () => {
@@ -34,6 +39,7 @@ const PopupItem = (props: Props) => {
           },
           credentials: "include",
           body: JSON.stringify({
+            service: selectedService,
             title: titleInput,
             description: "",
             price: priceInput,
@@ -56,6 +62,7 @@ const PopupItem = (props: Props) => {
         },
         credentials: "include",
         body: JSON.stringify({
+          service: selectedService,
           title: titleInput,
           description: "",
           price: priceInput,
@@ -75,6 +82,34 @@ const PopupItem = (props: Props) => {
   };
 
   useEffect(() => {
+    (async function () {
+      const response = await fetch(
+        `https://dev.okoshko.space/service/available-services/`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        },
+      );
+
+      const result: ServiceInputType[] = await response.json();
+
+      let temp: { id: number; title: string }[] = [];
+
+      result.map((service) => {
+        temp.push({ id: service.id, title: service.name });
+      });
+
+      setServices(temp);
+      if (!isEdit) {
+        setSelectedService(temp[0].id);
+      } else {
+        setSelectedService(service);
+      }
+    })();
+
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
@@ -85,6 +120,12 @@ const PopupItem = (props: Props) => {
   return (
     <PopupDiv ref={divRef}>
       <PopupTitle>Добавление услуги</PopupTitle>
+      <SelectItem
+        title="Услуга"
+        options={services}
+        selectedOption={selectedService}
+        setSelectedOption={setSelectedService}
+      />
       <InputItem
         title="Название услуги"
         isNumber={false}

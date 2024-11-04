@@ -21,6 +21,7 @@ interface Props {
   currentMonth: number;
   currentYear: number;
   appointments?: AppointmentType[];
+  appointmentsForUsers?: AppointmentType[];
   setSelectedDays: Dispatch<SetStateAction<number[]>>;
   setCurrentMonth: Dispatch<SetStateAction<number>>;
   setCurrentYear: Dispatch<SetStateAction<number>>;
@@ -33,6 +34,7 @@ const CalendarItem = (props: Props) => {
     currentMonth,
     currentYear,
     appointments,
+    appointmentsForUsers,
     setSelectedDays,
     setCurrentMonth,
     setCurrentYear,
@@ -116,13 +118,21 @@ const CalendarItem = (props: Props) => {
   };
 
   const click = (day: number) => {
-    if (selectedDays.includes(day)) {
-      setSelectedDays((prevSelected) => prevSelected.filter((d) => d !== day));
-    } else {
-      if (isMultiSelections) {
-        setSelectedDays((prevSelected) => [...prevSelected, day]);
+    if (
+      day >= today.getDate() &&
+      currentMonth >= today.getMonth() &&
+      currentYear >= today.getFullYear()
+    ) {
+      if (selectedDays.includes(day)) {
+        setSelectedDays((prevSelected) =>
+          prevSelected.filter((d) => d !== day),
+        );
       } else {
-        setSelectedDays([day]);
+        if (isMultiSelections) {
+          setSelectedDays((prevSelected) => [...prevSelected, day]);
+        } else {
+          setSelectedDays([day]);
+        }
       }
     }
   };
@@ -144,12 +154,18 @@ const CalendarItem = (props: Props) => {
       let end = startSelection > day ? startSelection : day;
 
       for (let i = start; i <= end; i++) {
-        if (!selectedDays.includes(i) && isSelection) {
-          setSelectedDays((prevSelected) => [...prevSelected, i]);
-        } else if (!isSelection) {
-          setSelectedDays((prevSelected) =>
-            prevSelected.filter((d) => d !== i),
-          );
+        if (
+          i >= today.getDate() &&
+          currentMonth >= today.getMonth() &&
+          currentYear >= today.getFullYear()
+        ) {
+          if (!selectedDays.includes(i) && isSelection) {
+            setSelectedDays((prevSelected) => [...prevSelected, i]);
+          } else if (!isSelection) {
+            setSelectedDays((prevSelected) =>
+              prevSelected.filter((d) => d !== i),
+            );
+          }
         }
       }
     }
@@ -167,17 +183,32 @@ const CalendarItem = (props: Props) => {
         let end = startSelection > currentDay ? startSelection : currentDay;
 
         for (let i = start; i <= end; i++) {
-          if (!selectedDays.includes(i) && isSelection) {
-            setSelectedDays((prevSelected) => [...prevSelected, i]);
-          } else if (!isSelection) {
-            setSelectedDays((prevSelected) =>
-              prevSelected.filter((d) => d !== i),
-            );
+          if (
+            i >= today.getDate() &&
+            currentMonth >= today.getMonth() &&
+            currentYear >= today.getFullYear()
+          ) {
+            if (!selectedDays.includes(i) && isSelection) {
+              setSelectedDays((prevSelected) => [...prevSelected, i]);
+            } else if (!isSelection) {
+              setSelectedDays((prevSelected) =>
+                prevSelected.filter((d) => d !== i),
+              );
+            }
           }
+          previousDayRef.current = currentDay;
         }
-        previousDayRef.current = currentDay;
       }
     }
+  };
+
+  const isAvailableDate = (day: number) => {
+    return appointmentsForUsers?.some(
+      (appointment) =>
+        appointment.date ===
+          `${currentYear}-${currentMonth}-${day < 10 ? `0${day}` : day}` &&
+        appointment.is_available,
+    );
   };
 
   const mouseUp = () => {
@@ -224,6 +255,15 @@ const CalendarItem = (props: Props) => {
                       }
                       $isSelected={selectedDays.includes(day)}
                       $isWeekend={indexColumn > 4}
+                      {...((new Date(currentYear, currentMonth, day).setHours(
+                        0,
+                        0,
+                        0,
+                        0,
+                      ) < today.setHours(0, 0, 0, 0) ||
+                        !isAvailableDate(day)) && {
+                        $disabled: true,
+                      })}
                       {...(appointments &&
                         appointments.some(
                           (appointment) =>
