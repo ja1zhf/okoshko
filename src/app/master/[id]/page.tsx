@@ -24,6 +24,7 @@ import ReviewItem from "./components/reviewItem";
 import PhotosItem from "@/app/components/photos/photosItem";
 import LikeItem from "../../components/like/likeItem";
 import UserContext from "@/contexts/userContext";
+import { formatDate } from "@/tools/tools";
 
 interface Params {
   id: string;
@@ -147,16 +148,26 @@ const Page = ({ params }: { params: Params }) => {
           setCurrentYear={setSelectedYear}
         />
       </MasterBlockDiv>
-      <MasterBlockDiv>
-        <h2>Время</h2>
-        <TimeItem
-          width={300}
-          isMultiSelections={false}
-          selectedTime={selectedTime}
-          setSelectedTime={setSelectedTime}
-        />
-      </MasterBlockDiv>
-      <SubmitButton whileTap={{ scale: 0.9 }}>Записаться</SubmitButton>
+      {selectedDays.length > 0 && (
+        <MasterBlockDiv>
+          <h2>Время</h2>
+          <TimeItem
+            width={300}
+            isMultiSelections={false}
+            selectedTime={selectedTime}
+            selectedDate={formatDate(
+              selectedDays[0],
+              selectedMonth,
+              selectedYear,
+            )}
+            appointmentsForUsers={master?.available_appointments}
+            setSelectedTime={setSelectedTime}
+          />
+        </MasterBlockDiv>
+      )}
+      {selectedDays.length > 0 && selectedTime.length > 0 && (
+        <SubmitButton whileTap={{ scale: 0.9 }}>Записаться</SubmitButton>
+      )}
       {master && master.reviews.length > 0 && (
         <MasterBlockDiv>
           <h2>Отзывы</h2>

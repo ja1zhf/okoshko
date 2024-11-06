@@ -11,6 +11,8 @@ interface Props {
   width: number;
   isMultiSelections: boolean;
   selectedTime: number[];
+  selectedDate?: string;
+  appointmentsForUsers?: AppointmentType[];
   setSelectedTime: Dispatch<SetStateAction<number[]>>;
 }
 
@@ -24,7 +26,14 @@ const formatTime = (time: number): string => {
 };
 
 const TimeItem = (props: Props) => {
-  const { width, isMultiSelections, selectedTime, setSelectedTime } = props;
+  const {
+    width,
+    isMultiSelections,
+    selectedTime,
+    selectedDate,
+    appointmentsForUsers,
+    setSelectedTime,
+  } = props;
 
   const time = {
     morning: [
@@ -59,13 +68,17 @@ const TimeItem = (props: Props) => {
   const [isSelection, setIsSelection] = useState(false);
 
   const click = (time: number) => {
-    if (selectedTime.includes(time)) {
-      setSelectedTime((prevSelected) => prevSelected.filter((t) => t !== time));
-    } else {
-      if (isMultiSelections) {
-        setSelectedTime((prevSelected) => [...prevSelected, time]);
+    if (isAvailableTime(time)) {
+      if (selectedTime.includes(time)) {
+        setSelectedTime((prevSelected) =>
+          prevSelected.filter((t) => t !== time),
+        );
       } else {
-        setSelectedTime([time]);
+        if (isMultiSelections) {
+          setSelectedTime((prevSelected) => [...prevSelected, time]);
+        } else {
+          setSelectedTime([time]);
+        }
       }
     }
   };
@@ -135,6 +148,19 @@ const TimeItem = (props: Props) => {
     setStartSelection(-1);
   };
 
+  const isAvailableTime = (time: number) => {
+    if (appointmentsForUsers) {
+      return appointmentsForUsers.some(
+        (appointment) =>
+          appointment.date === `${selectedDate}` &&
+          appointment.is_available === true &&
+          appointment.start_time === time,
+      );
+    } else {
+      return true;
+    }
+  };
+
   return (
     <TimeDiv $width={width}>
       <TableContainer>
@@ -154,6 +180,9 @@ const TimeItem = (props: Props) => {
                     data-time={time}
                     $selected={selectedTime.includes(time)}
                     onClick={() => click(time)}
+                    {...(!isAvailableTime(time) && {
+                      $disabled: true,
+                    })}
                     {...(isMultiSelections && {
                       onMouseDown: () => mouseDown(time),
                       onTouchStart: () => mouseDown(time),
@@ -186,6 +215,9 @@ const TimeItem = (props: Props) => {
                     data-time={time}
                     $selected={selectedTime.includes(time)}
                     onClick={() => click(time)}
+                    {...(!isAvailableTime(time) && {
+                      $disabled: true,
+                    })}
                     {...(isMultiSelections && {
                       onMouseDown: () => mouseDown(time),
                       onTouchStart: () => mouseDown(time),
@@ -218,6 +250,9 @@ const TimeItem = (props: Props) => {
                     data-time={time}
                     $selected={selectedTime.includes(time)}
                     onClick={() => click(time)}
+                    {...(!isAvailableTime(time) && {
+                      $disabled: true,
+                    })}
                     {...(isMultiSelections && {
                       onMouseDown: () => mouseDown(time),
                       onTouchStart: () => mouseDown(time),

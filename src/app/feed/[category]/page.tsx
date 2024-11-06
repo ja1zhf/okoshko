@@ -38,16 +38,28 @@ const Page = ({ params }: { params: Params }) => {
   const searchParams = useSearchParams();
 
   const service = parseInt(searchParams.get("service")!);
+  const date = searchParams.get("date");
 
   if (!allowedCategories.includes(category)) {
     notFound();
   }
 
   useEffect(() => {
-    (async function () {
+    (async function() {
       let body;
 
-      if (service !== 0) {
+      if (service !== 0 && date) {
+        body = {
+          speciality_name: title[allowedCategories.indexOf(category)],
+          service_id: service,
+          dates: [date],
+        };
+      } else if (date) {
+        body = {
+          speciality_name: title[allowedCategories.indexOf(category)],
+          dates: [date],
+        };
+      } else if (service !== 0) {
         body = {
           speciality_name: title[allowedCategories.indexOf(category)],
           service_id: service,

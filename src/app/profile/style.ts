@@ -27,7 +27,7 @@ export const AvatarBlockDiv = styled.div`
   }
 `;
 
-export const AvatarEditButton = styled.button`
+export const AvatarEditButton = styled.input`
   color: ${(props) => props.theme.colors.black};
   font-feature-settings:
     "liga" off,

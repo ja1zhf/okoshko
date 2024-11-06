@@ -14,6 +14,7 @@ import {
   CalendarTitle,
   TableContainer,
 } from "./style";
+import { formatDate } from "@/tools/tools";
 
 interface Props {
   isMultiSelections: boolean;
@@ -119,9 +120,9 @@ const CalendarItem = (props: Props) => {
 
   const click = (day: number) => {
     if (
-      day >= today.getDate() &&
-      currentMonth >= today.getMonth() &&
-      currentYear >= today.getFullYear()
+      new Date(currentYear, currentMonth, day).setHours(0, 0, 0, 0) >=
+        today.setHours(0, 0, 0, 0) &&
+      isAvailableDate(day)
     ) {
       if (selectedDays.includes(day)) {
         setSelectedDays((prevSelected) =>
@@ -155,9 +156,8 @@ const CalendarItem = (props: Props) => {
 
       for (let i = start; i <= end; i++) {
         if (
-          i >= today.getDate() &&
-          currentMonth >= today.getMonth() &&
-          currentYear >= today.getFullYear()
+          new Date(currentYear, currentMonth, i).setHours(0, 0, 0, 0) >=
+          today.setHours(0, 0, 0, 0)
         ) {
           if (!selectedDays.includes(i) && isSelection) {
             setSelectedDays((prevSelected) => [...prevSelected, i]);
@@ -184,9 +184,8 @@ const CalendarItem = (props: Props) => {
 
         for (let i = start; i <= end; i++) {
           if (
-            i >= today.getDate() &&
-            currentMonth >= today.getMonth() &&
-            currentYear >= today.getFullYear()
+            new Date(currentYear, currentMonth, i).setHours(0, 0, 0, 0) >=
+            today.setHours(0, 0, 0, 0)
           ) {
             if (!selectedDays.includes(i) && isSelection) {
               setSelectedDays((prevSelected) => [...prevSelected, i]);
@@ -203,12 +202,15 @@ const CalendarItem = (props: Props) => {
   };
 
   const isAvailableDate = (day: number) => {
-    return appointmentsForUsers?.some(
-      (appointment) =>
-        appointment.date ===
-          `${currentYear}-${currentMonth}-${day < 10 ? `0${day}` : day}` &&
-        appointment.is_available,
-    );
+    if (appointmentsForUsers) {
+      return appointmentsForUsers.some(
+        (appointment) =>
+          appointment.date === formatDate(day, currentMonth, currentYear) &&
+          appointment.is_available === true,
+      );
+    } else {
+      return true;
+    }
   };
 
   const mouseUp = () => {
@@ -268,7 +270,7 @@ const CalendarItem = (props: Props) => {
                         appointments.some(
                           (appointment) =>
                             appointment.date ===
-                            `${currentYear}-${currentMonth}-${day < 10 ? `0${day}` : day}`,
+                            formatDate(day, currentMonth, currentYear),
                         ) && {
                           $isAvailable: true,
                         })}

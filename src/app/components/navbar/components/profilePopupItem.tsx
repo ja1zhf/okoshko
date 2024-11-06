@@ -14,8 +14,8 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 interface Props {
-  user: UserType;
-  setUser: (newUser: UserType | null) => void;
+  user: ProfileType;
+  setUser: (newUser: ProfileType | null) => void;
   setIsActive: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -105,7 +105,7 @@ const ProfilePopupItem = (props: Props) => {
             alt="avatar"
             width={70}
             height={70}
-            src="/img/avatar.png"
+            src={user.avatar_url ? user.avatar_url : "/img/non_avatar.jpg"}
           />
           <ProfileNameText>
             {user?.first_name} {user?.last_name[0]}.

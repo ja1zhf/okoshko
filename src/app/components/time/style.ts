@@ -20,7 +20,9 @@ export const TableContainer = styled.div`
   width: 100%;
 `;
 
-export const TimeCell = styled.td<{ $selected: boolean }>`
+export const TimeCell = styled.td<{ $selected: boolean; $disabled?: boolean }>`
+  ${(props) => props.$disabled && "opacity: 0.3;"}
+
   text-align: center;
   background-color: ${(props) => (props.$selected ? "#794CC3" : "#f5f4f9")};
   color: ${(props) => (props.$selected ? "#f5f4f9" : "#000000")};

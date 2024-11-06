@@ -16,10 +16,6 @@ import UserContext from "@/contexts/userContext";
 const Page = () => {
   const { user } = useContext(UserContext);
 
-  const profile = {
-    avatar: "/img/avatar.png",
-  };
-
   const [firstNameInput, setFirstNameInput] = useState<string>(
     user ? user.first_name : "",
   );
@@ -36,9 +32,14 @@ const Page = () => {
       <ProfilePageTitle>Мой профиль</ProfilePageTitle>
       <ProfileDiv>
         <AvatarBlockDiv>
-          <Image alt="avatar" width={140} height={140} src={profile.avatar} />
-          <AvatarEditButton>Загрузить</AvatarEditButton>
-          <AvatarEditButton>Удалить</AvatarEditButton>
+          <Image
+            alt="avatar"
+            width={140}
+            height={140}
+            src={user?.avatar_url ? user.avatar_url : "/img/non_avatar.jpg"}
+          />
+          <AvatarEditButton type="file" />
+          <AvatarEditButton type="submit" value={"Удалить"} />
         </AvatarBlockDiv>
         <ProfileInputDiv>
           <InputItem
@@ -71,6 +72,24 @@ const Page = () => {
           inputValue={emailInput}
           setInputValue={setEmailInput}
         />
+        {user?.role === "master" && (
+          <>
+            <InputItem
+              title="Описание"
+              isNumber={false}
+              canBeEmpty={true}
+              inputValue={emailInput}
+              setInputValue={setEmailInput}
+            />
+            <InputItem
+              title="Район"
+              isNumber={false}
+              canBeEmpty={true}
+              inputValue={emailInput}
+              setInputValue={setEmailInput}
+            />
+          </>
+        )}
         <SubmitButton whileTap={{ scale: 0.9 }}>Сохранить</SubmitButton>
       </ProfileDiv>
     </PageDiv>

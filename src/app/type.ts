@@ -36,7 +36,7 @@ interface ServiceType {
 interface AppointmentType {
   id: number;
   date: string;
-  start_time: string;
+  start_time: number;
   appointment: null;
   is_available: boolean;
 }
@@ -53,16 +53,6 @@ interface MasterType {
   is_favorited: boolean;
   available_appointments: AppointmentType[];
   featured_photos: string[];
-}
-
-interface UserType {
-  id: number;
-  phone: string;
-  first_name: string;
-  last_name: string;
-  email: string | null;
-  role: string;
-  master: string | null;
 }
 
 interface MasterFavorite {

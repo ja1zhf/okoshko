@@ -12,6 +12,7 @@ import CalendarItem from "@/app/components/calendar/calendarItem";
 import { useEffect, useState } from "react";
 import { PageDiv, SubmitButton } from "@/app/styles/style";
 import SelectItem from "@/app/components/select/selectItem";
+import { formatDate } from "@/tools/tools";
 
 interface Params {
   category: string;
@@ -121,7 +122,18 @@ const Page = ({ params }: { params: Params }) => {
       </CategoryDateAndBlockDiv>
       <SubmitButton
         onClick={() => {
-          router.push(`/feed/${category}?service=${selectedServices}`);
+          if (selectedDays.length > 0) {
+            let formatedDate = formatDate(
+              selectedDays[0],
+              selectedMonth,
+              selectedYear,
+            );
+            router.push(
+              `/feed/${category}?service=${selectedServices}&date=${formatedDate}`,
+            );
+          } else {
+            router.push(`/feed/${category}?service=${selectedServices}`);
+          }
         }}
         whileTap={{ scale: 0.9 }}
       >

@@ -16,7 +16,7 @@ interface SignInData {
 interface CheckData {
   status: number;
   message: string;
-  user: UserType;
+  user: ProfileType;
 }
 
 const Page = () => {
