@@ -25,6 +25,7 @@ import PhotosItem from "@/app/components/photos/photosItem";
 import LikeItem from "../../components/like/likeItem";
 import UserContext from "@/contexts/userContext";
 import { formatDate } from "@/tools/tools";
+import { usePopup } from "@/contexts/popupContext";
 
 interface Params {
   id: string;
@@ -34,7 +35,9 @@ const Page = ({ params }: { params: Params }) => {
   const { id } = params;
 
   const { user } = useContext(UserContext);
+  const { showPopup } = usePopup();
 
+  const [selectedService, setSelectedService] = useState(0);
   const [selectedDays, setSelectedDays] = useState<number[]>([]);
   const [selectedMonth, setSelectedMonth] = useState(0);
   const [selectedYear, setSelectedYear] = useState(0);
@@ -63,6 +66,37 @@ const Page = ({ params }: { params: Params }) => {
   useEffect(() => {
     getMasterInfo();
   }, []);
+
+  useEffect(() => {
+    setSelectedTime([]);
+  }, [selectedDays]);
+
+  const submit = async () => {
+    const response = await fetch(
+      `https://dev.okoshko.space/table/slot/appointments/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          date: formatDate(selectedDays[0], selectedMonth, selectedYear),
+          start_time: selectedTime[0],
+          service_id: selectedService,
+          master_id: id,
+        }),
+      },
+    );
+
+    const result = await response.json();
+
+    console.log(result);
+
+    if (result.status === 400) {
+      showPopup("failure", result.error);
+    }
+  };
 
   return (
     <PageDiv>
@@ -129,8 +163,11 @@ const Page = ({ params }: { params: Params }) => {
           {master?.services.map((service, index) => (
             <ServicesItem
               key={index}
+              id={service.id}
               title={service.title}
               price={service.price}
+              selectedService={selectedService}
+              setSelectedService={setSelectedService}
             />
           ))}
         </MasterServicesList>
@@ -166,7 +203,9 @@ const Page = ({ params }: { params: Params }) => {
         </MasterBlockDiv>
       )}
       {selectedDays.length > 0 && selectedTime.length > 0 && (
-        <SubmitButton whileTap={{ scale: 0.9 }}>Записаться</SubmitButton>
+        <SubmitButton whileTap={{ scale: 0.9 }} onClick={submit}>
+          Записаться
+        </SubmitButton>
       )}
       {master && master.reviews.length > 0 && (
         <MasterBlockDiv>

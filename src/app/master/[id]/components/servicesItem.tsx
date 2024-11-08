@@ -1,28 +1,31 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { ServiceButton } from "../style";
 import { motion } from "framer-motion";
 
 interface Props {
+  id: number;
   title: string;
   price: number;
+  selectedService: number;
+  setSelectedService: Dispatch<SetStateAction<number>>;
 }
 
 const ServicesItem = (props: Props) => {
-  const { title, price } = props;
-
-  const [isActive, setIsActive] = useState(false);
+  const { id, title, price, selectedService, setSelectedService } = props;
 
   return (
     <ServiceButton
-      {...(isActive && { $isActive: true })}
-      onClick={() => setIsActive(!isActive)}
+      {...(selectedService === id && { $isActive: true })}
+      onClick={() => {
+        setSelectedService(id);
+      }}
     >
       <div className="info">
         <h3>{title}</h3>
         <p>{price} ₽</p>
       </div>
       <div className="icon">
-        {isActive ? (
+        {selectedService === id ? (
           <motion.svg
             xmlns="http://www.w3.org/2000/svg"
             x="0px"

@@ -27,6 +27,21 @@ export const AvatarBlockDiv = styled.div`
   }
 `;
 
+export const AvatarLoadButton = styled.label`
+  color: ${(props) => props.theme.colors.black};
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 125%;
+  padding: 18px;
+  border: none;
+  border-radius: 2.5em;
+  background-color: #f5f5f9;
+`;
+
 export const AvatarEditButton = styled.input`
   color: ${(props) => props.theme.colors.black};
   font-feature-settings:

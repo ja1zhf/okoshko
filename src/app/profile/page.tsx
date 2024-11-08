@@ -5,6 +5,7 @@ import { PageDiv, SubmitButton } from "../styles/style";
 import {
   AvatarBlockDiv,
   AvatarEditButton,
+  AvatarLoadButton,
   ProfileDiv,
   ProfileInputDiv,
   ProfilePageTitle,
@@ -27,6 +28,24 @@ const Page = () => {
     user ? (user.email ? user.email : "") : "",
   );
 
+  const submit = async () => {
+    const response = await fetch(
+      `https://dev.okoshko.space/users/profile/update/`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({}),
+      },
+    );
+
+    const result = await response.json();
+
+    console.log(result);
+  };
+
   return (
     <PageDiv>
       <ProfilePageTitle>Мой профиль</ProfilePageTitle>
@@ -38,7 +57,10 @@ const Page = () => {
             height={140}
             src={user?.avatar_url ? user.avatar_url : "/img/non_avatar.jpg"}
           />
-          <AvatarEditButton type="file" />
+          <div>
+            <AvatarLoadButton htmlFor="file-upload">Загрузить</AvatarLoadButton>
+            <input id="file-upload" type="file" style={{ display: "none" }} />
+          </div>
           <AvatarEditButton type="submit" value={"Удалить"} />
         </AvatarBlockDiv>
         <ProfileInputDiv>
