@@ -72,6 +72,14 @@ const Page = ({ params }: { params: Params }) => {
   }, [selectedDays]);
 
   const submit = async () => {
+    if (
+      selectedDays.length === 0 ||
+      selectedTime.length === 0 ||
+      selectedService === 0
+    ) {
+      return showPopup("failure", "Не все поля выбраны");
+    }
+
     const response = await fetch(
       `https://dev.okoshko.space/table/slot/appointments/`,
       {
@@ -93,6 +101,9 @@ const Page = ({ params }: { params: Params }) => {
 
     console.log(result);
 
+    if (result.status === 201) {
+      showPopup("success", "Вы успешно записались");
+    }
     if (result.status === 400) {
       showPopup("failure", result.error);
     }

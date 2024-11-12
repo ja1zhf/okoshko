@@ -20,8 +20,15 @@ export const TableContainer = styled.div`
   width: 100%;
 `;
 
-export const TimeCell = styled.td<{ $selected: boolean; $disabled?: boolean }>`
+export const TimeCell = styled.td<{
+  $selected: boolean;
+  $isAvailable?: boolean;
+  $disabled?: boolean;
+}>`
   ${(props) => props.$disabled && "opacity: 0.3;"}
+
+  ${(props) =>
+    props.$isAvailable && `border: 2px solid ${props.theme.colors.primary};`}
 
   text-align: center;
   background-color: ${(props) => (props.$selected ? "#794CC3" : "#f5f4f9")};

@@ -7,6 +7,7 @@ import { ButtonsDiv, ScheduleButton, SchedulePageTitle } from "./style";
 import PopupItem from "./components/popupItem";
 import UserContext from "@/contexts/userContext";
 import { notFound } from "next/navigation";
+import { formatDate } from "@/tools/tools";
 
 const Page = () => {
   const { user } = useContext(UserContext);
@@ -26,9 +27,7 @@ const Page = () => {
     let temp: string[] = [];
 
     selectedDays.map((day) => {
-      temp.push(
-        `${selectedYear}-${selectedMonth < 10 ? "0" + selectedMonth : selectedMonth}-${day < 10 ? "0" + day : day}`,
-      );
+      temp.push(formatDate(day, selectedMonth, selectedYear));
     });
 
     setSelectedDates(temp);

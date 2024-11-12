@@ -11,33 +11,65 @@ import {
   ProfilePageTitle,
 } from "./style";
 import InputItem from "../components/input/inputItem";
-import { useContext, useState } from "react";
-import UserContext from "@/contexts/userContext";
+import { useEffect, useState } from "react";
+import AddressInput from "../components/address/addressInput";
+import { notFound } from "next/navigation";
 
 const Page = () => {
-  const { user } = useContext(UserContext);
+  const [profile, setProfile] = useState<EditProfileType>();
 
-  const [firstNameInput, setFirstNameInput] = useState<string>(
-    user ? user.first_name : "",
-  );
-  const [lastNameInput, setLastNameInput] = useState<string>(
-    user ? user.last_name : "",
-  );
-  const [phoneInput, setPhoneInput] = useState<string>(user ? user.phone : "");
-  const [emailInput, setEmailInput] = useState<string>(
-    user ? (user.email ? user.email : "") : "",
-  );
+  const [firstNameInput, setFirstNameInput] = useState<string>("");
+  const [lastNameInput, setLastNameInput] = useState<string>("");
+  const [phoneInput, setPhoneInput] = useState<string>("");
+  const [emailInput, setEmailInput] = useState<string>("");
+  const [descriptionInput, setDescriptionInput] = useState("");
+  const [districtInput, setDistrictInput] = useState("");
+  const [selectedAddress, setSelectedAddress] = useState<string>("");
 
-  const submit = async () => {
-    const response = await fetch(
-      `https://dev.okoshko.space/users/profile/update/`,
-      {
-        method: "PATCH",
+  const handleAddressSelect = (address: string) => {
+    setSelectedAddress(address);
+  };
+
+  useEffect(() => {
+    (async function () {
+      const response = await fetch(`https://dev.okoshko.space/users/profile/`, {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
         credentials: "include",
-        body: JSON.stringify({}),
+      });
+
+      const result: EditProfileType = await response.json();
+
+      setFirstNameInput(result.user_profile.first_name);
+      setLastNameInput(result.user_profile.last_name);
+      setPhoneInput(result.user_profile.phone);
+      setEmailInput(result.user_profile.email);
+      setDescriptionInput(result.master_profile.description);
+      setDistrictInput(result.master_profile.district);
+      setSelectedAddress(result.master_profile.address);
+
+      setProfile(result);
+    })();
+  }, []);
+
+  const submit = async () => {
+    const formData = new FormData();
+    formData.append("first_name", firstNameInput);
+    formData.append("last_name", lastNameInput);
+    formData.append("email", emailInput);
+    formData.append("city", "");
+    formData.append("district", districtInput);
+    formData.append("address", selectedAddress);
+    formData.append("description", descriptionInput);
+
+    const response = await fetch(
+      `https://dev.okoshko.space/users/profile/update/`,
+      {
+        method: "PATCH",
+        credentials: "include",
+        body: formData,
       },
     );
 
@@ -55,7 +87,11 @@ const Page = () => {
             alt="avatar"
             width={140}
             height={140}
-            src={user?.avatar_url ? user.avatar_url : "/img/non_avatar.jpg"}
+            src={
+              profile?.user_profile.avatar_url
+                ? profile.user_profile.avatar_url
+                : "/img/non_avatar.jpg"
+            }
           />
           <div>
             <AvatarLoadButton htmlFor="file-upload">Загрузить</AvatarLoadButton>
@@ -94,25 +130,28 @@ const Page = () => {
           inputValue={emailInput}
           setInputValue={setEmailInput}
         />
-        {user?.role === "master" && (
+        {profile?.user_profile.role === "master" && (
           <>
             <InputItem
               title="Описание"
               isNumber={false}
               canBeEmpty={true}
-              inputValue={emailInput}
-              setInputValue={setEmailInput}
+              inputValue={descriptionInput}
+              setInputValue={setDescriptionInput}
             />
             <InputItem
               title="Район"
               isNumber={false}
               canBeEmpty={true}
-              inputValue={emailInput}
-              setInputValue={setEmailInput}
+              inputValue={districtInput}
+              setInputValue={setDistrictInput}
             />
+            <AddressInput onAddressSelect={handleAddressSelect} />
           </>
         )}
-        <SubmitButton whileTap={{ scale: 0.9 }}>Сохранить</SubmitButton>
+        <SubmitButton whileTap={{ scale: 0.9 }} onClick={submit}>
+          Сохранить
+        </SubmitButton>
       </ProfileDiv>
     </PageDiv>
   );

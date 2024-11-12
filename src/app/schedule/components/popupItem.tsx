@@ -83,18 +83,20 @@ const PopupItem = (props: Props) => {
             inputValue={input}
             setInputValue={setInput}
           />
-          <SelectItem
-            title="Категория"
-            options={categories}
-            selectedOption={selectedCategory}
-            setSelectedOption={setSelectedCategory}
-          />
-          <SelectItem
-            title="Услуга"
-            options={categories}
-            selectedOption={selectedService}
-            setSelectedOption={setSelectedService}
-          />
+          {
+            // <SelectItem
+            //   title="Категория"
+            //   options={categories}
+            //   selectedOption={selectedCategory}
+            //   setSelectedOption={setSelectedCategory}
+            // />
+            // <SelectItem
+            //   title="Услуга"
+            //   options={categories}
+            //   selectedOption={selectedService}
+            //   setSelectedOption={setSelectedService}
+            //   />
+          }
         </>
       )}
       <TimeItem

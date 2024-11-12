@@ -12,6 +12,7 @@ interface Props {
   isMultiSelections: boolean;
   selectedTime: number[];
   selectedDate?: string;
+  appointments?: AppointmentType[];
   appointmentsForUsers?: AppointmentType[];
   setSelectedTime: Dispatch<SetStateAction<number[]>>;
 }
@@ -31,6 +32,7 @@ const TimeItem = (props: Props) => {
     isMultiSelections,
     selectedTime,
     selectedDate,
+    appointments,
     appointmentsForUsers,
     setSelectedTime,
   } = props;
@@ -253,6 +255,14 @@ const TimeItem = (props: Props) => {
                     {...(!isAvailableTime(time) && {
                       $disabled: true,
                     })}
+                    {...(appointments &&
+                      appointments.some(
+                        (appointment) =>
+                          appointment.date === selectedDate &&
+                          appointment.start_time === time,
+                      ) && {
+                        $isAvailable: true,
+                      })}
                     {...(isMultiSelections && {
                       onMouseDown: () => mouseDown(time),
                       onTouchStart: () => mouseDown(time),

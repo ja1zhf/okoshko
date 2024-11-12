@@ -81,6 +81,33 @@ interface ServiceInputType {
   sub_category: number;
 }
 
+interface UserOrderType {
+  id: number;
+  date: string;
+  start_time: number;
+  appointment: {
+    id: number;
+    client: {
+      id: number;
+      phone: string;
+      first_name: string;
+      last_name: string;
+      email: string;
+      role: string;
+      city: string;
+      avatar_url: string;
+    };
+    service: ServiceData;
+    status: number;
+  };
+  is_available: false;
+}
+
+interface EditProfileType {
+  user_profile: ProfileType;
+  master_profile: MasterType;
+}
+
 enum InputType {
   String,
   Number,
