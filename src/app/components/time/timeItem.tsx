@@ -6,6 +6,7 @@ import {
   TimeTitle,
   TableContainer,
 } from "./style";
+import { formatTime } from "@/tools/tools";
 
 interface Props {
   width: number;
@@ -16,15 +17,6 @@ interface Props {
   appointmentsForUsers?: AppointmentType[];
   setSelectedTime: Dispatch<SetStateAction<number[]>>;
 }
-
-const formatTime = (time: number): string => {
-  const numStr = time.toString().padStart(4, "0");
-
-  const hours = numStr.slice(0, 2);
-  const minutes = numStr.slice(2);
-
-  return `${hours}:${minutes}`;
-};
 
 const TimeItem = (props: Props) => {
   const {

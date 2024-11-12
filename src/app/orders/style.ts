@@ -170,6 +170,11 @@ export const OrderServicesListDiv = styled.div`
   }
 `;
 
+export const OrderButtons = styled.div`
+  display: flex;
+  gap: 12px;
+`;
+
 export const OrderCancelButton = styled.button`
   color: ${(props) => props.theme.colors.black};
   font-feature-settings:

@@ -99,8 +99,6 @@ const Page = ({ params }: { params: Params }) => {
 
     const result = await response.json();
 
-    console.log(result);
-
     if (result.status === 201) {
       showPopup("success", "Вы успешно записались");
     }
@@ -125,7 +123,7 @@ const Page = ({ params }: { params: Params }) => {
         <MasterNameText>
           {master?.profile.first_name} {master?.profile.last_name}
         </MasterNameText>
-        <MasterLocationText>none location</MasterLocationText>
+        <MasterLocationText>{master?.address}</MasterLocationText>
         <MasterRaitingDiv>
           <div className="score">
             <svg

@@ -83,24 +83,32 @@ interface ServiceInputType {
 
 interface UserOrderType {
   id: number;
-  date: string;
-  start_time: number;
-  appointment: {
-    id: number;
-    client: {
-      id: number;
-      phone: string;
-      first_name: string;
-      last_name: string;
-      email: string;
-      role: string;
-      city: string;
-      avatar_url: string;
-    };
-    service: ServiceData;
-    status: number;
+  client: ProfileType;
+  service: ServiceData;
+  status: number;
+  master_info: MasterType;
+  slot: {
+    date: string;
+    start_time: number;
   };
-  is_available: false;
+}
+
+interface MasterOrderType {
+  id: number;
+  client: ProfileType;
+  service: ServiceData;
+  status: number;
+  master_info: {
+    name: string;
+    surname: string;
+    address: string;
+    avatar: null;
+    reviews: [];
+  };
+  slot: {
+    date: string;
+    start_time: number;
+  };
 }
 
 interface EditProfileType {

@@ -16,20 +16,12 @@ interface Props {
 const PopupItem = (props: Props) => {
   const { isActive, selectedDates, setIsActive, getAppointment } = props;
 
-  const categories = [
-    "Ногти",
-    "Брови и ресницы",
-    "Лицо",
-    "Волосы",
-    "Тело",
-    "Эпиляция",
-  ];
-
   const [selectedTime, setSelectedTime] = useState<number[]>([]);
 
-  const [input, setInput] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(categories[0]);
-  const [selectedService, setSelectedService] = useState("");
+  const [services, setServices] = useState<{ id: number; title: string }[]>([]);
+
+  const [phoneInput, setPhoneInput] = useState("");
+  const [selectedService, setSelectedService] = useState(0);
 
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -40,23 +32,66 @@ const PopupItem = (props: Props) => {
   };
 
   const click = async () => {
-    await fetch("https://dev.okoshko.space/table/slot/create/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        dates: selectedDates,
-        start_times: selectedTime,
-      }),
-    });
+    if (isActive === 2) {
+      await fetch("https://dev.okoshko.space/table/slot/create/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          dates: selectedDates,
+          start_times: selectedTime,
+        }),
+      });
 
-    setIsActive(0);
-    getAppointment();
+      setIsActive(0);
+      getAppointment();
+    } else if (isActive === 1) {
+      await fetch("https://dev.okoshko.space/table/slot/appointments/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          phone: phoneInput,
+          date: selectedDates[0],
+          start_time: selectedTime[0],
+          service_id: selectedService,
+        }),
+      });
+
+      setIsActive(0);
+    }
   };
 
   useEffect(() => {
+    (async function () {
+      const response = await fetch(
+        `https://dev.okoshko.space/service/my-services`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        },
+      );
+
+      const result: { status: number; services: ServiceData[] } =
+        await response.json();
+
+      let temp: { id: number; title: string }[] = [];
+
+      result.services.map((service) => {
+        temp.push({ id: service.id, title: service.title });
+      });
+
+      setSelectedService(temp[0].id);
+      setServices(temp);
+    })();
+
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
@@ -80,23 +115,15 @@ const PopupItem = (props: Props) => {
             isNumber={true}
             canBeEmpty={false}
             title="Номер телефона клиент"
-            inputValue={input}
-            setInputValue={setInput}
+            inputValue={phoneInput}
+            setInputValue={setPhoneInput}
           />
-          {
-            // <SelectItem
-            //   title="Категория"
-            //   options={categories}
-            //   selectedOption={selectedCategory}
-            //   setSelectedOption={setSelectedCategory}
-            // />
-            // <SelectItem
-            //   title="Услуга"
-            //   options={categories}
-            //   selectedOption={selectedService}
-            //   setSelectedOption={setSelectedService}
-            //   />
-          }
+          <SelectItem
+            title="Услуга"
+            options={services}
+            selectedOption={selectedService}
+            setSelectedOption={setSelectedService}
+          />
         </>
       )}
       <TimeItem

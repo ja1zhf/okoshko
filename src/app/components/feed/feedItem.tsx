@@ -47,7 +47,7 @@ const FeedItem = (props: Props) => {
                     <h3>
                       {master.profile.first_name} {master.profile.last_name}
                     </h3>
-                    <p>none location</p>
+                    <p>{master.address}</p>
                     <div>
                       <div className="scores">
                         <svg
