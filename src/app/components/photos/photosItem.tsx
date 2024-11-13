@@ -3,7 +3,11 @@ import { SlideDiv, SliderDiv, SliderWrapperDiv } from "./style";
 import Image from "next/image";
 
 interface Props {
-  photos: string[];
+  photos: {
+    id: number;
+    image: string;
+    uploaded_at: string;
+  }[];
 }
 
 const PhotosItem = ({ photos }: Props) => {
@@ -22,7 +26,7 @@ const PhotosItem = ({ photos }: Props) => {
       const maxDrag = sliderWidth - wrapperWidth;
 
       setSliderConstraints({
-        left: maxDrag > 0 ? -maxDrag : 0, 
+        left: maxDrag > 0 ? -maxDrag : 0,
         right: 0,
       });
     }
@@ -42,7 +46,6 @@ const PhotosItem = ({ photos }: Props) => {
       resizeObserver.observe(sliderRef.current);
     }
 
-    // Cleanup
     return () => {
       resizeObserver.disconnect();
     };
@@ -54,11 +57,19 @@ const PhotosItem = ({ photos }: Props) => {
         ref={sliderRef}
         drag="x"
         dragConstraints={sliderConstraints}
-        style={{ cursor: "grab", display: "flex" }} 
+        style={{ cursor: "grab", display: "flex" }}
       >
         {photos.map((photo, index) => (
-          <SlideDiv key={index} style={{ flex: "0 0 auto", marginRight: "12px" }}>
-            <Image alt={`Photo ${index + 1}`} width={128} height={128} src={photo} />
+          <SlideDiv
+            key={index}
+            style={{ flex: "0 0 auto", marginRight: "12px" }}
+          >
+            <Image
+              alt={`Photo ${index + 1}`}
+              width={128}
+              height={128}
+              src={photo.image}
+            />
           </SlideDiv>
         ))}
       </SliderDiv>

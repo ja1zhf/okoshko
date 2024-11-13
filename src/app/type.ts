@@ -52,7 +52,11 @@ interface MasterType {
   profile: ProfileType;
   is_favorited: boolean;
   available_appointments: AppointmentType[];
-  featured_photos: string[];
+  featured_photos: {
+    id: number;
+    image: string;
+    uploaded_at: string;
+  }[];
 }
 
 interface MasterFavorite {

@@ -8,12 +8,14 @@ import {
   AvatarLoadButton,
   ProfileDiv,
   ProfileInputDiv,
+  ProfileKindDiv,
   ProfilePageTitle,
 } from "./style";
 import InputItem from "../components/input/inputItem";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import AddressInput from "../components/address/addressInput";
 import { notFound } from "next/navigation";
+import KindButton from "./components/kindButton";
 
 const Page = () => {
   const [profile, setProfile] = useState<EditProfileType>();
@@ -25,6 +27,14 @@ const Page = () => {
   const [descriptionInput, setDescriptionInput] = useState("");
   const [districtInput, setDistrictInput] = useState("");
   const [selectedAddress, setSelectedAddress] = useState<string>("");
+  const [avatarInput, setAvatarInput] = useState<File | null>(null);
+  const [masterKind, setMasterKind] = useState<number[]>([]);
+
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      setAvatarInput(event.target.files[0]);
+    }
+  };
 
   const handleAddressSelect = (address: string) => {
     setSelectedAddress(address);
@@ -49,6 +59,7 @@ const Page = () => {
       setDescriptionInput(result.master_profile.description);
       setDistrictInput(result.master_profile.district);
       setSelectedAddress(result.master_profile.address);
+      setMasterKind(result.master_profile.specialities);
 
       setProfile(result);
     })();
@@ -64,18 +75,19 @@ const Page = () => {
     formData.append("address", selectedAddress);
     formData.append("description", descriptionInput);
 
-    const response = await fetch(
-      `https://dev.okoshko.space/users/profile/update/`,
-      {
-        method: "PATCH",
-        credentials: "include",
-        body: formData,
-      },
-    );
+    masterKind.map((speciality) => {
+      formData.append("specialities", speciality);
+    });
 
-    const result = await response.json();
+    if (avatarInput) {
+      formData.append("avatar", avatarInput);
+    }
 
-    console.log(result);
+    await fetch(`https://dev.okoshko.space/users/profile/update/`, {
+      method: "PATCH",
+      credentials: "include",
+      body: formData,
+    });
   };
 
   return (
@@ -95,11 +107,55 @@ const Page = () => {
           />
           <div>
             <AvatarLoadButton htmlFor="file-upload">Загрузить</AvatarLoadButton>
-            <input id="file-upload" type="file" style={{ display: "none" }} />
+            <input
+              id="file-upload"
+              type="file"
+              accept="image/*"
+              style={{ display: "none" }}
+              onChange={handleFileChange}
+            />
           </div>
           <AvatarEditButton type="submit" value={"Удалить"} />
         </AvatarBlockDiv>
         <ProfileInputDiv>
+          <ProfileKindDiv>
+            <KindButton
+              id={1}
+              title="Ногти"
+              masterKind={masterKind}
+              setMasterKind={setMasterKind}
+            />
+            <KindButton
+              id={3}
+              title="Брови и ресницы"
+              masterKind={masterKind}
+              setMasterKind={setMasterKind}
+            />
+            <KindButton
+              id={4}
+              title="Уход за лицом"
+              masterKind={masterKind}
+              setMasterKind={setMasterKind}
+            />
+            <KindButton
+              id={5}
+              title="Макияж"
+              masterKind={masterKind}
+              setMasterKind={setMasterKind}
+            />
+            <KindButton
+              id={6}
+              title="Волосы"
+              masterKind={masterKind}
+              setMasterKind={setMasterKind}
+            />
+            <KindButton
+              id={7}
+              title="Тело"
+              masterKind={masterKind}
+              setMasterKind={setMasterKind}
+            />
+          </ProfileKindDiv>
           <InputItem
             title="Имя"
             isNumber={false}

@@ -1,6 +1,13 @@
 import { PopupDiv, SubmitButton } from "@/app/styles/style";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
-import { PopupTitle } from "./style";
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { Button, PopupTitle } from "./style";
 import InputItem from "@/app/components/input/inputItem";
 import SelectItem from "@/app/components/select/selectItem";
 
@@ -27,24 +34,35 @@ const PopupItem = (props: Props) => {
   const [titleInput, setTitleInput] = useState(title);
   const [timeInput, setTimeInput] = useState(time);
   const [priceInput, setPriceInput] = useState(price);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      setSelectedFiles(Array.from(event.target.files));
+    }
+  };
 
   const click = async () => {
     if (!isEdit) {
+      const formData = new FormData();
+      formData.append("service", selectedService);
+      formData.append("title", titleInput);
+      formData.append("description", "");
+      formData.append("price", priceInput);
+      formData.append("duration", timeInput);
+
+      if (selectedFiles.length > 0) {
+        selectedFiles.map((file) => {
+          formData.append("photos", file);
+        });
+      }
+
       const response = await fetch(
         `https://dev.okoshko.space/service/services/create/`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
           credentials: "include",
-          body: JSON.stringify({
-            service: selectedService,
-            title: titleInput,
-            description: "",
-            price: priceInput,
-            duration: timeInput,
-          }),
+          body: formData,
         },
       );
 
@@ -147,6 +165,19 @@ const PopupItem = (props: Props) => {
         inputValue={priceInput}
         setInputValue={setPriceInput}
       />
+      {!isEdit && (
+        <>
+          <Button htmlFor="file-upload">Добавить фото</Button>
+          <input
+            id="file-upload"
+            type="file"
+            accept="image/*"
+            style={{ display: "none" }}
+            onChange={handleFileChange}
+            multiple
+          />
+        </>
+      )}
       <SubmitButton onClick={click} whileTap={{ scale: 0.9 }}>
         {isEdit ? "Изменить" : "Добавить"}
       </SubmitButton>

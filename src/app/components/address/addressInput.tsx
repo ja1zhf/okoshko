@@ -63,7 +63,7 @@ const AddressInput = ({ onAddressSelect }: AddressInputProps) => {
             }}
             transition={{ duration: 0.2 }}
           >
-            Адресс
+            Адрес
           </InputLabel>
         </InputDiv>
       </StandaloneSearchBox>

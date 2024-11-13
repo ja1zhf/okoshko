@@ -82,7 +82,7 @@ const FeedItem = (props: Props) => {
                   )}
                 </MasterInfoDiv>
                 {master.featured_photos.length > 0 && (
-                  <PhotosItem photos={[""]} />
+                  <PhotosItem photos={master.featured_photos} />
                 )}
                 <MasterServicesDiv>
                   <div>
