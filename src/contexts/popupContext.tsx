@@ -25,10 +25,12 @@ export const PopupProvider = ({ children }: { children: ReactNode }) => {
     setTimeout(() => setIsVisible(false), 5000);
   };
 
+  const hidePopup = () => setIsVisible(false);
+
   return (
     <PopupContext.Provider value={{ showPopup }}>
       {children}
-      {isVisible && <Popup type={type} message={message} />}
+      {isVisible && <Popup type={type} message={message} onClose={hidePopup} />}
     </PopupContext.Provider>
   );
 };
@@ -41,13 +43,18 @@ export const usePopup = (): PopupContextType => {
   return context;
 };
 
-const Popup = ({ type, message }: { type: PopupType; message: string }) => (
-  <PageDarkOverlay>
-    <PopupBlock>
-      <h1>
-        {type[0].toUpperCase()}
-        {type.slice(1, type.length)}
-      </h1>
+const Popup = ({
+  type,
+  message,
+  onClose,
+}: {
+  type: PopupType;
+  message: string;
+  onClose: () => void;
+}) => (
+  <PageDarkOverlay onClick={onClose}>
+    <PopupBlock onClick={(e) => e.stopPropagation()}>
+      <h1>{type === "success" ? "Успешно" : "Ошибка"}</h1>
       <p>{message}</p>
     </PopupBlock>
   </PageDarkOverlay>

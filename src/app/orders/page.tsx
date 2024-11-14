@@ -167,6 +167,9 @@ const Page = () => {
                 <p>{order.service.title}</p>
                 <p>{order.service.price} ₽</p>
               </div>
+              <div>
+                <p>Статус: {order.status}</p>
+              </div>
             </OrderServicesListDiv>
             <OrderCancelButton onClick={() => cancel(order.id)}>
               Отменить заказ

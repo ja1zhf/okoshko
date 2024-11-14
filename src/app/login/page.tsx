@@ -6,6 +6,7 @@ import { PageDiv, SubmitButton } from "../styles/style";
 import { LoginLink, LoginPageTitle, NumberLink } from "./style";
 import { useRouter } from "next/navigation";
 import UserContext from "@/contexts/userContext";
+import { usePopup } from "@/contexts/popupContext";
 
 interface SignInData {
   status: number;
@@ -21,6 +22,8 @@ interface CheckData {
 
 const Page = () => {
   const router = useRouter();
+
+  const { showPopup } = usePopup();
 
   const { setUser } = useContext(UserContext);
 
@@ -40,7 +43,14 @@ const Page = () => {
     );
 
     const result = await response.json();
-    setSignInData(result);
+
+    if (result.status === 200) {
+      setSignInData(result);
+    } else if (result.status === 404) {
+      showPopup("failure", result.erorr);
+    } else {
+      showPopup("failure", result.error);
+    }
   };
 
   const sendCheck = async () => {

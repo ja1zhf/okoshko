@@ -5,6 +5,7 @@ import {
   AppTitle,
   NavbarAuthLink,
   NavbarDiv,
+  NavbarRightSideDiv,
   NavbarText,
   ProfileButton,
   ProfileLeftSideDiv,
@@ -13,6 +14,7 @@ import { useContext, useState } from "react";
 import ProfilePopupItem from "./components/profilePopupItem";
 import Link from "next/link";
 import UserContext from "@/contexts/userContext";
+import DistrictItem from "./components/districtItem";
 
 const NavbarItem = () => {
   const { user, setUser } = useContext(UserContext);
@@ -21,7 +23,10 @@ const NavbarItem = () => {
 
   return (
     <NavbarDiv>
-      <AppTitle href="/">ОКОШКО</AppTitle>
+      <NavbarRightSideDiv>
+        <AppTitle href="/">ОКОШКО</AppTitle>
+        <DistrictItem />
+      </NavbarRightSideDiv>
       <ProfileLeftSideDiv>
         {user ? (
           <>

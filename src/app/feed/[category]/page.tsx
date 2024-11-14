@@ -38,6 +38,7 @@ const Page = ({ params }: { params: Params }) => {
   const searchParams = useSearchParams();
 
   const service = parseInt(searchParams.get("service")!);
+  const district = searchParams.get("district");
   const date = searchParams.get("date");
 
   if (!allowedCategories.includes(category)) {
@@ -45,28 +46,13 @@ const Page = ({ params }: { params: Params }) => {
   }
 
   useEffect(() => {
-    (async function() {
-      let body;
-
-      if (service !== 0 && date) {
-        body = {
-          speciality_name: title[allowedCategories.indexOf(category)],
-          service_id: service,
-          dates: [date],
-        };
-      } else if (date) {
-        body = {
-          speciality_name: title[allowedCategories.indexOf(category)],
-          dates: [date],
-        };
-      } else if (service !== 0) {
-        body = {
-          speciality_name: title[allowedCategories.indexOf(category)],
-          service_id: service,
-        };
-      } else {
-        body = { speciality_name: title[allowedCategories.indexOf(category)] };
-      }
+    (async function () {
+      const body = {
+        speciality_name: title[allowedCategories.indexOf(category)],
+        ...(service !== 0 && { service_id: service }),
+        ...(district !== "Все районы" && { district }),
+        ...(date && { dates: [date] }),
+      };
 
       const response = await fetch(
         "https://dev.okoshko.space/masters/get_masters_filtered/",

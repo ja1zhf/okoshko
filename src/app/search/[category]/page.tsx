@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { PageDiv, SubmitButton } from "@/app/styles/style";
 import SelectItem from "@/app/components/select/selectItem";
 import { formatDate } from "@/tools/tools";
+import districts from "@/app/districts";
 
 interface Params {
   category: string;
@@ -42,9 +43,12 @@ const Page = ({ params }: { params: Params }) => {
   ];
 
   const [services, setServices] = useState<{ id: number; title: string }[]>([]);
+  const [districtsOptions, setDistrictsOptions] = useState<
+    { id: string; title: string }[]
+  >([]);
 
   const [selectedServices, setSelectedServices] = useState(0);
-  const [selectedDistrict, setSelectedDistrict] = useState(0);
+  const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedDays, setSelectedDays] = useState<number[]>([]);
   const [selectedMonth, setSelectedMonth] = useState(0);
   const [selectedYear, setSelectedYear] = useState(0);
@@ -78,6 +82,21 @@ const Page = ({ params }: { params: Params }) => {
 
       setServices(temp);
     })();
+
+    const city = districts.find(
+      (item) => item.city === localStorage.getItem("city"),
+    );
+
+    if (city) {
+      let temp = [{ id: "Все районы", title: "Все районы" }];
+
+      city.district.map((district) => {
+        temp.push({ id: district, title: district });
+      });
+
+      setDistrictsOptions(temp);
+      setSelectedDistrict(temp[0].id);
+    }
   }, []);
 
   return (
@@ -101,10 +120,7 @@ const Page = ({ params }: { params: Params }) => {
       />
       <SelectItem
         title="Район"
-        options={[
-          { id: 0, title: "variant 1" },
-          { id: 1, title: "variant 2" },
-        ]}
+        options={districtsOptions}
         selectedOption={selectedDistrict}
         setSelectedOption={setSelectedDistrict}
       />
@@ -129,10 +145,12 @@ const Page = ({ params }: { params: Params }) => {
               selectedYear,
             );
             router.push(
-              `/feed/${category}?service=${selectedServices}&date=${formatedDate}`,
+              `/feed/${category}?service=${selectedServices}&district=${selectedDistrict}&date=${formatedDate}`,
             );
           } else {
-            router.push(`/feed/${category}?service=${selectedServices}`);
+            router.push(
+              `/feed/${category}?service=${selectedServices}&district=${selectedDistrict}`,
+            );
           }
         }}
         whileTap={{ scale: 0.9 }}

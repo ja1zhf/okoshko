@@ -6,6 +6,8 @@ import { PageDiv, SubmitButton } from "../styles/style";
 import { NumberLink, RegisterLink, RegisterPageTitle } from "./style";
 import { useRouter } from "next/navigation";
 import UserContext from "@/contexts/userContext";
+import { register } from "module";
+import { usePopup } from "@/contexts/popupContext";
 
 interface SignUpData {
   status: number;
@@ -21,6 +23,8 @@ interface CheckData {
 
 const Page = () => {
   const router = useRouter();
+
+  const { showPopup } = usePopup();
 
   const { setUser } = useContext(UserContext);
 
@@ -46,7 +50,11 @@ const Page = () => {
     );
 
     const result = await response.json();
-    setSignUpData(result);
+    if (result.status === 200 && result.call_to_phone && !result.registered) {
+      setSignUpData(result);
+    } else if (result.status === 409) {
+      showPopup("failure", result.erorr);
+    }
   };
 
   const sendCheck = async () => {

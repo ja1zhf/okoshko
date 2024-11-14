@@ -16,9 +16,18 @@ import { ChangeEvent, useEffect, useState } from "react";
 import AddressInput from "../components/address/addressInput";
 import { notFound } from "next/navigation";
 import KindButton from "./components/kindButton";
+import districts from "@/app/districts";
+import SelectItem from "../components/select/selectItem";
 
 const Page = () => {
   const [profile, setProfile] = useState<EditProfileType>();
+
+  const [districtsOptions, setDistrictsOptions] = useState<
+    {
+      id: string;
+      title: string;
+    }[]
+  >([]);
 
   const [firstNameInput, setFirstNameInput] = useState<string>("");
   const [lastNameInput, setLastNameInput] = useState<string>("");
@@ -63,6 +72,21 @@ const Page = () => {
 
       setProfile(result);
     })();
+
+    const city = districts.find(
+      (item) => item.city === localStorage.getItem("city"),
+    );
+
+    if (city) {
+      let temp: { id: string; title: string }[] = [];
+
+      city.district.map((district) => {
+        temp.push({ id: district, title: district });
+      });
+
+      setDistrictsOptions(temp);
+      setDistrictInput(temp[0].id);
+    }
   }, []);
 
   const submit = async () => {
@@ -195,12 +219,11 @@ const Page = () => {
               inputValue={descriptionInput}
               setInputValue={setDescriptionInput}
             />
-            <InputItem
+            <SelectItem
               title="Район"
-              isNumber={false}
-              canBeEmpty={true}
-              inputValue={districtInput}
-              setInputValue={setDistrictInput}
+              options={districtsOptions}
+              selectedOption={districtInput}
+              setSelectedOption={setDistrictInput}
             />
             <AddressInput onAddressSelect={handleAddressSelect} />
           </>

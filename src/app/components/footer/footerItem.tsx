@@ -19,7 +19,6 @@ const FooterItem = () => {
       </FooterBlockDiv>
       <FooterLineDiv />
       <FooterBlockDiv>
-        <FooterLink href="#">Санкт-Петербург</FooterLink>
         <FooterLink href="#">Пользовательское соглашение</FooterLink>
         <FooterText>© 2024 «Окошко»</FooterText>
       </FooterBlockDiv>

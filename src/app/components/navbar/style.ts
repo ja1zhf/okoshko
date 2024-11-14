@@ -11,6 +11,12 @@ export const NavbarDiv = styled.div`
   height: fit-content;
 `;
 
+export const NavbarRightSideDiv = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+`;
+
 export const ProfileLeftSideDiv = styled.div`
   display: flex;
   gap: 12px;

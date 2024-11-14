@@ -24,7 +24,9 @@ export const ProfileAvatar = styled(Image)`
 
 export const ProfileNameText = styled.h2`
   color: ${(props) => props.theme.colors.black};
-  font-feature-settings: "liga" off, "clig" off;
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
   font-size: 16px;
   font-style: normal;
   font-weight: 700;
@@ -33,7 +35,9 @@ export const ProfileNameText = styled.h2`
 
 export const ProfileNumberText = styled.p`
   color: ${(props) => props.theme.colors.gray};
-  font-feature-settings: "liga" off, "clig" off;
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -42,7 +46,9 @@ export const ProfileNumberText = styled.p`
 
 export const ProfileEditButton = styled.button`
   color: ${(props) => props.theme.colors.primary};
-  font-feature-settings: "liga" off, "clig" off;
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -66,11 +72,27 @@ export const ProfileLineDiv = styled.div`
 export const ProfileButton = styled.button`
   padding: 12px 0px;
   color: ${(props) => props.theme.colors.gray};
-  font-feature-settings: "liga" off, "clig" off;
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: 18px;
   background-color: transparent;
   border: none;
+`;
+
+export const CitySelection = styled.select`
+  color: ${(props) => props.theme.colors.gray};
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+  border: none;
+  background-color: transparent;
+  outline: none;
 `;
