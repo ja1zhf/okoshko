@@ -12,14 +12,32 @@ import {
   ProfilePageTitle,
 } from "./style";
 import InputItem from "../components/input/inputItem";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import AddressInput from "../components/address/addressInput";
-import { notFound } from "next/navigation";
 import KindButton from "./components/kindButton";
 import districts from "@/app/districts";
 import SelectItem from "../components/select/selectItem";
+import { truncateText } from "@/tools/tools";
+import UserContext from "@/contexts/userContext";
+import { useCityContext } from "@/contexts/cityContext";
+
+interface UpdateResponse {
+  first_name: string;
+  last_name: string;
+  email: string;
+  city: string;
+  remove_avatar: false;
+  avatar: string;
+  district: string;
+  address: string;
+  specialities: number[];
+  description: string;
+}
 
 const Page = () => {
+  const { user, setUser } = useContext(UserContext);
+  const { city } = useCityContext();
+
   const [profile, setProfile] = useState<EditProfileType>();
 
   const [districtsOptions, setDistrictsOptions] = useState<
@@ -38,9 +56,12 @@ const Page = () => {
   const [selectedAddress, setSelectedAddress] = useState<string>("");
   const [avatarInput, setAvatarInput] = useState<File | null>(null);
   const [masterKind, setMasterKind] = useState<number[]>([]);
+  const [avatar, setAvatar] = useState("");
+  const [buttonText, setButtonText] = useState("");
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
+      setButtonText(event.target.files[0].name);
       setAvatarInput(event.target.files[0]);
     }
   };
@@ -69,10 +90,13 @@ const Page = () => {
       setDistrictInput(result.master_profile.district);
       setSelectedAddress(result.master_profile.address);
       setMasterKind(result.master_profile.specialities);
+      setAvatar(result.user_profile.avatar_url);
 
       setProfile(result);
     })();
+  }, []);
 
+  useEffect(() => {
     const city = districts.find(
       (item) => item.city === localStorage.getItem("city"),
     );
@@ -87,7 +111,7 @@ const Page = () => {
       setDistrictsOptions(temp);
       setDistrictInput(temp[0].id);
     }
-  }, []);
+  }, [city]);
 
   const submit = async () => {
     const formData = new FormData();
@@ -107,10 +131,32 @@ const Page = () => {
       formData.append("avatar", avatarInput);
     }
 
-    await fetch(`https://dev.okoshko.space/users/profile/update/`, {
-      method: "PATCH",
-      credentials: "include",
-      body: formData,
+    const response = await fetch(
+      `https://dev.okoshko.space/users/profile/update/`,
+      {
+        method: "PATCH",
+        credentials: "include",
+        body: formData,
+      },
+    );
+
+    const result: UpdateResponse = await response.json();
+
+    setFirstNameInput(result.first_name);
+    setLastNameInput(result.last_name);
+    setEmailInput(result.email);
+    setDescriptionInput(result.description);
+    setDistrictInput(result.district);
+    setSelectedAddress(result.address);
+    setMasterKind(result.specialities);
+    setAvatar(result.avatar);
+
+    setUser({
+      ...user!,
+      first_name: result.first_name,
+      last_name: result.last_name,
+      email: result.email,
+      avatar_url: result.avatar,
     });
   };
 
@@ -123,14 +169,12 @@ const Page = () => {
             alt="avatar"
             width={140}
             height={140}
-            src={
-              profile?.user_profile.avatar_url
-                ? profile.user_profile.avatar_url
-                : "/img/non_avatar.jpg"
-            }
+            src={avatar ? avatar : "/img/non_avatar.jpg"}
           />
           <div>
-            <AvatarLoadButton htmlFor="file-upload">Загрузить</AvatarLoadButton>
+            <AvatarLoadButton htmlFor="file-upload">
+              {buttonText ? truncateText(buttonText, 9) : "Загрузить"}
+            </AvatarLoadButton>
             <input
               id="file-upload"
               type="file"

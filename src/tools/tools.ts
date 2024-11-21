@@ -7,7 +7,7 @@ const formatNum = (num: number) => {
 };
 
 export const formatDate = (day: number, month: number, year: number) => {
-  return `${year}-${formatNum(month)}-${formatNum(day)}`;
+  return `${year}-${formatNum(month + 1)}-${formatNum(day)}`;
 };
 
 export const formatTime = (time: number): string => {
@@ -17,4 +17,8 @@ export const formatTime = (time: number): string => {
   const minutes = numStr.slice(2);
 
   return `${hours}:${minutes}`;
+};
+
+export const truncateText = (text: string, maxLength: number): string => {
+  return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
 };

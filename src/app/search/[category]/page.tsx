@@ -14,6 +14,7 @@ import { PageDiv, SubmitButton } from "@/app/styles/style";
 import SelectItem from "@/app/components/select/selectItem";
 import { formatDate } from "@/tools/tools";
 import districts from "@/app/districts";
+import { useCityContext } from "@/contexts/cityContext";
 
 interface Params {
   category: string;
@@ -21,6 +22,8 @@ interface Params {
 
 const Page = ({ params }: { params: Params }) => {
   const { category } = params;
+
+  const { city } = useCityContext();
 
   const router = useRouter();
 
@@ -82,7 +85,9 @@ const Page = ({ params }: { params: Params }) => {
 
       setServices(temp);
     })();
+  }, []);
 
+  useEffect(() => {
     const city = districts.find(
       (item) => item.city === localStorage.getItem("city"),
     );
@@ -97,7 +102,7 @@ const Page = ({ params }: { params: Params }) => {
       setDistrictsOptions(temp);
       setSelectedDistrict(temp[0].id);
     }
-  }, []);
+  }, [city]);
 
   return (
     <PageDiv>
