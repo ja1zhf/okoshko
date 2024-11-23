@@ -1,17 +1,13 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import CalendarItem from "../components/calendar/calendarItem";
 import { PageDarkOverlay, PageDiv } from "../styles/style";
 import { ButtonsDiv, ScheduleButton, SchedulePageTitle } from "./style";
 import PopupItem from "./components/popupItem";
-import UserContext from "@/contexts/userContext";
-import { notFound } from "next/navigation";
 import { formatDate } from "@/tools/tools";
 
 const Page = () => {
-  const { user } = useContext(UserContext);
-
   const [selectedDays, setSelectedDays] = useState<number[]>([]);
   const [selectedMonth, setSelectedMonth] = useState(0);
   const [selectedYear, setSelectedYear] = useState(0);
@@ -32,10 +28,6 @@ const Page = () => {
 
     setSelectedDates(temp);
   };
-
-  if (!user || user.role === "user") {
-    notFound();
-  }
 
   const getAppointment = async () => {
     const response = await fetch(

@@ -1,7 +1,7 @@
 "use client";
 
 import UserContext from "@/contexts/userContext";
-import { PageDiv } from "../styles/style";
+import { PageDiv, SubmitButton } from "../styles/style";
 import { BecomeMasterPageTitle } from "./style";
 import { useContext } from "react";
 
@@ -35,7 +35,9 @@ const Page = () => {
   return (
     <PageDiv>
       <BecomeMasterPageTitle>Стать мастером</BecomeMasterPageTitle>
-      <button onClick={switchRole}>Стать мастером</button>
+      <SubmitButton whileTap={{ scale: 0.9 }} onClick={switchRole}>
+        Стать мастером
+      </SubmitButton>
     </PageDiv>
   );
 };

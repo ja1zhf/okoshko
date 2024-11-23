@@ -38,6 +38,7 @@ const Page = ({ params }: { params: Params }) => {
   const { showPopup } = usePopup();
 
   const [selectedService, setSelectedService] = useState(0);
+  const [selectedServiceTime, setSelectedServiceTime] = useState(0);
   const [selectedDays, setSelectedDays] = useState<number[]>([]);
   const [selectedMonth, setSelectedMonth] = useState(0);
   const [selectedYear, setSelectedYear] = useState(0);
@@ -167,7 +168,7 @@ const Page = ({ params }: { params: Params }) => {
         </MasterBlockDiv>
       )}
       <MasterBlockDiv>
-        <h2>Услуги</h2>
+        <h2>Выберите услугу</h2>
         <MasterServicesList>
           {master?.services.map((service, index) => (
             <ServicesItem
@@ -175,8 +176,10 @@ const Page = ({ params }: { params: Params }) => {
               id={service.id}
               title={service.title}
               price={service.price}
+              time={service.duration}
               selectedService={selectedService}
               setSelectedService={setSelectedService}
+              setSelectedServiceTime={setSelectedServiceTime}
             />
           ))}
         </MasterServicesList>

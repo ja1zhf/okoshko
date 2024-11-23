@@ -124,7 +124,7 @@ const Page = () => {
     formData.append("description", descriptionInput);
 
     masterKind.map((speciality) => {
-      formData.append("specialities", speciality);
+      formData.append("specialities", speciality as any);
     });
 
     if (avatarInput) {

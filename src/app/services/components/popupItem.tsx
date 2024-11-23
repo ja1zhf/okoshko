@@ -35,17 +35,19 @@ const PopupItem = (props: Props) => {
   const [timeInput, setTimeInput] = useState(time);
   const [priceInput, setPriceInput] = useState(price);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [buttonText, setButtonText] = useState("");
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       setSelectedFiles(Array.from(event.target.files));
+      setButtonText("Файлы выбраны");
     }
   };
 
   const click = async () => {
     if (!isEdit) {
       const formData = new FormData();
-      formData.append("service", selectedService);
+      formData.append("service", selectedService as any);
       formData.append("title", titleInput);
       formData.append("description", "");
       formData.append("price", priceInput);
@@ -167,7 +169,9 @@ const PopupItem = (props: Props) => {
       />
       {!isEdit && (
         <>
-          <Button htmlFor="file-upload">Добавить фото</Button>
+          <Button htmlFor="file-upload">
+            {buttonText ? buttonText : "Добавить фото"}
+          </Button>
           <input
             id="file-upload"
             type="file"

@@ -13,12 +13,8 @@ import {
 } from "./style";
 import PopupItem from "./components/popupItem";
 import { ServiceButtonDiv } from "./style";
-import UserContext from "@/contexts/userContext";
-import { notFound } from "next/navigation";
 
 const Page = () => {
-  const { user } = useContext(UserContext);
-
   const [isActive, setIsActive] = useState(false);
   const [services, setServices] = useState<ServiceData[]>([]);
 
@@ -30,22 +26,20 @@ const Page = () => {
   const [tempService, setTempService] = useState(0);
 
   const request = async () => {
-    if (user) {
-      const response = await fetch(
-        `https://dev.okoshko.space/service/my-services`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
+    const response = await fetch(
+      `https://dev.okoshko.space/service/my-services`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        credentials: "include",
+      },
+    );
 
-      const result = await response.json();
+    const result = await response.json();
 
-      setServices(result.services);
-    }
+    setServices(result.services);
   };
 
   const deleteService = async (id: number) => {
@@ -63,10 +57,6 @@ const Page = () => {
   useEffect(() => {
     request();
   }, []);
-
-  if (!user || user.role === "user") {
-    notFound();
-  }
 
   return (
     <PageDiv>

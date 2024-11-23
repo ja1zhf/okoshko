@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { PageDiv } from "../styles/style";
 import {
+  OrderAcceptButton,
   OrderButtons,
   OrderCancelButton,
   OrderDetailsDiv,
@@ -229,9 +230,9 @@ const Page = () => {
                   <OrderCancelButton onClick={() => cancel(order.id)}>
                     Отменить заказ
                   </OrderCancelButton>
-                  <OrderCancelButton onClick={() => accept(order.id)}>
+                  <OrderAcceptButton onClick={() => accept(order.id)}>
                     Подтвердить заказ
-                  </OrderCancelButton>
+                  </OrderAcceptButton>
                 </OrderButtons>
               </OrderDiv>
             ))}

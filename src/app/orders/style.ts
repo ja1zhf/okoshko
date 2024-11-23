@@ -190,3 +190,19 @@ export const OrderCancelButton = styled.button`
   border-radius: 2.5em;
   background-color: #f5f5f9;
 `;
+
+export const OrderAcceptButton = styled.button`
+  color: ${(props) => props.theme.colors.white};
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 125%;
+  width: 100%;
+  padding: 18px;
+  border: none;
+  border-radius: 2.5em;
+  background-color: ${(props) => props.theme.colors.primary};
+`;

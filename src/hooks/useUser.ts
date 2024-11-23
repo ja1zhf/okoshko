@@ -1,19 +1,22 @@
 import { useEffect, useState } from "react";
 
-const useUser = (): [UserType | null, (newUser: UserType | null) => void] => {
-  const [user, setUser] = useState<UserType | null>(null);
+const useUser = (): [
+  ProfileType | null,
+  (newUser: ProfileType | null) => void,
+] => {
+  const [user, setUser] = useState<ProfileType | null>(null);
 
   useEffect(() => {
     const userStorage = localStorage.getItem("user");
 
     if (userStorage) {
-      const user: UserType = JSON.parse(userStorage);
+      const user: ProfileType = JSON.parse(userStorage);
 
       setUser(user);
     }
   }, []);
 
-  const setNewUser = (newUser: UserType | null) => {
+  const setNewUser = (newUser: ProfileType | null) => {
     localStorage.setItem("user", JSON.stringify(newUser));
     setUser(newUser);
   };

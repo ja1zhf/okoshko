@@ -6,22 +6,35 @@ interface Props {
   id: number;
   title: string;
   price: number;
+  time: number;
   selectedService: number;
   setSelectedService: Dispatch<SetStateAction<number>>;
+  setSelectedServiceTime: Dispatch<SetStateAction<number>>;
 }
 
 const ServicesItem = (props: Props) => {
-  const { id, title, price, selectedService, setSelectedService } = props;
+  const {
+    id,
+    title,
+    price,
+    time,
+    selectedService,
+    setSelectedService,
+    setSelectedServiceTime,
+  } = props;
 
   return (
     <ServiceButton
       {...(selectedService === id && { $isActive: true })}
       onClick={() => {
         setSelectedService(id);
+        setSelectedServiceTime(time);
       }}
     >
       <div className="info">
-        <h3>{title}</h3>
+        <h3>
+          {title} - {time} мин.
+        </h3>
         <p>{price} ₽</p>
       </div>
       <div className="icon">
