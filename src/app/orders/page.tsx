@@ -8,10 +8,15 @@ import {
   OrderCancelButton,
   OrderDetailsDiv,
   OrderDiv,
+  OrderInput,
   OrderMasterInfoDiv,
+  OrderReviewDiv,
+  OrderSendReviewButton,
   OrderServicesListDiv,
   OrdersListDiv,
   OrdersPageTitle,
+  ScoreButton,
+  ScoresDiv,
 } from "./style";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
@@ -24,11 +29,20 @@ const Page = () => {
   const [userOrders, setUserOrders] = useState<UserOrderType[]>([]);
   const [masterOrders, setMasterOrders] = useState<MasterOrderType[]>([]);
 
+  const [reviewText, setReviewText] = useState("");
+  const [score, setScore] = useState(1);
+
   useEffect(() => {
     requestUser();
 
-    if (user?.role === "master") {
-      requestMaster();
+    const user = localStorage.getItem("user");
+
+    if (user) {
+      const userObj: ProfileType = JSON.parse(user);
+
+      if (userObj.role === "master") {
+        requestMaster();
+      }
     }
   }, []);
 
@@ -80,8 +94,14 @@ const Page = () => {
 
     requestUser();
 
-    if (user?.role === "master") {
-      requestMaster();
+    const user = localStorage.getItem("user");
+
+    if (user) {
+      const userObj: ProfileType = JSON.parse(user);
+
+      if (userObj.role === "master") {
+        requestMaster();
+      }
     }
   };
 
@@ -99,8 +119,41 @@ const Page = () => {
 
     requestUser();
 
-    if (user?.role === "master") {
-      requestMaster();
+    const user = localStorage.getItem("user");
+
+    if (user) {
+      const userObj: ProfileType = JSON.parse(user);
+
+      if (userObj.role === "master") {
+        requestMaster();
+      }
+    }
+  };
+
+  const sendReview = async (id: number) => {
+    await fetch(`https://dev.okoshko.space/review/write_review`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        appointment: id,
+        rating: score,
+        review_text: reviewText,
+      }),
+    });
+
+    requestUser();
+
+    const user = localStorage.getItem("user");
+
+    if (user) {
+      const userObj: ProfileType = JSON.parse(user);
+
+      if (userObj.role === "master") {
+        requestMaster();
+      }
     }
   };
 
@@ -169,12 +222,53 @@ const Page = () => {
                 <p>{order.service.price} ₽</p>
               </div>
               <div>
-                <p>Статус: {order.status}</p>
+                <p>
+                  Статус:{" "}
+                  {order.status === 0
+                    ? "Ожидание"
+                    : order.status === 1
+                      ? "В процессе"
+                      : "Завершенно"}
+                </p>
               </div>
             </OrderServicesListDiv>
-            <OrderCancelButton onClick={() => cancel(order.id)}>
-              Отменить заказ
-            </OrderCancelButton>
+            {order.status !== 2 && (
+              <OrderCancelButton onClick={() => cancel(order.id)}>
+                Отменить заказ
+              </OrderCancelButton>
+            )}
+            {order.status === 2 && (
+              <OrderReviewDiv>
+                <ScoresDiv>
+                  {[1, 2, 3, 4, 5].map((item) => (
+                    <ScoreButton
+                      key={item}
+                      $isSelected={item <= score}
+                      onClick={() => setScore(item)}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        x="0px"
+                        y="0px"
+                        width="100"
+                        height="100"
+                        viewBox="0 0 50 50"
+                      >
+                        <path d="M10.2,48.6c-0.2,0-0.4-0.1-0.6-0.2c-0.3-0.2-0.5-0.7-0.4-1.1l4.4-16.4L0.4,20.2C0,20-0.1,19.5,0,19.1 c0.1-0.4,0.5-0.7,0.9-0.7l17-0.9l6.1-15.9C24.2,1.3,24.6,1,25,1c0.4,0,0.8,0.3,0.9,0.6l6.1,15.9l17,0.9c0.4,0,0.8,0.3,0.9,0.7 c0.1,0.4,0,0.8-0.3,1.1L36.4,30.9l4.4,16.4c0.1,0.4,0,0.8-0.4,1.1c-0.3,0.2-0.8,0.3-1.1,0L25,39.2l-14.3,9.2 C10.5,48.6,10.4,48.6,10.2,48.6z"></path>
+                      </svg>
+                    </ScoreButton>
+                  ))}
+                </ScoresDiv>
+                <OrderInput
+                  placeholder="Оставить отзыв"
+                  value={reviewText}
+                  onChange={(e) => setReviewText(e.target.value)}
+                />
+                <OrderSendReviewButton onClick={() => sendReview(order.id)}>
+                  Отправить
+                </OrderSendReviewButton>
+              </OrderReviewDiv>
+            )}
           </OrderDiv>
         ))}
       </OrdersListDiv>
@@ -227,12 +321,23 @@ const Page = () => {
                   </div>
                 </OrderServicesListDiv>
                 <OrderButtons>
-                  <OrderCancelButton onClick={() => cancel(order.id)}>
-                    Отменить заказ
-                  </OrderCancelButton>
-                  <OrderAcceptButton onClick={() => accept(order.id)}>
-                    Подтвердить заказ
-                  </OrderAcceptButton>
+                  {order.status === 0 && (
+                    <>
+                      <OrderCancelButton onClick={() => cancel(order.id)}>
+                        Отклонить заказ
+                      </OrderCancelButton>
+                      <OrderAcceptButton onClick={() => accept(order.id)}>
+                        Подтвердить заказ
+                      </OrderAcceptButton>
+                    </>
+                  )}
+                  {order.status === 1 && (
+                    <>
+                      <OrderCancelButton onClick={() => cancel(order.id)}>
+                        Отменить заказ
+                      </OrderCancelButton>
+                    </>
+                  )}
                 </OrderButtons>
               </OrderDiv>
             ))}

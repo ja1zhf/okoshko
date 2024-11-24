@@ -206,3 +206,85 @@ export const OrderAcceptButton = styled.button`
   border-radius: 2.5em;
   background-color: ${(props) => props.theme.colors.primary};
 `;
+
+export const OrderInput = styled.textarea`
+  height: 80px;
+  color: ${(props) => props.theme.colors.black};
+  font-family: "__PtRootUiVf_1e8a4b", "__PtRootUiVf_Fallback_1e8a4b";
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 450;
+  line-height: 150%;
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  padding: 12px 12px 12px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(24, 23, 26, 0.12);
+  box-sizing: border-box;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  &:focus {
+    outline-style: solid;
+    outline-color: ${(props) => props.theme.colors.primary}4D;
+    outline-width: thick;
+  }
+
+  &::placeholder {
+    color: ${(props) => props.theme.colors.gray};
+    font-feature-settings:
+      "liga" off,
+      "clig" off;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+  }
+`;
+
+export const OrderSendReviewButton = styled.button`
+  width: 120px;
+  height: 50px;
+  color: ${(props) => props.theme.colors.white};
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  padding: 14px;
+  border: none;
+  border-radius: 2.5em;
+  background-color: ${(props) => props.theme.colors.primary};
+`;
+
+export const OrderReviewDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+export const ScoresDiv = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+
+export const ScoreButton = styled.button<{ $isSelected: boolean }>`
+  border: none;
+  background-color: transparent;
+  padding: 0px;
+
+  & > svg {
+    width: 32px;
+    height: 32px;
+    fill: ${(props) =>
+      props.$isSelected ? "#bdae95" : "rgba(24, 23, 26, 0.12)"};
+  }
+`;
