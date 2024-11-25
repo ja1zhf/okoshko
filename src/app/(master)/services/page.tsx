@@ -1,7 +1,7 @@
 "use client";
 
 import { useContext, useEffect, useState } from "react";
-import { PageDarkOverlay, PageDiv } from "../styles/style";
+import { PageDarkOverlay, PageDiv } from "@/app/styles/style";
 import {
   ServiceButton,
   ServicesButton,

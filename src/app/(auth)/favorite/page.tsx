@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import FeedItem from "../components/feed/feedItem";
-import { PageDiv } from "../styles/style";
+import FeedItem from "@/app/components/feed/feedItem";
+import { PageDiv } from "@/app/styles/style";
 import { FavoritePageTitle } from "./style";
 
 const Page = () => {

@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import CalendarItem from "../components/calendar/calendarItem";
-import { PageDarkOverlay, PageDiv } from "../styles/style";
+import CalendarItem from "@/app/components/calendar/calendarItem";
+import { PageDarkOverlay, PageDiv } from "@/app/styles/style";
 import { ButtonsDiv, ScheduleButton, SchedulePageTitle } from "./style";
 import PopupItem from "./components/popupItem";
 import { formatDate } from "@/tools/tools";

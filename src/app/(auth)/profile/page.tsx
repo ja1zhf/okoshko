@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { PageDiv, SubmitButton } from "../styles/style";
+import { PageDiv, SubmitButton } from "@/app/styles/style";
 import {
   AvatarBlockDiv,
   AvatarEditButton,
@@ -11,12 +11,12 @@ import {
   ProfileKindDiv,
   ProfilePageTitle,
 } from "./style";
-import InputItem from "../components/input/inputItem";
+import InputItem from "@/app/components/input/inputItem";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
-import AddressInput from "../components/address/addressInput";
+import AddressInput from "@/app/components/address/addressInput";
 import KindButton from "./components/kindButton";
 import districts from "@/app/districts";
-import SelectItem from "../components/select/selectItem";
+import SelectItem from "@/app/components/select/selectItem";
 import { truncateText } from "@/tools/tools";
 import UserContext from "@/contexts/userContext";
 import { useCityContext } from "@/contexts/cityContext";

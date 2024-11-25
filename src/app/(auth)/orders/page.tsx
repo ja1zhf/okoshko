@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { PageDiv } from "../styles/style";
+import { PageDiv } from "@/app/styles/style";
 import {
   OrderAcceptButton,
   OrderButtons,

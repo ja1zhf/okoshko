@@ -22,3 +22,21 @@ export const formatTime = (time: number): string => {
 export const truncateText = (text: string, maxLength: number): string => {
   return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
 };
+
+export const isAuth = (): boolean => {
+  let user = localStorage.getItem("user");
+
+  return user ? true : false;
+}
+
+export const isMaster = (): boolean => {
+  let user = localStorage.getItem("user");
+
+  if(user) {
+    let userObj: ProfileType = JSON.parse(user);
+
+    return userObj.role === "master" ? true : false;
+  }
+
+  return false;
+}

@@ -1,8 +1,8 @@
 "use client";
 
 import { useContext, useState } from "react";
-import InputItem from "../components/input/inputItem";
-import { PageDiv, SubmitButton } from "../styles/style";
+import InputItem from "@/app/components/input/inputItem";
+import { PageDiv, SubmitButton } from "@/app/styles/style";
 import { NumberLink, RegisterLink, RegisterPageTitle } from "./style";
 import { useRouter } from "next/navigation";
 import UserContext from "@/contexts/userContext";
