@@ -31,6 +31,68 @@ interface Params {
   id: string;
 }
 
+interface TimeSlot {
+  id: number;
+  date: string;
+  start_time: number;
+  appointment: null;
+  is_available: boolean;
+}
+
+const splitNumberMath = (num: number): [number, number] => {
+  const digits = Math.floor(Math.log10(num) + 1);
+  const divisor = Math.pow(10, Math.floor(digits / 2));
+
+  const firstPart = Math.floor(num / divisor);
+  const secondPart = num % divisor;
+
+  return [firstPart, secondPart];
+};
+
+const checkSlots = (
+  slots: TimeSlot[],
+  slotIndex: number,
+  requiredSlotsCount: number,
+): boolean => {
+  for (
+    let i = 0, time = splitNumberMath(slots[slotIndex].start_time)[1];
+    i < requiredSlotsCount;
+    i++, time += 15
+  ) {
+    if (time > 45) {
+      time = 0;
+    }
+
+    if (splitNumberMath(slots[slotIndex + i].start_time)[1] !== time) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+const filterAvailableTimeSlots = (
+  timeSlots: TimeSlot[],
+  requiredTime: number,
+): TimeSlot[] => {
+  const requiredSlotsCount = Math.ceil(requiredTime / 15);
+  const slots = timeSlots.filter((slot) => slot.is_available === true);
+
+  let tempSlots: TimeSlot[] = [];
+
+  for (let slotIndex = 0; slotIndex < slots.length; slotIndex++) {
+    if (slotIndex < slots.length - requiredSlotsCount) {
+      if (checkSlots(slots, slotIndex, requiredSlotsCount)) {
+        tempSlots.push(slots[slotIndex]);
+      }
+    }
+  }
+
+  console.log(tempSlots);
+
+  return tempSlots;
+};
+
 const Page = ({ params }: { params: Params }) => {
   const { id } = params;
 
@@ -209,7 +271,14 @@ const Page = ({ params }: { params: Params }) => {
               selectedMonth,
               selectedYear,
             )}
-            appointmentsForUsers={master?.available_appointments}
+            appointmentsForUsers={
+              selectedService !== 0
+                ? filterAvailableTimeSlots(
+                    master!.available_appointments,
+                    selectedServiceTime,
+                  )
+                : master?.available_appointments
+            }
             setSelectedTime={setSelectedTime}
           />
         </MasterBlockDiv>

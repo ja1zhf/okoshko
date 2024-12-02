@@ -186,6 +186,7 @@ const Page = () => {
           <AvatarEditButton type="submit" value={"Удалить"} />
         </AvatarBlockDiv>
         <ProfileInputDiv>
+        {profile?.user_profile.role === "master" && (
           <ProfileKindDiv>
             <KindButton
               id={1}
@@ -224,6 +225,7 @@ const Page = () => {
               setMasterKind={setMasterKind}
             />
           </ProfileKindDiv>
+        )}
           <InputItem
             title="Имя"
             isNumber={false}
