@@ -24,7 +24,7 @@ import ReviewItem from "./components/reviewItem";
 import PhotosItem from "@/app/components/photos/photosItem";
 import LikeItem from "../../components/like/likeItem";
 import UserContext from "@/contexts/userContext";
-import { formatDate } from "@/tools/tools";
+import { formatDate, isAuth } from "@/tools/tools";
 import { usePopup } from "@/contexts/popupContext";
 
 interface Params {
@@ -39,14 +39,14 @@ interface TimeSlot {
   is_available: boolean;
 }
 
-const splitNumberMath = (num: number): [number, number] => {
-  const digits = Math.floor(Math.log10(num) + 1);
-  const divisor = Math.pow(10, Math.floor(digits / 2));
+const splitNumber = (num: number): [number, number] => {
+  const numStr = num.toString();
+  const middleIndex = Math.floor(numStr.length / 2);
 
-  const firstPart = Math.floor(num / divisor);
-  const secondPart = num % divisor;
+  const firstPart = numStr.slice(0, middleIndex);
+  const secondPart = numStr.slice(middleIndex);
 
-  return [firstPart, secondPart];
+  return [parseInt(firstPart, 10), parseInt(secondPart, 10)];
 };
 
 const checkSlots = (
@@ -55,15 +55,20 @@ const checkSlots = (
   requiredSlotsCount: number,
 ): boolean => {
   for (
-    let i = 0, time = splitNumberMath(slots[slotIndex].start_time)[1];
+    let i = 1, time = slots[slotIndex].start_time + 15;
     i < requiredSlotsCount;
     i++, time += 15
   ) {
-    if (time > 45) {
-      time = 0;
+    const tempTime = splitNumber(time);
+
+    if (tempTime[1] > 45) {
+      time = parseInt(`${tempTime[0] + 1}00`);
     }
 
-    if (splitNumberMath(slots[slotIndex + i].start_time)[1] !== time) {
+    if (
+      slots[slotIndex + i].start_time !== time ||
+      slots[slotIndex + i].is_available === false
+    ) {
       return false;
     }
   }
@@ -76,19 +81,18 @@ const filterAvailableTimeSlots = (
   requiredTime: number,
 ): TimeSlot[] => {
   const requiredSlotsCount = Math.ceil(requiredTime / 15);
-  const slots = timeSlots.filter((slot) => slot.is_available === true);
 
   let tempSlots: TimeSlot[] = [];
 
-  for (let slotIndex = 0; slotIndex < slots.length; slotIndex++) {
-    if (slotIndex < slots.length - requiredSlotsCount) {
-      if (checkSlots(slots, slotIndex, requiredSlotsCount)) {
-        tempSlots.push(slots[slotIndex]);
+  console.log(timeSlots);
+
+  for (let slotIndex = 0; slotIndex < timeSlots.length; slotIndex++) {
+    if (slotIndex < timeSlots.length - requiredSlotsCount) {
+      if (checkSlots(timeSlots, slotIndex, requiredSlotsCount)) {
+        tempSlots.push(timeSlots[slotIndex]);
       }
     }
   }
-
-  console.log(tempSlots);
 
   return tempSlots;
 };
@@ -283,7 +287,7 @@ const Page = ({ params }: { params: Params }) => {
           />
         </MasterBlockDiv>
       )}
-      {selectedDays.length > 0 && selectedTime.length > 0 && (
+      {selectedDays.length > 0 && selectedTime.length > 0 && isAuth() && (
         <SubmitButton whileTap={{ scale: 0.9 }} onClick={submit}>
           Записаться
         </SubmitButton>

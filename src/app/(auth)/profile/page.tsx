@@ -46,6 +46,12 @@ const Page = () => {
       title: string;
     }[]
   >([]);
+  const [cityOptions, setCityOptions] = useState<
+    {
+      id: string;
+      title: string;
+    }[]
+  >([]);
 
   const [firstNameInput, setFirstNameInput] = useState<string>("");
   const [lastNameInput, setLastNameInput] = useState<string>("");
@@ -56,7 +62,9 @@ const Page = () => {
   const [selectedAddress, setSelectedAddress] = useState<string>("");
   const [avatarInput, setAvatarInput] = useState<File | null>(null);
   const [masterKind, setMasterKind] = useState<number[]>([]);
+  const [cityInput, setCityInput] = useState("");
   const [avatar, setAvatar] = useState("");
+  const [deleteAvatar, setDeleteAvatar] = useState(false);
   const [buttonText, setButtonText] = useState("");
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -101,6 +109,15 @@ const Page = () => {
       (item) => item.city === localStorage.getItem("city"),
     );
 
+    let tempCity: { id: string; title: string }[] = [];
+
+    districts.map((city) => {
+      tempCity.push({ id: city.city, title: city.city });
+    });
+
+    setCityOptions(tempCity);
+    setCityInput(tempCity[0].id);
+
     if (city) {
       let temp: { id: string; title: string }[] = [];
 
@@ -118,10 +135,11 @@ const Page = () => {
     formData.append("first_name", firstNameInput);
     formData.append("last_name", lastNameInput);
     formData.append("email", emailInput);
-    formData.append("city", "");
+    formData.append("city", cityInput);
     formData.append("district", districtInput);
     formData.append("address", selectedAddress);
     formData.append("description", descriptionInput);
+    formData.append("remove_avatar", deleteAvatar as any);
 
     masterKind.map((speciality) => {
       formData.append("specialities", speciality as any);
@@ -183,49 +201,53 @@ const Page = () => {
               onChange={handleFileChange}
             />
           </div>
-          <AvatarEditButton type="submit" value={"Удалить"} />
+          <AvatarEditButton
+            type="submit"
+            value={"Удалить"}
+            onClick={() => setDeleteAvatar(true)}
+          />
         </AvatarBlockDiv>
         <ProfileInputDiv>
-        {profile?.user_profile.role === "master" && (
-          <ProfileKindDiv>
-            <KindButton
-              id={1}
-              title="Ногти"
-              masterKind={masterKind}
-              setMasterKind={setMasterKind}
-            />
-            <KindButton
-              id={3}
-              title="Брови и ресницы"
-              masterKind={masterKind}
-              setMasterKind={setMasterKind}
-            />
-            <KindButton
-              id={4}
-              title="Уход за лицом"
-              masterKind={masterKind}
-              setMasterKind={setMasterKind}
-            />
-            <KindButton
-              id={5}
-              title="Макияж"
-              masterKind={masterKind}
-              setMasterKind={setMasterKind}
-            />
-            <KindButton
-              id={6}
-              title="Волосы"
-              masterKind={masterKind}
-              setMasterKind={setMasterKind}
-            />
-            <KindButton
-              id={7}
-              title="Тело"
-              masterKind={masterKind}
-              setMasterKind={setMasterKind}
-            />
-          </ProfileKindDiv>
-        )}
+          {profile?.user_profile.role === "master" && (
+            <ProfileKindDiv>
+              <KindButton
+                id={1}
+                title="Ногти"
+                masterKind={masterKind}
+                setMasterKind={setMasterKind}
+              />
+              <KindButton
+                id={3}
+                title="Брови и ресницы"
+                masterKind={masterKind}
+                setMasterKind={setMasterKind}
+              />
+              <KindButton
+                id={4}
+                title="Уход за лицом"
+                masterKind={masterKind}
+                setMasterKind={setMasterKind}
+              />
+              <KindButton
+                id={5}
+                title="Макияж"
+                masterKind={masterKind}
+                setMasterKind={setMasterKind}
+              />
+              <KindButton
+                id={6}
+                title="Волосы"
+                masterKind={masterKind}
+                setMasterKind={setMasterKind}
+              />
+              <KindButton
+                id={7}
+                title="Тело"
+                masterKind={masterKind}
+                setMasterKind={setMasterKind}
+              />
+            </ProfileKindDiv>
+          )}
           <InputItem
             title="Имя"
             isNumber={false}
@@ -264,6 +286,12 @@ const Page = () => {
               canBeEmpty={true}
               inputValue={descriptionInput}
               setInputValue={setDescriptionInput}
+            />
+            <SelectItem
+              title="Город"
+              options={cityOptions}
+              selectedOption={cityInput}
+              setSelectedOption={setCityInput}
             />
             <SelectItem
               title="Район"

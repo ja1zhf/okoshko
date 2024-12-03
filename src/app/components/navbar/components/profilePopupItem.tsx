@@ -78,6 +78,7 @@ const ProfilePopupItem = (props: Props) => {
   const menuCLick = async (href: string) => {
     if (href === "logout") {
       setUser(null);
+      localStorage.removeItem("user");
 
       await fetch("https://dev.okoshko.space/users/auth/sign-out", {
         method: "GET",

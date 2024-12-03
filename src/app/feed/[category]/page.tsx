@@ -49,6 +49,7 @@ const Page = ({ params }: { params: Params }) => {
     (async function () {
       const body = {
         speciality_name: title[allowedCategories.indexOf(category)],
+        city: localStorage.getItem("city"),
         ...(service !== 0 && { service_id: service }),
         ...(district !== "Все районы" && { district }),
         ...(date && { dates: [date] }),
