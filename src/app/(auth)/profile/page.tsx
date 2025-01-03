@@ -1,5 +1,4 @@
 "use client";
-
 import Image from "next/image";
 import { PageDiv, SubmitButton } from "@/app/styles/style";
 import {
@@ -99,6 +98,7 @@ const Page = () => {
       setSelectedAddress(result.master_profile.address);
       setMasterKind(result.master_profile.specialities);
       setAvatar(result.user_profile.avatar_url);
+      setCityInput(result.user_profile.city);
 
       setProfile(result);
     })();
@@ -168,6 +168,7 @@ const Page = () => {
     setSelectedAddress(result.address);
     setMasterKind(result.specialities);
     setAvatar(result.avatar);
+    setCityInput(result.city);
 
     setUser({
       ...user!,

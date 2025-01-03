@@ -22,9 +22,12 @@ import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { formatTime } from "@/tools/tools";
 import UserContext from "@/contexts/userContext";
+import { usePopup } from "@/contexts/popupContext";
 
 const Page = () => {
   const { user } = useContext(UserContext);
+
+  const { showPopup } = usePopup();
 
   const [userOrders, setUserOrders] = useState<UserOrderType[]>([]);
   const [masterOrders, setMasterOrders] = useState<MasterOrderType[]>([]);
@@ -155,6 +158,8 @@ const Page = () => {
         requestMaster();
       }
     }
+
+    showPopup("success", "Отзыв успешно оставлен");
   };
 
   return (

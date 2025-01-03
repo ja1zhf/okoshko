@@ -168,25 +168,29 @@ const TimeItem = (props: Props) => {
           >
             {time.morning.map((children, index) => (
               <tr key={index}>
-                {children.map((time) => (
-                  <TimeCell
-                    key={time}
-                    data-time={time}
-                    $selected={selectedTime.includes(time)}
-                    onClick={() => click(time)}
-                    {...(!isAvailableTime(time) && {
-                      $disabled: true,
-                    })}
-                    {...(isMultiSelections && {
-                      onMouseDown: () => mouseDown(time),
-                      onTouchStart: () => mouseDown(time),
-                      onMouseOver: () => mouseOver(time),
-                      onMouseUp: () => mouseUp(),
-                    })}
-                  >
-                    {formatTime(time)}
-                  </TimeCell>
-                ))}
+                {children.map((time) => {
+                  if (isAvailableTime(time)) {
+                    return (
+                      <TimeCell
+                        key={time}
+                        data-time={time}
+                        $selected={selectedTime.includes(time)}
+                        onClick={() => click(time)}
+                        {...(!isAvailableTime(time) && {
+                          $disabled: true,
+                        })}
+                        {...(isMultiSelections && {
+                          onMouseDown: () => mouseDown(time),
+                          onTouchStart: () => mouseDown(time),
+                          onMouseOver: () => mouseOver(time),
+                          onMouseUp: () => mouseUp(),
+                        })}
+                      >
+                        {formatTime(time)}
+                      </TimeCell>
+                    );
+                  }
+                })}
               </tr>
             ))}
           </tbody>
@@ -203,25 +207,29 @@ const TimeItem = (props: Props) => {
           >
             {time.day.map((children, index) => (
               <tr key={index}>
-                {children.map((time) => (
-                  <TimeCell
-                    key={time}
-                    data-time={time}
-                    $selected={selectedTime.includes(time)}
-                    onClick={() => click(time)}
-                    {...(!isAvailableTime(time) && {
-                      $disabled: true,
-                    })}
-                    {...(isMultiSelections && {
-                      onMouseDown: () => mouseDown(time),
-                      onTouchStart: () => mouseDown(time),
-                      onMouseOver: () => mouseOver(time),
-                      onMouseUp: () => mouseUp(),
-                    })}
-                  >
-                    {formatTime(time)}
-                  </TimeCell>
-                ))}
+                {children.map((time) => {
+                  if (isAvailableTime(time)) {
+                    return (
+                      <TimeCell
+                        key={time}
+                        data-time={time}
+                        $selected={selectedTime.includes(time)}
+                        onClick={() => click(time)}
+                        {...(!isAvailableTime(time) && {
+                          $disabled: true,
+                        })}
+                        {...(isMultiSelections && {
+                          onMouseDown: () => mouseDown(time),
+                          onTouchStart: () => mouseDown(time),
+                          onMouseOver: () => mouseOver(time),
+                          onMouseUp: () => mouseUp(),
+                        })}
+                      >
+                        {formatTime(time)}
+                      </TimeCell>
+                    );
+                  }
+                })}
               </tr>
             ))}
           </tbody>
@@ -238,33 +246,29 @@ const TimeItem = (props: Props) => {
           >
             {time.evening.map((children, index) => (
               <tr key={index}>
-                {children.map((time) => (
-                  <TimeCell
-                    key={time}
-                    data-time={time}
-                    $selected={selectedTime.includes(time)}
-                    onClick={() => click(time)}
-                    {...(!isAvailableTime(time) && {
-                      $disabled: true,
-                    })}
-                    {...(appointments &&
-                      appointments.some(
-                        (appointment) =>
-                          appointment.date === selectedDate &&
-                          appointment.start_time === time,
-                      ) && {
-                        $isAvailable: true,
-                      })}
-                    {...(isMultiSelections && {
-                      onMouseDown: () => mouseDown(time),
-                      onTouchStart: () => mouseDown(time),
-                      onMouseOver: () => mouseOver(time),
-                      onMouseUp: () => mouseUp(),
-                    })}
-                  >
-                    {formatTime(time)}
-                  </TimeCell>
-                ))}
+                {children.map((time) => {
+                  if (isAvailableTime(time)) {
+                    return (
+                      <TimeCell
+                        key={time}
+                        data-time={time}
+                        $selected={selectedTime.includes(time)}
+                        onClick={() => click(time)}
+                        {...(!isAvailableTime(time) && {
+                          $disabled: true,
+                        })}
+                        {...(isMultiSelections && {
+                          onMouseDown: () => mouseDown(time),
+                          onTouchStart: () => mouseDown(time),
+                          onMouseOver: () => mouseOver(time),
+                          onMouseUp: () => mouseUp(),
+                        })}
+                      >
+                        {formatTime(time)}
+                      </TimeCell>
+                    );
+                  }
+                })}
               </tr>
             ))}
           </tbody>

@@ -41,20 +41,20 @@ const CalendarItem = (props: Props) => {
     setCurrentYear,
   } = props;
 
-  const weeksNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const weeksNames = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
   const monthsNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "Январь",
+    "Февраль",
+    "Март",
+    "Апрель",
+    "Май",
+    "Июнь",
+    "Июль",
+    "Август",
+    "Сентябрь",
+    "Октябрь",
+    "Ноябрь",
+    "Декабрь",
   ];
 
   const today = new Date();
