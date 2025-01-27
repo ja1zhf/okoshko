@@ -57,3 +57,46 @@ export const DatesDiv = styled.div`
     font-weight: 500;
   }
 `;
+
+export const AppointmentsDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  & > h2 {
+    color: ${(props) => props.theme.colors.black};
+    font-feature-settings:
+      "liga" off,
+      "clig" off;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 125%;
+  }
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    & > button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 56px;
+      color: ${(props) => props.theme.colors.primary};
+      text-align: center;
+      font-feature-settings:
+        "liga" off,
+        "clig" off;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 700;
+      border: 2px solid ${(props) => props.theme.colors.primary};
+      border-radius: 28px;
+      background-color: ${(props) => props.theme.colors.white};
+      cursor: pointer;
+    }
+  }
+`;

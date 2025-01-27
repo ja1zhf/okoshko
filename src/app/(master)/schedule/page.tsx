@@ -3,22 +3,38 @@
 import { useEffect, useState } from "react";
 import CalendarItem from "@/app/components/calendar/calendarItem";
 import { PageDarkOverlay, PageDiv } from "@/app/styles/style";
-import { ButtonsDiv, ScheduleButton, SchedulePageTitle } from "./style";
+import {
+  AppointmentsDiv,
+  ButtonsDiv,
+  ScheduleButton,
+  SchedulePageTitle,
+} from "./style";
 import PopupItem from "./components/popupItem";
-import { formatDate } from "@/tools/tools";
+import {
+  endsWith45,
+  formatDate,
+  formatTime,
+  replaceWith00,
+} from "@/tools/tools";
 
 const Page = () => {
   const [selectedDays, setSelectedDays] = useState<number[]>([]);
   const [selectedMonth, setSelectedMonth] = useState(0);
   const [selectedYear, setSelectedYear] = useState(0);
-  const [isActive, setIsActive] = useState(0);
+  const [isActive, setIsActive] = useState(false);
+
+  const times = [
+    [600, 645],
+    [800, 930],
+    [1000, 1030],
+  ];
 
   const [appointments, setAppointments] = useState<AppointmentType[]>([]);
 
   const [selectedDates, setSelectedDates] = useState<string[]>([]);
 
-  const click = (type: number) => {
-    setIsActive(type);
+  const click = () => {
+    setIsActive(true);
 
     let temp: string[] = [];
 
@@ -64,28 +80,37 @@ const Page = () => {
         setCurrentYear={setSelectedYear}
       />
       <ButtonsDiv>
-        {selectedDays.length == 1 && (
-          <ScheduleButton onClick={() => click(1)}>
-            Добавить запись
-          </ScheduleButton>
-        )}
         {selectedDays.length > 0 && (
-          <ScheduleButton $isPrimary onClick={() => click(2)}>
+          <ScheduleButton $isPrimary onClick={click}>
             Добавить окошко
           </ScheduleButton>
         )}
       </ButtonsDiv>
-      {isActive ? (
+      {isActive && (
         <PageDarkOverlay>
           <PopupItem
-            isActive={isActive}
             selectedDates={selectedDates}
             setIsActive={setIsActive}
             getAppointment={getAppointment}
           />
         </PageDarkOverlay>
-      ) : (
-        <></>
+      )}
+      {selectedDays.length === 1 && (
+        <AppointmentsDiv>
+          <h2>Ваши окошки на {selectedDays[0]} число</h2>
+          <div>
+            {times.map((time, index) => (
+              <button key={index}>
+                {formatTime(time[0])}-
+                {formatTime(
+                  endsWith45(time[1])
+                    ? replaceWith00(time[1] + 100)
+                    : time[1] + 15,
+                )}
+              </button>
+            ))}
+          </div>
+        </AppointmentsDiv>
       )}
     </PageDiv>
   );
