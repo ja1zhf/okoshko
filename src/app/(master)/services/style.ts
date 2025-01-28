@@ -98,3 +98,32 @@ export const ServicesPriceDiv = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+
+export const ServicesTypesDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  & > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+  }
+
+  .submit {
+    margin-left: 16px;
+    font-feature-settings:
+      "liga" off,
+      "clig" off;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 125%;
+    background-color: ${(props) => props.theme.colors.primary};
+    color: ${(props) => props.theme.colors.white};
+    padding: 6px 12px;
+    border: none;
+    border-radius: 2.5em;
+    height: fit-content;
+  }
+`;

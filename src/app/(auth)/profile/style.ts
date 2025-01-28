@@ -68,19 +68,3 @@ export const ProfileKindDiv = styled.div`
   gap: 12px;
 `;
 
-export const KindButtonDiv = styled.button<{ $isActive: boolean }>`
-  font-feature-settings:
-    "liga" off,
-    "clig" off;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 125%;
-  background-color: ${(props) =>
-    props.$isActive ? props.theme.colors.primary : "#f5f5f9"};
-  color: ${(props) =>
-    props.$isActive ? props.theme.colors.white : props.theme.colors.black};
-  padding: 6px 12px;
-  border: none;
-  border-radius: 2.5em;
-`;

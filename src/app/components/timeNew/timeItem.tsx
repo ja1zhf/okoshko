@@ -63,13 +63,13 @@ const TimeItem = (props: Props) => {
   const clickOnTime = (time: number) => {
     if (!isSelected(time).isFind) {
       if (!isStartSelection) {
-        let temp = selected;
+        let temp = [...selected];
         temp.push([time]);
 
         setSelected(temp);
         setIsStartSelection(true);
       } else {
-        let temp = selected;
+        let temp = [...selected];
 
         if (!isOverlapping(temp[temp.length - 1][0], time)) {
           temp[temp.length - 1].push(time);
@@ -82,16 +82,22 @@ const TimeItem = (props: Props) => {
         setIsStartSelection(false);
       }
     } else {
-      let temp = selected;
+      let temp = [...selected];
 
-      let index = temp.findIndex(
-        ([start, end]) => time >= start && time <= end,
-      );
+      if(!isStartSelection) {
+        let index = temp.findIndex(
+          ([start, end]) => time >= start && time <= end,
+        );
 
-      if (index !== -1) {
-        temp.splice(index, 1);
+        if (index !== -1) {
+          temp.splice(index, 1);
+        }
+      } else {
+          temp.splice(temp.length - 1, 1);
       }
+
       setSelected(temp);
+      setIsStartSelection(false);
     }
   };
 
@@ -102,11 +108,11 @@ const TimeItem = (props: Props) => {
           <tbody>
             {time.map((children, index) => (
               <tr key={index}>
-                {children.map((time) => {
+                {children.map((time, i) => {
                   const isSelectedTime = isSelected(time);
 
                   return (
-                    <td>
+                    <td key={i}>
                       <TimeCell
                         $isSelected={isSelectedTime.isFind}
                         $position={isSelectedTime.position}

@@ -10,13 +10,25 @@ import {
   ServicesPriceDiv,
   ServicesTable,
   ServicesTitleCell,
+  ServicesTypesDiv
 } from "./style";
 import PopupItem from "./components/popupItem";
 import { ServiceButtonDiv } from "./style";
+import ServicesTypeItem from "./components/servicesTypeItem";
 
 const Page = () => {
   const [isActive, setIsActive] = useState(false);
   const [services, setServices] = useState<ServiceData[]>([]);
+  const [servicesTypeIds, setServicesTypeIds] = useState<number[]>([]);
+  
+  const servicesType = [
+    { id: 2, title: "Ногти" },
+    { id: 3, title: "Брови и ресницы" },
+    { id: 4, title: "Уход за лицом" },
+    { id: 5, title: "Макияж" },
+    { id: 6, title: "Волосы" },
+    { id: 7, title: "Тело" },
+  ];
 
   const [tempId, setTempId] = useState(0);
   const [isEdit, setIsEdit] = useState(false);
@@ -24,6 +36,27 @@ const Page = () => {
   const [tempTime, setTempTime] = useState("");
   const [tempPrice, setTempPrice] = useState("");
   const [tempService, setTempService] = useState(0);
+
+  const sendServicesType = async () => {
+    const formData = new FormData();
+
+    servicesTypeIds.map((speciality) => {
+      formData.append("specialities", speciality as any);
+    });
+
+    const response = await fetch(
+      `https://dev.okoshko.space/users/profile/update/`,
+      {
+        method: "PATCH",
+        credentials: "include",
+        body: formData,
+      },
+    );
+
+    const result = await response.json();
+
+    setServicesTypeIds(result.specialities);
+  }
 
   const request = async () => {
     const response = await fetch(
@@ -55,12 +88,37 @@ const Page = () => {
   };
 
   useEffect(() => {
+    (async function() {
+      const response = await fetch(
+        `https://dev.okoshko.space/users/profile/`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        },
+      );
+
+      const { master_profile }: { master_profile: MasterType } = await response.json();
+
+      setServicesTypeIds(master_profile.specialities);
+    })();
+
     request();
   }, []);
 
   return (
     <PageDiv>
       <ServicesPageTitle>Услуги</ServicesPageTitle>
+      <ServicesTypesDiv>
+        <div>
+          {servicesType.map((serviceType) => (
+            <ServicesTypeItem key={serviceType.id} id={serviceType.id} title={serviceType.title} servicesTypeIds={servicesTypeIds} setServicesTypeIds={setServicesTypeIds}/>
+          ))}
+        </div>
+        <button className="submit" onClick={sendServicesType}>Изменить</button>
+      </ServicesTypesDiv>
       <ServicesTable>
         <thead>
           <tr>

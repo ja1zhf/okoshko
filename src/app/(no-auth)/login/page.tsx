@@ -66,6 +66,7 @@ const Page = () => {
     const result: CheckData = await response.json();
 
     if (result.status === 200) {
+      console.log(result.user.avatar_url);
       setUser(result.user);
       router.push("/");
     }

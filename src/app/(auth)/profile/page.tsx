@@ -13,7 +13,6 @@ import {
 import InputItem from "@/app/components/input/inputItem";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import AddressInput from "@/app/components/address/addressInput";
-import KindButton from "./components/kindButton";
 import districts from "@/app/districts";
 import SelectItem from "@/app/components/select/selectItem";
 import { truncateText } from "@/tools/tools";
@@ -60,7 +59,6 @@ const Page = () => {
   const [districtInput, setDistrictInput] = useState("");
   const [selectedAddress, setSelectedAddress] = useState<string>("");
   const [avatarInput, setAvatarInput] = useState<File | null>(null);
-  const [masterKind, setMasterKind] = useState<number[]>([]);
   const [cityInput, setCityInput] = useState("");
   const [avatar, setAvatar] = useState("");
   const [deleteAvatar, setDeleteAvatar] = useState(false);
@@ -96,7 +94,6 @@ const Page = () => {
       setDescriptionInput(result.master_profile.description);
       setDistrictInput(result.master_profile.district);
       setSelectedAddress(result.master_profile.address);
-      setMasterKind(result.master_profile.specialities);
       setAvatar(result.user_profile.avatar_url);
       setCityInput(result.user_profile.city);
 
@@ -141,9 +138,9 @@ const Page = () => {
     formData.append("description", descriptionInput);
     formData.append("remove_avatar", deleteAvatar as any);
 
-    masterKind.map((speciality) => {
-      formData.append("specialities", speciality as any);
-    });
+    // masterKind.map((speciality) => {
+    //   formData.append("specialities", speciality as any);
+    // });
 
     if (avatarInput) {
       formData.append("avatar", avatarInput);
@@ -166,7 +163,6 @@ const Page = () => {
     setDescriptionInput(result.description);
     setDistrictInput(result.district);
     setSelectedAddress(result.address);
-    setMasterKind(result.specialities);
     setAvatar(result.avatar);
     setCityInput(result.city);
 
@@ -197,7 +193,7 @@ const Page = () => {
             <input
               id="file-upload"
               type="file"
-              accept="image/*"
+              accept="image/png, image/jpeg"
               style={{ display: "none" }}
               onChange={handleFileChange}
             />
@@ -209,46 +205,6 @@ const Page = () => {
           />
         </AvatarBlockDiv>
         <ProfileInputDiv>
-          {profile?.user_profile.role === "master" && (
-            <ProfileKindDiv>
-              <KindButton
-                id={1}
-                title="Ногти"
-                masterKind={masterKind}
-                setMasterKind={setMasterKind}
-              />
-              <KindButton
-                id={3}
-                title="Брови и ресницы"
-                masterKind={masterKind}
-                setMasterKind={setMasterKind}
-              />
-              <KindButton
-                id={4}
-                title="Уход за лицом"
-                masterKind={masterKind}
-                setMasterKind={setMasterKind}
-              />
-              <KindButton
-                id={5}
-                title="Макияж"
-                masterKind={masterKind}
-                setMasterKind={setMasterKind}
-              />
-              <KindButton
-                id={6}
-                title="Волосы"
-                masterKind={masterKind}
-                setMasterKind={setMasterKind}
-              />
-              <KindButton
-                id={7}
-                title="Тело"
-                masterKind={masterKind}
-                setMasterKind={setMasterKind}
-              />
-            </ProfileKindDiv>
-          )}
           <InputItem
             title="Имя"
             isNumber={false}
