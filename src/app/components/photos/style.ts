@@ -19,5 +19,6 @@ export const SlideDiv = styled.div`
 
   & > img {
     border-radius: 1rem;
+    pointer-events: none;
   }
 `;

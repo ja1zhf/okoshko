@@ -6,6 +6,7 @@ export const TitleButton = styled.div`
 `;
 
 export const OrdersPageTitle = styled.button<{ $isActive: boolean }>`
+  position: relative;
   width: fit-content;
   border: none;
   padding: 4px 12px;

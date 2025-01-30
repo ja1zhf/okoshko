@@ -9,6 +9,8 @@ import FooterItem from "./components/footer/footerItem";
 import ContextWrapper from "./contextWrapper";
 import { PopupProvider } from "@/contexts/popupContext";
 import { CityProvider } from "@/contexts/cityContext";
+import SocketItem from "./components/socket/socketItem";
+import { NotificationProvider } from "@/contexts/notificationContext";
 
 const PtRootUiVf = localFont({
   src: "./pt-root-ui_vf.woff2",
@@ -34,9 +36,12 @@ export default function RootLayout({
             <ContextWrapper>
               <PopupProvider>
                 <CityProvider>
-                  <NavbarItem />
-                  <Container>{children}</Container>
-                  <FooterItem />
+                  <NotificationProvider>
+                    <SocketItem />
+                    <NavbarItem />
+                    <Container>{children}</Container>
+                    <FooterItem />
+                  </NotificationProvider>
                 </CityProvider>
               </PopupProvider>
             </ContextWrapper>

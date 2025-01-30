@@ -269,7 +269,7 @@ const Page = ({ params }: { params: Params }) => {
         <MasterBlockDiv>
           <h2>Время</h2>
           <TimeBlockDiv>
-            {master?.available_appointments.map((appointment) => (
+            {master?.available_appointments.filter(item => item.date === formatDate(selectedDays[0], selectedMonth, selectedYear)).map((appointment) => (
               <TimeButton key={appointment.id} $isSelected={selectedTime === appointment.id} onClick={() => setSelectedTime(appointment.id)}>{formatTime(appointment.start_time)}</TimeButton>
             ) )}
           </TimeBlockDiv> 

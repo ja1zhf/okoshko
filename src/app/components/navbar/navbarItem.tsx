@@ -15,6 +15,7 @@ import ProfilePopupItem from "./components/profilePopupItem";
 import Link from "next/link";
 import UserContext from "@/contexts/userContext";
 import DistrictItem from "./components/districtItem";
+import IndicatorItem from "../indicator/indicatorItem";
 
 const NavbarItem = () => {
   const { user, setUser } = useContext(UserContext);
@@ -46,6 +47,7 @@ const NavbarItem = () => {
               <Image alt="profile" width={20} height={20} src="/profile.svg" />
               <NavbarText>
                 {user.first_name && user.first_name} {user.last_name && user.last_name[0]}.
+                {user.role === "master" && <IndicatorItem top={-14} right={-12}/>}
               </NavbarText>
             </ProfileButton>
           </>

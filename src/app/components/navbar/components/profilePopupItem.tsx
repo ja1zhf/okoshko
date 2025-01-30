@@ -12,6 +12,7 @@ import {
 } from "./style";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import IndicatorItem from "../../indicator/indicatorItem";
 
 interface Props {
   user: ProfileType;
@@ -121,6 +122,7 @@ const ProfilePopupItem = (props: Props) => {
             <div key={index}>
               <ProfileButton onClick={() => menuCLick(item.href)}>
                 {item.title}
+                {user.role === "master" && item.href === "/orders" && <IndicatorItem top={-4} right={-14} />}
               </ProfileButton>
               {index + 1 !== menu.length && <ProfileLineDiv />}
             </div>

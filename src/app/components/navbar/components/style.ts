@@ -70,6 +70,7 @@ export const ProfileLineDiv = styled.div`
 `;
 
 export const ProfileButton = styled.button`
+  position: relative;
   padding: 12px 0px;
   color: ${(props) => props.theme.colors.gray};
   font-feature-settings:

@@ -26,9 +26,13 @@ import { useContext, useEffect, useState } from "react";
 import { formatTime } from "@/tools/tools";
 import UserContext from "@/contexts/userContext";
 import { usePopup } from "@/contexts/popupContext";
+import IndicatorItem from "@/app/components/indicator/indicatorItem";
+import { useNotifications } from "@/contexts/notificationContext";
 
 const Page = () => {
   const { user } = useContext(UserContext);
+
+  const { setCount } = useNotifications();
 
   const { showPopup } = usePopup();
 
@@ -174,13 +178,28 @@ const Page = () => {
     showPopup("success", "Отзыв успешно оставлен");
   };
 
+  const deleteNotification = async () => {
+    await fetch(
+        `https://dev.okoshko.space/notifications/delete_all/`,
+        {
+            method: "DELETE",
+            headers: {
+            "Content-Type": "application/json",
+            },
+            credentials: "include",
+        }
+    );
+
+    setCount(0);
+  }
+
   return (
     <PageDiv>
       <TitleButton>
         <OrdersPageTitle $isActive={!isMasterOrders} onClick={() => setIsMasterOrders(false)}>Мои заказы</OrdersPageTitle>
         {
           user?.role === "master" && (
-            <OrdersPageTitle $isActive={isMasterOrders} onClick={() => setIsMasterOrders(true)}>Входящие заказы</OrdersPageTitle>
+            <OrdersPageTitle $isActive={isMasterOrders} onClick={() => {setIsMasterOrders(true); deleteNotification()}}>Входящие заказы <IndicatorItem top={-6} right={-6} /></OrdersPageTitle>
           )
         }
       </TitleButton>
@@ -300,11 +319,15 @@ const Page = () => {
             )}
           </OrderDiv>
         )}})}
-        {isMasterOrders && user?.role === "master" && masterOrders.map((order, index) => (
+        {isMasterOrders && user?.role === "master" && masterOrders.map((order, index) => {
+          if(selectedStatus === order.status || selectedStatus === -1 ) {
+            return(
           <OrderDiv key={index}>
             <OrderDetailsDiv>
               <h2>
-                {order.slot.date} {formatTime(order.slot.start_time)}
+                {
+                  order.slot ? <>{order.slot.date} {formatTime(order.slot.start_time)}</> : "null"
+                } 
               </h2>
             </OrderDetailsDiv>
             <OrderMasterInfoDiv>
@@ -343,6 +366,11 @@ const Page = () => {
                 <p>{order.service.title}</p>
                 <p>{order.service.price} ₽</p>
               </div>
+              <div>
+                <p>
+                  Статус: {statuses[order.status]}
+                </p>
+              </div>
             </OrderServicesListDiv>
             <OrderButtons>
               {order.status === 0 && (
@@ -364,7 +392,7 @@ const Page = () => {
               )}
             </OrderButtons>
           </OrderDiv>
-        ))}
+        )}})}
       </OrdersListDiv>
     </PageDiv>
   );

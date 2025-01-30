@@ -55,6 +55,7 @@ export const AppTitle = styled(Link)`
 `;
 
 export const NavbarText = styled.p`
+  position: relative;
   color: ${(props) => props.theme.colors.gray};
   text-align: center;
   font-feature-settings:

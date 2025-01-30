@@ -77,7 +77,7 @@ const Page = ({ params }: { params: Params }) => {
   return (
     <PageDiv>
       <FeedHeaderDiv>
-        <FeedTitle>Feed</FeedTitle>
+        <FeedTitle>Мастера</FeedTitle>
         <FeedFilterButton onClick={() => router.back()}>
           <Image
             alt="setting-icon"
@@ -90,7 +90,7 @@ const Page = ({ params }: { params: Params }) => {
       {masters && masters.length > 0 ? (
         <FeedItem masters={masters} />
       ) : (
-        <p>Поиск...</p>
+        <p>Мастера не найдены</p>
       )}
     </PageDiv>
   );

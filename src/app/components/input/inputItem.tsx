@@ -11,8 +11,7 @@ interface Props {
 }
 
 const InputItem = (props: Props) => {
-  const { title, isNumber, canBeEmpty, isDisabled, inputValue, setInputValue } =
-    props;
+  const { title, isNumber, canBeEmpty, isDisabled, inputValue, setInputValue } = props;
 
   const [isFocused, setIsFocused] = useState(false);
 
