@@ -31,40 +31,65 @@ export const ServicesButton = styled.button`
   background-color: ${(props) => props.theme.colors.primary};
 `;
 
-export const ServicesTable = styled.table`
-  & > thead {
-    background-color: ${(props) => props.theme.colors.primary}CC;
-    color: ${(props) => props.theme.colors.white};
+export const ServicesListDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 
-    & > tr th:first-child {
-      text-align: start;
-    }
-  }
+  & > button {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    padding: 12px;
+    border: none;
+    border-radius: 16px;
+    background-color: #F5F5F9;
 
-  & > tbody {
-    & > tr {
-      background-color: ${(props) => props.theme.colors.primary}1A;
+    & > .info {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      gap: 2px;
 
-      & > td:first-child {
+      & > h3 {
+        color: ${(props) => props.theme.colors.black};
+        font-feature-settings:
+          "liga" off,
+          "clig" off;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 125%;
+        transition: color 0.2s ease;
         text-align: start;
+      }
+
+      & > p {
+        color: ${(props) => props.theme.colors.black};
+        font-feature-settings:
+          "liga" off,
+          "clig" off;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 450;
+        line-height: 150%;
+        transition: color 0.2s ease;
+      }
+
+      & > .photos {
+        display: flex;
+        gap: 4px;
+
+        & > img {
+          border-radius: 6px;
+        }
       }
     }
 
-    & > tr:nth-child(2n) {
-      background-color: ${(props) => props.theme.colors.primary}33;
+    & > .buttons {
+      display: flex;
+      gap: 8px;
     }
-  }
-
-  @media (max-width: 420px) {
-    font-size: 14px;
-  }
-
-  @media (max-width: 390px) {
-    font-size: 12px;
-  }
-
-  @media (max-width: 355px) {
-    font-size: 10px;
   }
 `;
 

@@ -90,7 +90,7 @@ const Page = ({ params }: { params: Params }) => {
       {masters && masters.length > 0 ? (
         <FeedItem masters={masters} />
       ) : (
-        <p>Мастера не найдены</p>
+        <p>Поиск...</p>
       )}
     </PageDiv>
   );

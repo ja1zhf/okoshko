@@ -17,6 +17,8 @@ import {
   MasterServicesList,
   MasterStarsText,
   ReviewsListDiv,
+  TimeBlockDiv,
+  TimeButton,
 } from "./style";
 import TimeItem from "../../components/time/timeItem";
 import ServicesItem from "./components/servicesItem";
@@ -24,7 +26,7 @@ import ReviewItem from "./components/reviewItem";
 import PhotosItem from "@/app/components/photos/photosItem";
 import LikeItem from "../../components/like/likeItem";
 import UserContext from "@/contexts/userContext";
-import { formatDate, isAuth } from "@/tools/tools";
+import { formatDate, formatTime, isAuth } from "@/tools/tools";
 import { usePopup } from "@/contexts/popupContext";
 
 interface Params {
@@ -108,7 +110,7 @@ const Page = ({ params }: { params: Params }) => {
   const [selectedDays, setSelectedDays] = useState<number[]>([]);
   const [selectedMonth, setSelectedMonth] = useState(0);
   const [selectedYear, setSelectedYear] = useState(0);
-  const [selectedTime, setSelectedTime] = useState<number[]>([]);
+  const [selectedTime, setSelectedTime] = useState(0);
 
   const [master, setMaster] = useState<MasterType | null>(null);
 
@@ -127,6 +129,8 @@ const Page = ({ params }: { params: Params }) => {
     const result: { status: number; master_info: MasterType } =
       await response.json();
 
+    console.log(result);
+
     setMaster(result.master_info);
   };
 
@@ -135,13 +139,13 @@ const Page = ({ params }: { params: Params }) => {
   }, []);
 
   useEffect(() => {
-    setSelectedTime([]);
+    setSelectedTime(0);
   }, [selectedDays]);
 
   const submit = async () => {
     if (
       selectedDays.length === 0 ||
-      selectedTime.length === 0 ||
+      selectedTime === 0 ||
       selectedService === 0
     ) {
       return showPopup("failure", "Не все поля выбраны");
@@ -156,10 +160,8 @@ const Page = ({ params }: { params: Params }) => {
         },
         credentials: "include",
         body: JSON.stringify({
-          date: formatDate(selectedDays[0], selectedMonth, selectedYear),
-          start_time: selectedTime[0],
+          slot_id: selectedTime,
           service_id: selectedService,
-          master_id: id,
         }),
       },
     );
@@ -266,28 +268,14 @@ const Page = ({ params }: { params: Params }) => {
       {selectedDays.length > 0 && (
         <MasterBlockDiv>
           <h2>Время</h2>
-          <TimeItem
-            width={300}
-            isMultiSelections={false}
-            selectedTime={selectedTime}
-            selectedDate={formatDate(
-              selectedDays[0],
-              selectedMonth,
-              selectedYear,
-            )}
-            appointmentsForUsers={
-              selectedService !== 0
-                ? filterAvailableTimeSlots(
-                    master!.available_appointments,
-                    selectedServiceTime,
-                  )
-                : master?.available_appointments
-            }
-            setSelectedTime={setSelectedTime}
-          />
+          <TimeBlockDiv>
+            {master?.available_appointments.map((appointment) => (
+              <TimeButton key={appointment.id} $isSelected={selectedTime === appointment.id} onClick={() => setSelectedTime(appointment.id)}>{formatTime(appointment.start_time)}</TimeButton>
+            ) )}
+          </TimeBlockDiv> 
         </MasterBlockDiv>
       )}
-      {selectedDays.length > 0 && selectedTime.length > 0 && isAuth() && (
+      {selectedDays.length > 0 && selectedTime !== 0 && selectedService !== 0 && isAuth() && (
         <SubmitButton whileTap={{ scale: 0.9 }} onClick={submit}>
           Записаться
         </SubmitButton>

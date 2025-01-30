@@ -175,7 +175,7 @@ const PopupItem = (props: Props) => {
           <input
             id="file-upload"
             type="file"
-            accept="image/*"
+            accept="image/png, image/jpeg"
             style={{ display: "none" }}
             onChange={handleFileChange}
             multiple

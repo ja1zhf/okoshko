@@ -1,18 +1,18 @@
 import {
   Dispatch,
   SetStateAction,
-  TouchEvent,
-  useEffect,
-  useRef,
   useState,
 } from "react";
 import { TimeCell, TimeDiv, TimeTable, TableContainer } from "./style";
 import { formatTime } from "@/tools/tools";
 
-interface Props {}
+interface Props {
+  selected: number[][];
+  setSelected: Dispatch<SetStateAction<number[][]>>;
+}
 
 const TimeItem = (props: Props) => {
-  const {} = props;
+  const { selected, setSelected } = props;
 
   const time = [
     [600, 615, 630, 645],
@@ -35,7 +35,6 @@ const TimeItem = (props: Props) => {
     [2300, 2315, 2330, 2345],
   ];
 
-  const [selected, setSelected] = useState<number[][]>([]);
   const [isStartSelection, setIsStartSelection] = useState(false);
 
   const isOverlapping = (start: number, end: number) => {

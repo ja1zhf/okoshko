@@ -333,3 +333,22 @@ export const ReviewInputDiv = styled.div`
     background-color: ${(props) => props.theme.colors.primary};
   }
 `;
+
+export const TimeBlockDiv = styled.div`
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+`;
+
+export const TimeButton = styled.button<{ $isSelected: boolean }>`
+  font-size: 16px;
+  text-align: center;
+  background-color: ${(props) => (props.$isSelected ? "#794CC3" : "#f5f4f9")};
+  color: ${(props) => (props.$isSelected ? "#f5f4f9" : "#000000")};
+  border: none;
+  border-radius: 24px;
+  padding: 8px 16px;
+  cursor: pointer;
+  user-select: none;
+  touch-action: none;
+`;

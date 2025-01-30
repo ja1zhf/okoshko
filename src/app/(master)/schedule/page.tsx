@@ -5,6 +5,7 @@ import CalendarItem from "@/app/components/calendar/calendarItem";
 import { PageDarkOverlay, PageDiv } from "@/app/styles/style";
 import {
   AppointmentsDiv,
+  AppointmentTimeButton,
   ButtonsDiv,
   ScheduleButton,
   SchedulePageTitle,
@@ -27,13 +28,8 @@ const Page = () => {
   const [appointmentTitle, setAppointmentTitle] = useState("");
   const [selectedAppointment, setSelectedAppointment] = useState(0);
 
-  const times = [
-    [600, 645],
-    [800, 930],
-    [1000, 1030],
-  ];
-
   const [appointments, setAppointments] = useState<AppointmentType[]>([]);
+  const [appointmentsTimes, setAppointmentsTimes] = useState<AppointmentTimeType[]>([]);
 
   const [selectedDates, setSelectedDates] = useState<string[]>([]);
 
@@ -48,6 +44,27 @@ const Page = () => {
 
     setSelectedDates(temp);
   };
+
+  const getAppointmentsTimes = async () => {
+    const response = await fetch(
+      `https://dev.okoshko.space/table/slot/appointments/by_date?date=${formatDate(selectedDays[0], selectedMonth, selectedYear)}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      },
+    );
+
+    const result: {slots: AppointmentTimeType[]} = await response.json();
+
+    if(result.slots) {
+      setAppointmentsTimes(result.slots);
+    } else {
+      setAppointmentsTimes([]);
+    }
+  }
 
   const getAppointment = async () => {
     const response = await fetch(
@@ -69,6 +86,12 @@ const Page = () => {
   useEffect(() => {
     getAppointment();
   }, []);
+
+  useEffect(() => {
+    if(selectedDays.length === 1) {
+      getAppointmentsTimes();
+    }
+  }, [selectedDays]);
 
   return (
     <PageDiv>
@@ -96,6 +119,7 @@ const Page = () => {
             selectedDates={selectedDates}
             setIsActive={setIsActive}
             getAppointment={getAppointment}
+            getAppointmentsTimes={getAppointmentsTimes}
           />
         </PageDarkOverlay>
       )}
@@ -112,14 +136,14 @@ const Page = () => {
         <AppointmentsDiv>
           <h2>Ваши окошки на {selectedDays[0]} число</h2>
           <div>
-            {times.map((time, index) => (
-              <button key={index} onClick={() => {
-                setAppointmentTitle(`${selectedDays[0]}-${formatNum(selectedMonth + 1)} ${formatTime(time[0])}-${formatTime(endsWith45(time[1]) ? replaceWith00(time[1] + 100) : time[1] + 15)}`);
+            {appointmentsTimes.map((time, index) => (
+              <AppointmentTimeButton key={index} onClick={() => {
+                setAppointmentTitle(`${time.date} ${formatTime(time.start_time)}-${formatTime(endsWith45(time.end_time) ? replaceWith00(time.end_time + 100) : time.end_time + 15)}`);
                 setSelectedAppointment(index + 1);
               }}>
-                {formatTime(time[0])}-
-                {formatTime(endsWith45(time[1]) ? replaceWith00(time[1] + 100) : time[1] + 15)}
-              </button>
+                {formatTime(time.start_time)}-
+                {formatTime(endsWith45(time.end_time) ? replaceWith00(time.end_time + 100) : time.end_time + 15)}
+              </AppointmentTimeButton>
             ))}
           </div>
         </AppointmentsDiv>

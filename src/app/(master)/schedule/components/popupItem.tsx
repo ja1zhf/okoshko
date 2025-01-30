@@ -8,12 +8,13 @@ interface Props {
   selectedDates: string[];
   setIsActive: Dispatch<SetStateAction<boolean>>;
   getAppointment: () => Promise<void>;
+  getAppointmentsTimes: () => Promise<void>;
 }
 
 const PopupItem = (props: Props) => {
-  const { selectedDates, setIsActive, getAppointment } = props;
+  const { selectedDates, setIsActive, getAppointment, getAppointmentsTimes } = props;
 
-  const [selectedTime, setSelectedTime] = useState<number[]>([]);
+  const [selectedTime, setSelectedTime] = useState<number[][]>([]);
 
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -38,23 +39,9 @@ const PopupItem = (props: Props) => {
 
     setIsActive(false);
     getAppointment();
-    // else if (isActive === 1) {
-    //   await fetch("https://dev.okoshko.space/table/slot/appointments/create", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     credentials: "include",
-    //     body: JSON.stringify({
-    //       phone: phoneInput,
-    //       date: selectedDates[0],
-    //       start_time: selectedTime[0],
-    //       service_id: selectedService,
-    //     }),
-    //   });
-    //
-    //   setIsActive(0);
-    // }
+    if(selectedDates.length === 1) {
+      getAppointmentsTimes();
+    }
   };
 
   useEffect(() => {
@@ -73,7 +60,7 @@ const PopupItem = (props: Props) => {
           <p key={index}>{date}</p>
         ))}
       </DatesDiv>
-      <TimeItem />
+      <TimeItem selected={selectedTime} setSelected={setSelectedTime} />
       <SubmitButton onClick={click} whileTap={{ scale: 0.9 }}>
         Добавить
       </SubmitButton>

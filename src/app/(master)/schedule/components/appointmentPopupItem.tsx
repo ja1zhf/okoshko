@@ -17,6 +17,8 @@ const AppointmentPopupItem = (props: Props) => {
 
   const divRef = useRef<HTMLDivElement>(null);
 
+  const [servicesOptions, setServicesOptions] = useState<{ id: number; title: string }[]>([]);
+
   const [phoneInput, setPhoneInput] = useState("");
   const [selectedService, setSelectedService] = useState(0);
 
@@ -58,7 +60,20 @@ const AppointmentPopupItem = (props: Props) => {
       );
 
       const result = await response.json();
-      console.log(result);
+
+      if(result.status === 200 && result.services.length > 0) {
+        let servicesTemp: { id: number; title: string }[] = [];
+
+        result.services.map((serviceTemp: {id: number; title: string}) => {
+          servicesTemp.push({
+            id: serviceTemp.id,
+            title: serviceTemp.title
+          })
+        })
+
+        setServicesOptions(servicesTemp);
+        setSelectedService(servicesTemp[0].id);
+      }
     })();
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -75,7 +90,7 @@ const AppointmentPopupItem = (props: Props) => {
         <p>{title}</p>
       </DatesDiv>
       <InputItem title="Номер пользователя" isNumber={true} canBeEmpty={false} inputValue={phoneInput} setInputValue={setPhoneInput} />
-      {/* <SelectItem title="Услуга" options={]} /> */}
+      <SelectItem title="Услуга" options={servicesOptions} selectedOption={selectedService} setSelectedOption={setSelectedService} />
       <SubmitButton onClick={click} whileTap={{ scale: 0.9 }}>
         Добавить
       </SubmitButton>

@@ -41,8 +41,19 @@ interface AppointmentType {
   is_available: boolean;
 }
 
+interface AppointmentTimeType {
+  id: number;
+  date: string;
+  start_time: number;
+  end_time: number;
+  appointment: null;
+  is_available: boolean;
+}
+
 interface MasterType {
   id: number;
+  name: string;
+  surname: string;
   specialities: number[];
   description: string;
   reviews: ReviewType[];
@@ -51,6 +62,8 @@ interface MasterType {
   district: string;
   profile: ProfileType;
   is_favorited: boolean;
+  avatar: string;
+  phone: string;
   available_appointments: AppointmentType[];
   featured_photos: {
     id: number;

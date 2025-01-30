@@ -1,7 +1,17 @@
 import styled from "styled-components";
 
-export const OrdersPageTitle = styled.h1`
-  color: ${(props) => props.theme.colors.black};
+export const TitleButton = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+
+export const OrdersPageTitle = styled.button<{ $isActive: boolean }>`
+  width: fit-content;
+  border: none;
+  padding: 4px 12px;
+  border-radius: 50px;
+  color: ${(props) => props.$isActive ? props.theme.colors.white : props.theme.colors.black};
+  background-color: ${(props) => props.$isActive ? props.theme.colors.primary : "#f5f4f9"};
   font-feature-settings:
     "liga" off,
     "clig" off;
@@ -9,6 +19,7 @@ export const OrdersPageTitle = styled.h1`
   font-style: normal;
   font-weight: 700;
   line-height: 125%;
+  cursor: pointer;
 `;
 
 export const OrdersListDiv = styled.div`
@@ -288,3 +299,22 @@ export const ScoreButton = styled.button<{ $isSelected: boolean }>`
       props.$isSelected ? "#bdae95" : "rgba(24, 23, 26, 0.12)"};
   }
 `;
+
+export const StatusListDiv = styled.div`
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+`;
+
+export const StatusButton = styled.button<{ $isSelected: boolean }>`
+  font-size: 16px;
+  text-align: center;
+  background-color: ${(props) => (props.$isSelected ? "#794CC3" : "#f5f4f9")};
+  color: ${(props) => (props.$isSelected ? "#f5f4f9" : "#000000")};
+  border: none;
+  border-radius: 24px;
+  padding: 4px 8px;
+  cursor: pointer;
+  user-select: none;
+  touch-action: none;
+`
