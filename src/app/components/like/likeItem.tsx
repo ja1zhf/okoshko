@@ -13,7 +13,7 @@ const LikeItem = (props: Props) => {
 
   const toggleFavorite = async () => {
     if (id) {
-      fetch(`https://dev.okoshko.space/favorites/favorites/toggle/${id}/`, {
+      fetch(`https://dev.okoshko.space/favorites/toggle/${id}/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

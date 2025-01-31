@@ -280,7 +280,7 @@ const Page = () => {
                 </p>
               </div>
             </OrderServicesListDiv>
-            {order.status !== 2 && (
+            {order.status === 0 && (
               <OrderCancelButton onClick={() => cancel(order.id)}>
                 Отменить заказ
               </OrderCancelButton>
