@@ -25,7 +25,8 @@ jobs:
           PROJECT_DIR: ${{ secrets.PROJECT_DIR }}
         run: |
           ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST << 'EOF'
-            cd $PROJECT_DIR
+            cd okoshko/
+            git pull
             docker compose down
             docker compose up -d --build
           EOF
