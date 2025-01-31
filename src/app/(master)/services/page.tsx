@@ -119,7 +119,7 @@ const Page = () => {
             <ServicesTypeItem key={serviceType.id} id={serviceType.id} title={serviceType.title} servicesTypeIds={servicesTypeIds} setServicesTypeIds={setServicesTypeIds}/>
           ))}
         </div>
-        <button className="submit" onClick={sendServicesType}>Изменить</button>
+        <button className="submit" onClick={sendServicesType}>Добавить</button>
       </ServicesTypesDiv>
       <ServicesListDiv>
         {services.map((item) => (
