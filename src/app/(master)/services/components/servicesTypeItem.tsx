@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { ServicesTypeButton } from "./style";
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 const ServicesTypeItem = (props: Props) => {
   const { id, title, servicesTypeIds, setServicesTypeIds } = props;
 
-  const addAndRemove = (id: number) => {
+  const addAndRemove = async (id: number) => {
     let temp = [...servicesTypeIds];
 
     if (temp.includes(id)) {
@@ -24,11 +24,31 @@ const ServicesTypeItem = (props: Props) => {
       temp.push(id);
     }
 
-    setServicesTypeIds(temp);
+    const formData = new FormData();
+
+    temp.map((speciality: number) => {
+      formData.append("specialities", speciality as any);
+    });
+
+    const response = await fetch(
+      `https://dev.okoshko.space/users/profile/update/`,
+      {
+        method: "PATCH",
+        credentials: "include",
+        body: formData,
+      },
+    );
+
+    const result = await response.json();
+
+    setServicesTypeIds(result.specialities);
   };
 
   return (
-    <ServicesTypeButton $isActive={servicesTypeIds.includes(id)} onClick={() => addAndRemove(id)}>
+    <ServicesTypeButton
+      $isActive={servicesTypeIds.includes(id)}
+      onClick={() => addAndRemove(id)}
+    >
       {title}
     </ServicesTypeButton>
   );

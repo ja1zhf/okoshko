@@ -69,6 +69,7 @@ const PhotosItem = ({ photos }: Props) => {
               width={128}
               height={128}
               src={photo.image}
+              style={{ objectFit: "cover" }}
             />
           </SlideDiv>
         ))}

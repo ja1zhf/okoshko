@@ -1,7 +1,6 @@
 import { PopupDiv, SubmitButton } from "@/app/styles/style";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { PopupTitle } from "./style";
-import TimeItem from "@/app/components/timeNew/timeItem";
 import { DatesDiv } from "../style";
 import InputItem from "@/app/components/input/inputItem";
 import SelectItem from "@/app/components/select/selectItem";
@@ -10,14 +9,22 @@ interface Props {
   title: string;
   selectedAppointment: number;
   setSelectedAppointment: Dispatch<SetStateAction<number>>;
+  getAppointmentsTimes: () => Promise<void>;
 }
 
 const AppointmentPopupItem = (props: Props) => {
-  const { title, selectedAppointment, setSelectedAppointment } = props;
+  const {
+    title,
+    selectedAppointment,
+    setSelectedAppointment,
+    getAppointmentsTimes,
+  } = props;
 
   const divRef = useRef<HTMLDivElement>(null);
 
-  const [servicesOptions, setServicesOptions] = useState<{ id: number; title: string }[]>([]);
+  const [servicesOptions, setServicesOptions] = useState<
+    { id: number; title: string }[]
+  >([]);
 
   const [phoneInput, setPhoneInput] = useState("");
   const [selectedService, setSelectedService] = useState(0);
@@ -29,25 +36,25 @@ const AppointmentPopupItem = (props: Props) => {
   };
 
   const click = async () => {
-    setSelectedAppointment(0);
+    await fetch("https://dev.okoshko.space/table/slot/appointments/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        phone: phoneInput,
+        slot_id: selectedAppointment,
+        service_id: selectedService,
+      }),
+    });
 
-      // await fetch("https://dev.okoshko.space/table/slot/appointments/create", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   credentials: "include",
-      //   body: JSON.stringify({
-      //     phone: phoneInput,
-      //     date: selectedDates[0],
-      //     start_time: selectedTime[0],
-      //     service_id: selectedService,
-      //   }),
-      // });
+    setSelectedAppointment(0);
+    getAppointmentsTimes();
   };
 
   useEffect(() => {
-    (async function() {
+    (async function () {
       const response = await fetch(
         `https://dev.okoshko.space/service/my-services`,
         {
@@ -61,15 +68,15 @@ const AppointmentPopupItem = (props: Props) => {
 
       const result = await response.json();
 
-      if(result.status === 200 && result.services.length > 0) {
+      if (result.status === 200 && result.services.length > 0) {
         let servicesTemp: { id: number; title: string }[] = [];
 
-        result.services.map((serviceTemp: {id: number; title: string}) => {
+        result.services.map((serviceTemp: { id: number; title: string }) => {
           servicesTemp.push({
             id: serviceTemp.id,
-            title: serviceTemp.title
-          })
-        })
+            title: serviceTemp.title,
+          });
+        });
 
         setServicesOptions(servicesTemp);
         setSelectedService(servicesTemp[0].id);
@@ -89,8 +96,19 @@ const AppointmentPopupItem = (props: Props) => {
       <DatesDiv>
         <p>{title}</p>
       </DatesDiv>
-      <InputItem title="Номер пользователя" isNumber={true} canBeEmpty={false} inputValue={phoneInput} setInputValue={setPhoneInput} />
-      <SelectItem title="Услуга" options={servicesOptions} selectedOption={selectedService} setSelectedOption={setSelectedService} />
+      <InputItem
+        title="Номер пользователя"
+        isNumber={true}
+        canBeEmpty={false}
+        inputValue={phoneInput}
+        setInputValue={setPhoneInput}
+      />
+      <SelectItem
+        title="Услуга"
+        options={servicesOptions}
+        selectedOption={selectedService}
+        setSelectedOption={setSelectedService}
+      />
       <SubmitButton onClick={click} whileTap={{ scale: 0.9 }}>
         Добавить
       </SubmitButton>

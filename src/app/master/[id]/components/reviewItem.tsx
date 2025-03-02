@@ -35,7 +35,8 @@ const ReviewItem = (props: Props) => {
           alt="avatar"
           width={50}
           height={50}
-          src={avatar ? avatar : "/img/non_avatar.jpg"}
+          src={avatar ? avatar : "/img/no_avatar.jpg"}
+          style={{ objectFit: "cover" }}
         />
         <div>
           <h3>{name}</h3>

@@ -32,7 +32,7 @@ const AddressInput = ({ onAddressSelect }: AddressInputProps) => {
 
   return (
     <LoadScript
-      googleMapsApiKey={"AIzaSyBN1QaHjvvkcBJFRWyGzMbCuKJ4Ubs6BUA"}
+      googleMapsApiKey={"AIzaSyA-4L49dgRrhSRioqb4ZxZMlzCOo2DJ6c"}
       libraries={libraries}
     >
       <StandaloneSearchBox

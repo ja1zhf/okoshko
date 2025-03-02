@@ -1,19 +1,15 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { PageDarkOverlay, PageDiv } from "@/app/styles/style";
 import {
   ServiceButton,
   ServicesButton,
-  ServicesCell,
   ServicesPageTitle,
-  ServicesPriceDiv,
   ServicesListDiv,
-  ServicesTitleCell,
-  ServicesTypesDiv
+  ServicesTypesDiv,
 } from "./style";
 import PopupItem from "./components/popupItem";
-import { ServiceButtonDiv } from "./style";
 import ServicesTypeItem from "./components/servicesTypeItem";
 import Image from "next/image";
 
@@ -21,14 +17,14 @@ const Page = () => {
   const [isActive, setIsActive] = useState(false);
   const [services, setServices] = useState<ServiceData[]>([]);
   const [servicesTypeIds, setServicesTypeIds] = useState<number[]>([]);
-  
+
   const servicesType = [
-    { id: 2, title: "Ногти" },
-    { id: 3, title: "Брови и ресницы" },
-    { id: 4, title: "Уход за лицом" },
-    { id: 5, title: "Макияж" },
-    { id: 6, title: "Волосы" },
-    { id: 7, title: "Тело" },
+    { id: 1, title: "Ногти" },
+    { id: 2, title: "Брови и ресницы" },
+    { id: 3, title: "Уход за лицом" },
+    { id: 4, title: "Макияж" },
+    { id: 5, title: "Волосы" },
+    { id: 6, title: "Тело" },
   ];
 
   const [tempId, setTempId] = useState(0);
@@ -37,27 +33,6 @@ const Page = () => {
   const [tempTime, setTempTime] = useState("");
   const [tempPrice, setTempPrice] = useState("");
   const [tempService, setTempService] = useState(0);
-
-  const sendServicesType = async () => {
-    const formData = new FormData();
-
-    servicesTypeIds.map((speciality) => {
-      formData.append("specialities", speciality as any);
-    });
-
-    const response = await fetch(
-      `https://dev.okoshko.space/users/profile/update/`,
-      {
-        method: "PATCH",
-        credentials: "include",
-        body: formData,
-      },
-    );
-
-    const result = await response.json();
-
-    setServicesTypeIds(result.specialities);
-  }
 
   const request = async () => {
     const response = await fetch(
@@ -89,19 +64,17 @@ const Page = () => {
   };
 
   useEffect(() => {
-    (async function() {
-      const response = await fetch(
-        `https://dev.okoshko.space/users/profile/`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
+    (async function () {
+      const response = await fetch(`https://dev.okoshko.space/users/profile/`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        credentials: "include",
+      });
 
-      const { master_profile }: { master_profile: MasterType } = await response.json();
+      const { master_profile }: { master_profile: MasterType } =
+        await response.json();
 
       setServicesTypeIds(master_profile.specialities);
     })();
@@ -109,23 +82,34 @@ const Page = () => {
     request();
   }, []);
 
-
   return (
     <PageDiv>
       <ServicesPageTitle>Услуги</ServicesPageTitle>
       <ServicesTypesDiv>
         <div>
           {servicesType.map((serviceType) => (
-            <ServicesTypeItem key={serviceType.id} id={serviceType.id} title={serviceType.title} servicesTypeIds={servicesTypeIds} setServicesTypeIds={setServicesTypeIds}/>
+            <ServicesTypeItem
+              key={serviceType.id}
+              id={serviceType.id}
+              title={serviceType.title}
+              servicesTypeIds={servicesTypeIds}
+              setServicesTypeIds={setServicesTypeIds}
+            />
           ))}
         </div>
-        <button className="submit" onClick={sendServicesType}>Добавить</button>
+        {
+          // <button className="submit" onClick={sendServicesType}>
+          //   Добавить
+          // </button>
+        }
       </ServicesTypesDiv>
       <ServicesListDiv>
         {services.map((item) => (
           <button key={item.id}>
             <div className="info">
-              <h3>{item.title} - {item.duration} мин.</h3>
+              <h3>
+                {item.title} - {item.duration} мин.
+              </h3>
               <p>{item.price} ₽</p>
               <div className="photos">
                 {item.photos.map((photo, index) => (
@@ -134,7 +118,8 @@ const Page = () => {
                     width={64}
                     height={64}
                     src={photo.image}
-                   />
+                    style={{ objectFit: "cover" }}
+                  />
                 ))}
               </div>
             </div>

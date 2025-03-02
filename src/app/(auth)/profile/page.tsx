@@ -7,7 +7,6 @@ import {
   AvatarLoadButton,
   ProfileDiv,
   ProfileInputDiv,
-  ProfileKindDiv,
   ProfilePageTitle,
 } from "./style";
 import InputItem from "@/app/components/input/inputItem";
@@ -17,7 +16,6 @@ import districts from "@/app/districts";
 import SelectItem from "@/app/components/select/selectItem";
 import { truncateText } from "@/tools/tools";
 import UserContext from "@/contexts/userContext";
-import { useCityContext } from "@/contexts/cityContext";
 
 interface UpdateResponse {
   first_name: string;
@@ -34,7 +32,6 @@ interface UpdateResponse {
 
 const Page = () => {
   const { user, setUser } = useContext(UserContext);
-  const { city } = useCityContext();
 
   const [profile, setProfile] = useState<EditProfileType>();
 
@@ -58,17 +55,47 @@ const Page = () => {
   const [descriptionInput, setDescriptionInput] = useState("");
   const [districtInput, setDistrictInput] = useState("");
   const [selectedAddress, setSelectedAddress] = useState<string>("");
-  const [avatarInput, setAvatarInput] = useState<File | null>(null);
   const [cityInput, setCityInput] = useState("");
   const [avatar, setAvatar] = useState("");
-  const [deleteAvatar, setDeleteAvatar] = useState(false);
   const [buttonText, setButtonText] = useState("");
 
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       setButtonText(event.target.files[0].name);
-      setAvatarInput(event.target.files[0]);
+      const formData = new FormData();
+
+      formData.append("avatar", event.target.files[0]);
+
+      const response = await fetch(
+        `https://dev.okoshko.space/users/profile/picture/`,
+        {
+          method: "PATCH",
+          credentials: "include",
+          body: formData,
+        },
+      );
+      const result: { avatar_url: string } = await response.json();
+
+      setAvatar(result.avatar_url);
+
+      setUser({
+        ...user!,
+        avatar_url: result.avatar_url,
+      });
     }
+  };
+
+  const deleteAvatar = async () => {
+    await fetch(`https://dev.okoshko.space/users/profile/picture/delete/`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+
+    setAvatar("");
+    setUser({
+      ...user!,
+      avatar_url: "",
+    });
   };
 
   const handleAddressSelect = (address: string) => {
@@ -76,6 +103,15 @@ const Page = () => {
   };
 
   useEffect(() => {
+    let tempCity: { id: string; title: string }[] = [];
+
+    districts.map((city) => {
+      tempCity.push({ id: city.city, title: city.city });
+    });
+
+    setCityOptions(tempCity);
+    setCityInput(tempCity[0].id);
+
     (async function () {
       const response = await fetch(`https://dev.okoshko.space/users/profile/`, {
         method: "GET",
@@ -102,18 +138,7 @@ const Page = () => {
   }, []);
 
   useEffect(() => {
-    const city = districts.find(
-      (item) => item.city === localStorage.getItem("city"),
-    );
-
-    let tempCity: { id: string; title: string }[] = [];
-
-    districts.map((city) => {
-      tempCity.push({ id: city.city, title: city.city });
-    });
-
-    setCityOptions(tempCity);
-    setCityInput(tempCity[0].id);
+    const city = districts.find((item) => item.city === cityInput);
 
     if (city) {
       let temp: { id: string; title: string }[] = [];
@@ -125,7 +150,7 @@ const Page = () => {
       setDistrictsOptions(temp);
       setDistrictInput(temp[0].id);
     }
-  }, [city]);
+  }, [cityInput]);
 
   const submit = async () => {
     const formData = new FormData();
@@ -136,15 +161,6 @@ const Page = () => {
     formData.append("district", districtInput);
     formData.append("address", selectedAddress);
     formData.append("description", descriptionInput);
-    formData.append("remove_avatar", deleteAvatar as any);
-
-    // masterKind.map((speciality) => {
-    //   formData.append("specialities", speciality as any);
-    // });
-
-    if (avatarInput) {
-      formData.append("avatar", avatarInput);
-    }
 
     const response = await fetch(
       `https://dev.okoshko.space/users/profile/update/`,
@@ -163,7 +179,6 @@ const Page = () => {
     setDescriptionInput(result.description);
     setDistrictInput(result.district);
     setSelectedAddress(result.address);
-    setAvatar(result.avatar);
     setCityInput(result.city);
 
     setUser({
@@ -171,7 +186,6 @@ const Page = () => {
       first_name: result.first_name,
       last_name: result.last_name,
       email: result.email,
-      avatar_url: result.avatar,
     });
   };
 
@@ -184,7 +198,8 @@ const Page = () => {
             alt="avatar"
             width={140}
             height={140}
-            src={avatar ? avatar : "/img/non_avatar.jpg"}
+            src={avatar ? avatar : "/img/no_avatar.jpg"}
+            style={{ objectFit: "cover" }}
           />
           <div>
             <AvatarLoadButton htmlFor="file-upload">
@@ -201,7 +216,7 @@ const Page = () => {
           <AvatarEditButton
             type="submit"
             value={"Удалить"}
-            onClick={() => setDeleteAvatar(true)}
+            onClick={deleteAvatar}
           />
         </AvatarBlockDiv>
         <ProfileInputDiv>

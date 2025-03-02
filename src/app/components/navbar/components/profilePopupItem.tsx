@@ -107,7 +107,8 @@ const ProfilePopupItem = (props: Props) => {
             alt="avatar"
             width={70}
             height={70}
-            src={user.avatar_url ? user.avatar_url : "/img/non_avatar.jpg"}
+            src={user.avatar_url ? user.avatar_url : "/img/no_avatar.jpg"}
+            style={{ objectFit: "cover" }}
           />
           <ProfileNameText>
             {user?.first_name} {user?.last_name[0]}.
@@ -122,7 +123,9 @@ const ProfilePopupItem = (props: Props) => {
             <div key={index}>
               <ProfileButton onClick={() => menuCLick(item.href)}>
                 {item.title}
-                {user.role === "master" && item.href === "/orders" && <IndicatorItem top={-4} right={-14} />}
+                {user.role === "master" && item.href === "/orders" && (
+                  <IndicatorItem top={-4} right={-14} />
+                )}
               </ProfileButton>
               {index + 1 !== menu.length && <ProfileLineDiv />}
             </div>

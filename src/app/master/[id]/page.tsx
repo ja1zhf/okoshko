@@ -186,8 +186,9 @@ const Page = ({ params }: { params: Params }) => {
           src={
             master?.profile.avatar_url
               ? master.profile.avatar_url
-              : "/img/non_avatar.jpg"
+              : "/img/no_avatar.jpg"
           }
+          style={{ objectFit: "cover" }}
         />
         <MasterNameText>
           {master?.profile.first_name} {master?.profile.last_name}
@@ -269,17 +270,32 @@ const Page = ({ params }: { params: Params }) => {
         <MasterBlockDiv>
           <h2>Время</h2>
           <TimeBlockDiv>
-            {master?.available_appointments.filter(item => item.date === formatDate(selectedDays[0], selectedMonth, selectedYear)).map((appointment) => (
-              <TimeButton key={appointment.id} $isSelected={selectedTime === appointment.id} onClick={() => setSelectedTime(appointment.id)}>{formatTime(appointment.start_time)}</TimeButton>
-            ) )}
-          </TimeBlockDiv> 
+            {master?.available_appointments
+              .filter(
+                (item) =>
+                  item.date ===
+                  formatDate(selectedDays[0], selectedMonth, selectedYear),
+              )
+              .map((appointment) => (
+                <TimeButton
+                  key={appointment.id}
+                  $isSelected={selectedTime === appointment.id}
+                  onClick={() => setSelectedTime(appointment.id)}
+                >
+                  {formatTime(appointment.start_time)}
+                </TimeButton>
+              ))}
+          </TimeBlockDiv>
         </MasterBlockDiv>
       )}
-      {selectedDays.length > 0 && selectedTime !== 0 && selectedService !== 0 && isAuth() && (
-        <SubmitButton whileTap={{ scale: 0.9 }} onClick={submit}>
-          Записаться
-        </SubmitButton>
-      )}
+      {selectedDays.length > 0 &&
+        selectedTime !== 0 &&
+        selectedService !== 0 &&
+        isAuth() && (
+          <SubmitButton whileTap={{ scale: 0.9 }} onClick={submit}>
+            Записаться
+          </SubmitButton>
+        )}
       {master && master.reviews.length > 0 && (
         <MasterBlockDiv>
           <h2>Отзывы</h2>

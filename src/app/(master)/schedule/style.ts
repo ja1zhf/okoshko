@@ -81,13 +81,14 @@ export const AppointmentsDiv = styled.div`
   }
 `;
 
-export const AppointmentTimeButton = styled.button`
+export const AppointmentTimeButton = styled.button<{ $active: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 56px;
-  color: ${(props) => props.theme.colors.white};
+  color: ${(props) =>
+    props.$active ? props.theme.colors.white : props.theme.colors.black};
   text-align: center;
   font-feature-settings:
     "liga" off,
@@ -97,6 +98,7 @@ export const AppointmentTimeButton = styled.button`
   font-weight: 700;
   border: none;
   border-radius: 28px;
-  background-color: ${(props) => props.theme.colors.primary};
+  background-color: ${(props) =>
+    props.$active ? props.theme.colors.primary : "#F5F4F9"};
   cursor: pointer;
 `;

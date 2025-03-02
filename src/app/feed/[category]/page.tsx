@@ -84,6 +84,7 @@ const Page = ({ params }: { params: Params }) => {
             width={30}
             height={30}
             src="/settings.svg"
+            style={{ objectFit: "cover" }}
           />
         </FeedFilterButton>
       </FeedHeaderDiv>

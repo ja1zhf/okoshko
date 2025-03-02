@@ -29,7 +29,9 @@ const Page = () => {
   const [selectedAppointment, setSelectedAppointment] = useState(0);
 
   const [appointments, setAppointments] = useState<AppointmentType[]>([]);
-  const [appointmentsTimes, setAppointmentsTimes] = useState<AppointmentTimeType[]>([]);
+  const [appointmentsTimes, setAppointmentsTimes] = useState<
+    AppointmentTimeType[]
+  >([]);
 
   const [selectedDates, setSelectedDates] = useState<string[]>([]);
 
@@ -57,14 +59,14 @@ const Page = () => {
       },
     );
 
-    const result: {slots: AppointmentTimeType[]} = await response.json();
+    const result: { slots: AppointmentTimeType[] } = await response.json();
 
-    if(result.slots) {
+    if (result.slots) {
       setAppointmentsTimes(result.slots);
     } else {
       setAppointmentsTimes([]);
     }
-  }
+  };
 
   const getAppointment = async () => {
     const response = await fetch(
@@ -88,7 +90,7 @@ const Page = () => {
   }, []);
 
   useEffect(() => {
-    if(selectedDays.length === 1) {
+    if (selectedDays.length === 1) {
       getAppointmentsTimes();
     }
   }, [selectedDays]);
@@ -129,7 +131,8 @@ const Page = () => {
             title={appointmentTitle}
             selectedAppointment={selectedAppointment}
             setSelectedAppointment={setSelectedAppointment}
-           />
+            getAppointmentsTimes={getAppointmentsTimes}
+          />
         </PageDarkOverlay>
       )}
       {selectedDays.length === 1 && (
@@ -137,12 +140,24 @@ const Page = () => {
           <h2>Ваши окошки на {selectedDays[0]} число</h2>
           <div>
             {appointmentsTimes.map((time, index) => (
-              <AppointmentTimeButton key={index} onClick={() => {
-                setAppointmentTitle(`${time.date} ${formatTime(time.start_time)}-${formatTime(endsWith45(time.end_time) ? replaceWith00(time.end_time + 100) : time.end_time + 15)}`);
-                setSelectedAppointment(index + 1);
-              }}>
+              <AppointmentTimeButton
+                $active={time.is_available}
+                key={index}
+                onClick={() => {
+                  if (time.is_available) {
+                    setAppointmentTitle(
+                      `${time.date} ${formatTime(time.start_time)}-${formatTime(endsWith45(time.end_time) ? replaceWith00(time.end_time + 100) : time.end_time + 15)}`,
+                    );
+                    setSelectedAppointment(time.id);
+                  }
+                }}
+              >
                 {formatTime(time.start_time)}-
-                {formatTime(endsWith45(time.end_time) ? replaceWith00(time.end_time + 100) : time.end_time + 15)}
+                {formatTime(
+                  endsWith45(time.end_time)
+                    ? replaceWith00(time.end_time + 100)
+                    : time.end_time + 15,
+                )}
               </AppointmentTimeButton>
             ))}
           </div>

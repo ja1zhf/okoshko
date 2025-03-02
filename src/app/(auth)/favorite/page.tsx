@@ -37,7 +37,7 @@ const Page = () => {
       {masters?.length > 0 ? (
         <FeedItem masters={masters} />
       ) : (
-        <p>У вас нету любимых мастеров</p>
+        <p>У вас нет любимых мастеров</p>
       )}
     </PageDiv>
   );

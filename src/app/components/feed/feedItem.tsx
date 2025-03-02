@@ -39,8 +39,9 @@ const FeedItem = (props: Props) => {
                       src={
                         master.profile.avatar_url
                           ? master.profile.avatar_url
-                          : "/img/non_avatar.jpg"
+                          : "/img/no_avatar.jpg"
                       }
+                      style={{ objectFit: "cover" }}
                     />
                   </Link>
                   <div>

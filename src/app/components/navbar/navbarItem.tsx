@@ -46,8 +46,11 @@ const NavbarItem = () => {
             <ProfileButton onClick={() => setIsActive(true)}>
               <Image alt="profile" width={20} height={20} src="/profile.svg" />
               <NavbarText>
-                {user.first_name && user.first_name} {user.last_name && user.last_name[0]}.
-                {user.role === "master" && <IndicatorItem top={-14} right={-12}/>}
+                {user.first_name && user.first_name}{" "}
+                {user.last_name && user.last_name[0]}.
+                {user.role === "master" && (
+                  <IndicatorItem top={-14} right={-12} />
+                )}
               </NavbarText>
             </ProfileButton>
           </>
