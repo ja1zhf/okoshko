@@ -87,7 +87,7 @@ const Page = () => {
       <ServicesPageTitle>Услуги</ServicesPageTitle>
       <ServicesTypesDiv>
         <div>
-          {servicesType.map((serviceType) => (
+          {servicesType?.map((serviceType) => (
             <ServicesTypeItem
               key={serviceType.id}
               id={serviceType.id}
@@ -104,7 +104,7 @@ const Page = () => {
         }
       </ServicesTypesDiv>
       <ServicesListDiv>
-        {services.map((item) => (
+        {services?.map((item) => (
           <button key={item.id}>
             <div className="info">
               <h3>

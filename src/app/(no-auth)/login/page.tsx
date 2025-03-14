@@ -7,6 +7,8 @@ import { LoginLink, LoginPageTitle, NumberLink } from "./style";
 import { useRouter } from "next/navigation";
 import UserContext from "@/contexts/userContext";
 import { usePopup } from "@/contexts/popupContext";
+import PhoneInputItem from "@/app/components/phoneInput/inputItem";
+import { cleanPhoneNumber } from "@/tools/tools";
 
 interface SignInData {
   status: number;
@@ -38,7 +40,7 @@ const Page = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ phone: phoneInput }),
+        body: JSON.stringify({ phone: cleanPhoneNumber(phoneInput) }),
       },
     );
 
@@ -60,7 +62,7 @@ const Page = () => {
         "Content-Type": "application/json",
       },
       credentials: "include",
-      body: JSON.stringify({ phone: phoneInput }),
+      body: JSON.stringify({ phone: cleanPhoneNumber(phoneInput) }),
     });
 
     const result: CheckData = await response.json();
@@ -77,10 +79,8 @@ const Page = () => {
       <LoginPageTitle>Вход</LoginPageTitle>
       {!signInData && (
         <>
-          <InputItem
+          <PhoneInputItem
             title="Номер телефона"
-            isNumber={true}
-            canBeEmpty={false}
             inputValue={phoneInput}
             setInputValue={setPhoneInput}
           />

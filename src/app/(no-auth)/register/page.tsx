@@ -6,8 +6,9 @@ import { PageDiv, SubmitButton } from "@/app/styles/style";
 import { NumberLink, RegisterLink, RegisterPageTitle } from "./style";
 import { useRouter } from "next/navigation";
 import UserContext from "@/contexts/userContext";
-import { register } from "module";
 import { usePopup } from "@/contexts/popupContext";
+import PhoneInputItem from "@/app/components/phoneInput/inputItem";
+import { cleanPhoneNumber } from "@/tools/tools";
 
 interface SignUpData {
   status: number;
@@ -42,7 +43,7 @@ const Page = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          phone: phoneInput,
+          phone: cleanPhoneNumber(phoneInput),
           first_name: firstNameInput,
           last_name: lastNameInput,
         }),
@@ -64,7 +65,7 @@ const Page = () => {
         "Content-Type": "application/json",
       },
       credentials: "include",
-      body: JSON.stringify({ phone: phoneInput }),
+      body: JSON.stringify({ phone: cleanPhoneNumber(phoneInput) }),
     });
 
     const result: CheckData = await response.json();
@@ -80,10 +81,8 @@ const Page = () => {
       <RegisterPageTitle>Регистрация</RegisterPageTitle>
       {!signUpData && (
         <>
-          <InputItem
+          <PhoneInputItem
             title="Номер телефона"
-            isNumber={true}
-            canBeEmpty={false}
             inputValue={phoneInput}
             setInputValue={setPhoneInput}
           />

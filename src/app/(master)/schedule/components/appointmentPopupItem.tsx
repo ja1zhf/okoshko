@@ -4,6 +4,8 @@ import { PopupTitle } from "./style";
 import { DatesDiv } from "../style";
 import InputItem from "@/app/components/input/inputItem";
 import SelectItem from "@/app/components/select/selectItem";
+import PhoneInputItem from "@/app/components/phoneInput/inputItem";
+import { cleanPhoneNumber } from "@/tools/tools";
 
 interface Props {
   title: string;
@@ -43,7 +45,7 @@ const AppointmentPopupItem = (props: Props) => {
       },
       credentials: "include",
       body: JSON.stringify({
-        phone: phoneInput,
+        phone: cleanPhoneNumber(phoneInput),
         slot_id: selectedAppointment,
         service_id: selectedService,
       }),
@@ -96,10 +98,8 @@ const AppointmentPopupItem = (props: Props) => {
       <DatesDiv>
         <p>{title}</p>
       </DatesDiv>
-      <InputItem
+      <PhoneInputItem
         title="Номер пользователя"
-        isNumber={true}
-        canBeEmpty={false}
         inputValue={phoneInput}
         setInputValue={setPhoneInput}
       />

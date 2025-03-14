@@ -56,3 +56,7 @@ export const replaceWith00 = (value: number): number => {
 
   return parseInt(strValue.slice(0, -2) + "00");
 };
+
+export const cleanPhoneNumber = (phone: string): string => {
+  return phone.replace(/\D/g, "");
+};

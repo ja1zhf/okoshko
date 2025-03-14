@@ -139,7 +139,7 @@ const Page = () => {
         <AppointmentsDiv>
           <h2>Ваши окошки на {selectedDays[0]} число</h2>
           <div>
-            {appointmentsTimes.map((time, index) => (
+            {appointmentsTimes?.map((time, index) => (
               <AppointmentTimeButton
                 $active={time.is_available}
                 key={index}
