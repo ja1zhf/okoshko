@@ -164,13 +164,15 @@ const Page = () => {
       </ServicesListDiv>
       <ServicesButton
         onClick={() => {
-          setTempId(0);
-          setIsEdit(false);
-          setTempTitle("");
-          setTempTime("");
-          setTempPrice("");
-          setIsActive(true);
-          setTempService(0);
+          if(servicesTypeIds.length > 0) {
+            setTempId(0);
+            setIsEdit(false);
+            setTempTitle("");
+            setTempTime("");
+            setTempPrice("");
+            setIsActive(true);
+            setTempService(0);
+          }
         }}
       >
         Добавить услугу

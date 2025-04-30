@@ -127,11 +127,13 @@ const Page = () => {
       setLastNameInput(result.user_profile.last_name);
       setPhoneInput(result.user_profile.phone);
       setEmailInput(result.user_profile.email);
-      setDescriptionInput(result.master_profile.description);
-      setDistrictInput(result.master_profile.district);
-      setSelectedAddress(result.master_profile.address);
       setAvatar(result.user_profile.avatar_url);
       setCityInput(result.user_profile.city);
+      if(result.master_profile) {
+        setDescriptionInput(result.master_profile.description);
+        setDistrictInput(result.master_profile.district);
+        setSelectedAddress(result.master_profile.address);
+      }
 
       setProfile(result);
     })();

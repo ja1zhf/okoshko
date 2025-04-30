@@ -88,6 +88,7 @@ const ProfilePopupItem = (props: Props) => {
           "Content-Type": "application/json",
         },
       });
+      router.push("/");
     } else {
       router.push(href);
     }
