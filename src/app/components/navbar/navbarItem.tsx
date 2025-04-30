@@ -16,6 +16,7 @@ import Link from "next/link";
 import UserContext from "@/contexts/userContext";
 import DistrictItem from "./components/districtItem";
 import IndicatorItem from "../indicator/indicatorItem";
+import SocketItem from "../socket/socketItem";
 
 const NavbarItem = () => {
   const { user, setUser } = useContext(UserContext);
@@ -31,6 +32,7 @@ const NavbarItem = () => {
       <ProfileLeftSideDiv>
         {user ? (
           <>
+            <SocketItem />
             <Link href="/favorite">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
