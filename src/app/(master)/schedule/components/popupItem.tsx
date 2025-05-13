@@ -25,17 +25,21 @@ const PopupItem = (props: Props) => {
   };
 
   const click = async () => {
-    await fetch("https://dev.okoshko.space/table/slot/create/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        dates: selectedDates,
-        start_times: selectedTime,
-      }),
-    });
+    let filteredTime = selectedTime.filter(item => !(item[0] === 0 && item[1] === 0))
+
+    if(filteredTime.length > 0) {
+      await fetch("https://dev.okoshko.space/table/slot/create/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          dates: selectedDates,
+          start_times: selectedTime,
+        }),
+      });
+    }
 
     setIsActive(false);
     getAppointment();

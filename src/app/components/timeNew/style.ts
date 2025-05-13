@@ -6,7 +6,6 @@ export const TimeDiv = styled.div<{ $width: number }>`
   align-items: center;
   gap: 12px;
   height: ${(props) => props.$width}px;
-  overflow-y: scroll;
 `;
 
 export const TimeTable = styled.table`
@@ -16,6 +15,9 @@ export const TimeTable = styled.table`
 `;
 
 export const TableContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   width: 100%;
 `;
 
@@ -36,4 +38,25 @@ export const TimeCell = styled.p<{ $isSelected: boolean; $position: string }>`
   cursor: pointer;
   user-select: none;
   touch-action: none;
+`;
+
+export const TimeInputWrapper = styled.div`
+  display: flex;
+  gap: 4px;
+`;
+
+export const TimeInput = styled.input`
+  padding: 10px 14px;
+  border: 2px solid ${(props) => props.theme.colors.primary};
+  border-radius: 4px;
+`;
+
+export const TimeButton = styled.button`
+  padding: 10px 14px;
+  border: none;
+  border-radius: 4px;
+  width: fit-content;
+  background-color: ${(props) => props.theme.colors.primary};
+  color: ${(props) => props.theme.colors.white};
+  cursor: pointer;
 `;
