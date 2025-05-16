@@ -10,13 +10,16 @@ interface Props {
 }
 
 const timeStringToNumber = (timeString: string): number => {
-    const numberString = timeString.replace(':', '');
-    return parseInt(numberString, 10);
+  const numberString = timeString.replace(':', '');
+  return parseInt(numberString, 10);
 }
 
-const numberToTimeString = (num: number): string => {
-    const numStr = num.toString().padStart(4, '0');
-    return `${numStr.slice(0, 2)}:${numStr.slice(2)}`;
+const numberToTimeString = (num?: number): string => {
+  if (!num) {
+    return '00:00';
+  }
+  const numStr = num.toString().padStart(4, '0');
+  return `${numStr.slice(0, 2)}:${numStr.slice(2)}`;
 }
 
 const TimeItem = (props: Props) => {
@@ -57,8 +60,9 @@ const TimeItem = (props: Props) => {
             </TimeInputWrapper>
           ))
         }
-        <TimeButton onClick={addEmptyArray}>+</TimeButton>
       </TableContainer>
+      <TimeButton onClick={addEmptyArray}>+</TimeButton>
+
     </TimeDiv>
   );
 };

@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const TimeDiv = styled.div<{ $width: number }>`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
   height: ${(props) => props.$width}px;
 `;
@@ -17,8 +17,11 @@ export const TimeTable = styled.table`
 export const TableContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 16px;
   width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 8px;
 `;
 
 export const TimeCell = styled.p<{ $isSelected: boolean; $position: string }>`
@@ -42,21 +45,56 @@ export const TimeCell = styled.p<{ $isSelected: boolean; $position: string }>`
 
 export const TimeInputWrapper = styled.div`
   display: flex;
-  gap: 4px;
+  gap: 16px;
+  align-items: center;
 `;
 
 export const TimeInput = styled.input`
-  padding: 10px 14px;
-  border: 2px solid ${(props) => props.theme.colors.primary};
-  border-radius: 4px;
+  color: ${(props) => props.theme.colors.black};
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 450;
+  line-height: 150%;
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(24, 23, 26, 0.12);
+  box-sizing: border-box;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  &:focus {
+    outline-style: solid;
+    outline-color: ${(props) => props.theme.colors.primary}4D;
+    outline-width: thick;
+  }
 `;
 
 export const TimeButton = styled.button`
-  padding: 10px 14px;
-  border: none;
-  border-radius: 4px;
-  width: fit-content;
-  background-color: ${(props) => props.theme.colors.primary};
+  display: flex;
+  width: 32px;
+  flex-shrink: 0;
+  height: 32px;
+  justify-content: center;
+  align-items: center;
   color: ${(props) => props.theme.colors.white};
-  cursor: pointer;
+  text-align: center;
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 125%;
+  border: none;
+  border-radius: 10px;
+  background-color: ${(props) => props.theme.colors.primary};
+  user-select: none;
 `;
