@@ -14,7 +14,7 @@ interface Props {
 const PopupItem = (props: Props) => {
   const { selectedDates, setIsActive, getAppointment, getAppointmentsTimes } = props;
 
-  const [selectedTime, setSelectedTime] = useState<number[][]>([]);
+  const [selectedTime, setSelectedTime] = useState<number[][]>([[], [], [], [], []]);
 
   const divRef = useRef<HTMLDivElement>(null);
 

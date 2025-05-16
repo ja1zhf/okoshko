@@ -75,7 +75,6 @@ export const PopupDiv = styled.div`
   gap: 16px;
   background-color: ${(props) => props.theme.colors.white};
   border-radius: 20px;
-  min-width: 400px;
   width: fit-content;
   padding: 24px;
 `;
