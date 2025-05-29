@@ -25,7 +25,7 @@ const PopupItem = (props: Props) => {
   };
 
   const click = async () => {
-    let filteredTime = selectedTime.filter(item => !(item[0] === 0 && item[1] === 0))
+    const filteredTime = selectedTime.filter(arr => arr.length > 0);
 
     if(filteredTime.length > 0) {
       await fetch("https://dev.okoshko.space/table/slot/create/", {
