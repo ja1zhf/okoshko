@@ -36,7 +36,7 @@ const PopupItem = (props: Props) => {
         credentials: "include",
         body: JSON.stringify({
           dates: selectedDates,
-          start_times: selectedTime,
+          start_times: filteredTime,
         }),
       });
     }
